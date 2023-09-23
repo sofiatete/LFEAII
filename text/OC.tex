@@ -153,25 +153,33 @@ LFEAII - Ótica Coerente \vspace{-5mm}}
 
 \begin{multicols}{2}
 
-\section{Objetivos}
+\section{Teórica}
 
-\begin{enumerate}
-    \item 1º LAB: alinhamento dos lasers; obtenção de uma imagem de fourier calibrada do slide AB;
-    \item 2º LAB: Obtenção das imagens de Fourier calibradas dos restantes objetos difrativos (team GRIDS, rede Ronchi,...)
-\end{enumerate}
+\subsection{TF Ótica}
 
-\section{Perguntas}
+A transformada de fourier ótica de um objeto é formada num dado ponto do espaço sempre que a luz proveninente do ojeto passa por uma lente: a transformada do objeto corresponde à difração que este provoca à lus quando é atravessado:
+Qaundo maior a frequência espacial de um determinado padrão do objeto, menor as fendas espaciais por onde a luz passa e por isso maior a difração que este provoca, ou seja, maior o ângulo de difração - assim, a luz que atravessa padrões do objeto com frequência espacial maior é difratada mais do que a luz que atravessa padrões do objeto com frequência espacial menor - assim, na imagem de fourier, quanto mais longe radialmente estiver a luz do centro, maior a frequência espacial do padrão que a originou.
 
-\paragraph{Imagem de Fourier} Uma imagem de Fourier é 
-\paragraph{Fórmula de Difração de Fraunhofer} 
-\[ \frac{I}{I_0} = \left( \frac{\sin \alpha}{\alpha} \right)^2 \left( \frac{\sin \beta}{\beta} \right)^2 \]
-Onde $\alpha$ e $\beta$ são os ângulos de difração, e $I_0$ é a intensidade da luz incidente.
-Esta fórmula é válida para padrões de difração quando a imagem de Fourier é obtida longe do objeto difrativo, ou seja, quando a distância entre o objeto difrativo e a imagem de Fourier é muito maior que a dimensão do objeto difrativo.
+\subsection{Coordenadas no Espaço de Fourier}
 
-\paragraph{Fórmula de Difração de Fresnel}
-\[ \frac{I}{I_0} = \left( \frac{J_1(\alpha)}{\alpha} \right)^2 \left( \frac{J_1(\beta)}{\beta} \right)^2 \]
-Onde $\alpha$ e $\beta$ são os ângulos de difração, e $I_0$ é a intensidade da luz incidente.
-Esta fórmula é válida para padrões de difração quando a imagem de Fourier é obtida perto do objeto difrativo, ou seja, quando a distância entre o objeto difrativo e a imagem de Fourier é da ordem da dimensão do objeto difrativo.
+Na montagem experimental utilizada temos duas lentes: uma lente de ampliação e uma lente de fourier: a lente de fourier é colocada depois do objeto e tem como objetivo colocar a transformada de fourier do objeto num plano perto da lente de modo a que depois o possamos observar;
+No plano focal da lente de fourier, ou seja, onde se pode observar a transformada de fourier do objeto, colocamos um filtro de fourier que possui 3 círculos ajustáveis para poder tapar o ponto central mais intenso.
+Por fim, seguidamente ao filtro de fourier, colocamos a segunda lente, uma lente de ampliação: esta lente é colocada de modo a que a imagem de fourier no filtro fique no plano focal da lente de ampliação. 
+Colocamos ainda, depois da lente de ampliação, a câmara CCD que irá captar a imagem final - a distância entre a câmara CCD e a lente de ampliação é menor que a distância focal da mesma lente ao filtro de fourier, de modo a que a imagem final seja ampliada.
+\paragraph{}
+Assim, o filtro de fourier encontra-se no plano focal da lente de fourier. É no filtro de fourier que conseguimos observar a transformada de fourier do objeto formada pela lente de fourier.
+A relação entre as coordenadas no espaço de fourier $(\mu, \nu)$ e as frequências espaciais do objeto que estamos a observar $(\nu_x, \nu_y)$ é dada pelas seguintes equações:
+
+\[ \begin{cases}
+  \mu = \lambda f \nu_x \\
+  \nu = \lambda f \nu_y
+\end{cases} \]
+
+Onde $f$ é a distância focal. 
+Se tivermos um objeto do qual estamos a ver a transformada de fourier então $\nu_x$ e $\nu_y$ são as, respetivamente, a frequência do objeto ao longo do eixo $x$ e do eixo $y$.
+Podemos perceber que, à medida que a frequência espacial aumenta numa dada direção, a coordenada no espaço de fourier aumenta na mesma direção - pontos correspondentes a maiores frequências espaciais encontram-se mais afastados do centro do filtro de fourier.
+
+\section{Procedimento Experimental}
 
 \end{multicols}
 

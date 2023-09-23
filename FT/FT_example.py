@@ -1,39 +1,39 @@
 import numpy as np
-from scipy.fft import fft2, fftshift, fftfreq
 import matplotlib.pyplot as plt
-import cv2
+from scipy.fft import fft
 
-# Load the image (grayscale)
-image = cv2.imread('your_image.jpg', cv2.IMREAD_GRAYSCALE)
+# Define the parameters of the step function
+t = np.linspace(0, 2 * np.pi, 1000)  # Time values from 0 to 2*pi
+frequency = 15  # Frequency of the step function in Hz
+step_function = np.sign(np.sin(2 * np.pi * frequency * t))
 
-# Compute the 2D Fourier Transform
-f_transform = fft2(image)
+# Perform the Fourier transform
+fft_result = fft(step_function)
 
-# Shift the zero frequency component to the center
-f_transform_shifted = fftshift(f_transform)
+# Frequency values corresponding to the FFT result
+frequencies = np.fft.fftfreq(len(t), t[1] - t[0])
 
-# Calculate the magnitude spectrum
-magnitude_spectrum = np.abs(f_transform_shifted)
+# Normalize the Fourier transform to match the scale of the square wave
+normalized_fft = np.abs(fft_result) / max(np.abs(fft_result))
 
-# Generate the frequency axes
-rows, cols = image.shape
-frequencies_x = fftfreq(cols, 1)  # Frequency values for columns
-frequencies_y = fftfreq(rows, 1)  # Frequency values for rows
-
-# Create a meshgrid for plotting
-frequencies_x, frequencies_y = np.meshgrid(frequencies_x, frequencies_y)
-
-# Display the original image and magnitude spectrum
+# Plot the original step function and its Fourier transform
 plt.figure(figsize=(12, 6))
 
-plt.subplot(1, 2, 1)
-plt.imshow(image, cmap='gray')
-plt.title('Original Image')
-plt.axis('off')
+plt.subplot(2, 1, 1)
+plt.plot(t, step_function)
+plt.title('Pattern of the diffraction grating')
+plt.xlabel('x')
+plt.ylabel('Amplitude')
+plt.xlim([0, 2 * np.pi])
 
-plt.subplot(1, 2, 2)
-plt.imshow(np.log1p(magnitude_spectrum), cmap='gray')
-plt.title('Magnitude Spectrum')
-plt.axis('off')
+plt.subplot(2, 1, 2)
+plt.plot(frequencies, np.abs(fft_result), color='orange')
+plt.title('Fourier Transform')
+plt.xlabel('Spacial Frequency of the object in the x direction')
+plt.ylabel('Intensity of the frequency in the fourier image')
 
+plt.tight_layout()
+plt.savefig('FT_example' + str(frequency) + '.png')
 plt.show()
+
+# lightpipes
