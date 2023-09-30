@@ -1,6 +1,6 @@
 
 % RUN:
-% pdflatex -output-directory=/home/salvadortorpes/LFEAII/text/merdas /home/salvadortorpes/LFEAII/text/OC.tex
+% pdflatex -output-directory=/Users/salvatorpes/Desktop/LFEAII/text/merdas /Users/salvatorpes/Desktop/LFEAII/text/OC.tex
 
 \documentclass{article}
 
@@ -155,10 +155,13 @@ LFEAII - Ótica Coerente \vspace{-5mm}}
 
 \section{Teórica}
 
-\subsection{TF Ótica}
+\subsection{Transformada de Fourier Ótica}
 
 A transformada de fourier ótica de um objeto é formada num dado ponto do espaço sempre que a luz proveninente do ojeto passa por uma lente: a transformada do objeto corresponde à difração que este provoca à lus quando é atravessado:
-Qaundo maior a frequência espacial de um determinado padrão do objeto, menor as fendas espaciais por onde a luz passa e por isso maior a difração que este provoca, ou seja, maior o ângulo de difração - assim, a luz que atravessa padrões do objeto com frequência espacial maior é difratada mais do que a luz que atravessa padrões do objeto com frequência espacial menor - assim, na imagem de fourier, quanto mais longe radialmente estiver a luz do centro, maior a frequência espacial do padrão que a originou.
+Quanto maior a frequência espacial de um determinado padrão do objeto, menor as fendas espaciais por onde a luz passa e por isso maior a difração que este provoca, ou seja, maior o ângulo de difração - assim, a luz que atravessa padrões do objeto com frequência espacial maior é difratada mais do que a luz que atravessa padrões do objeto com frequência espacial menor - assim, na imagem de fourier, quanto mais longe radialmente estiver a luz do centro, maior a frequência espacial do padrão que a originou.
+\paragraph{}
+A transformada de fourier é uma estrutura que se forma naturalmente sempre que um objeto não opaco se deixa atravessar por luz, provocando a difração da mesma em diferentes intensidades e ângulos consoante as diferentes frequências espaciais do objeto.
+O objetivo deste trabalho é estudar os padrões da TF de diferentes objetos através do uso de um sistema ótico que, com uma lente, consegue colocar a transformada num plano onde se encontra um filtro de fourier - este plano é ampliado e fotografado para análise das transformadas de fourier dos objetos.
 
 \subsection{Coordenadas no Espaço de Fourier}
 
@@ -178,6 +181,49 @@ A relação entre as coordenadas no espaço de fourier $(\mu, \nu)$ e as frequê
 Onde $f$ é a distância focal. 
 Se tivermos um objeto do qual estamos a ver a transformada de fourier então $\nu_x$ e $\nu_y$ são as, respetivamente, a frequência do objeto ao longo do eixo $x$ e do eixo $y$.
 Podemos perceber que, à medida que a frequência espacial aumenta numa dada direção, a coordenada no espaço de fourier aumenta na mesma direção - pontos correspondentes a maiores frequências espaciais encontram-se mais afastados do centro do filtro de fourier.
+
+\begin{center}
+  \begin{tikzpicture}
+    % Draw x-axis
+    \draw[->] (-2,0) -- (2,0) node[right] {$\mu$};
+    % Draw y-axis
+    \draw[->] (0,-2) -- (0,2) node[above] {$\nu$};
+    % Add origin point
+    \fill (0,0) circle (2pt) node[above] {$O$};
+    \fill (1,1) circle (2pt) node[above right] {$A$};
+    \fill (-1,1) circle (2pt) node[above left] {$B$};
+    \fill (-1,-1) circle (2pt) node[below left] {$C$};
+    \fill (1,-1) circle (2pt) node[below right] {$D$};
+    \fill (0.3,0.3) circle (2pt) node[above right] {$E$};
+    \fill (-0.3,0.3) circle (2pt) node[above left] {$F$};
+    \fill (-0.3,-0.3) circle (2pt) node[below left] {$G$};
+    \fill (0.3,-0.3) circle (2pt) node[below right] {$H$};
+    
+  \end{tikzpicture}
+  
+    
+\end{center}
+
+Note-se que na figura acima o ponto $O$ corresponde ao centro do filtro que contém normalmente luz intensa e indesejada.
+Os pontos $A$, $B$, $C$ e $D$ correspondem a frequências espaciais mais altas que as dos pontos $E$, $F$, $G$ e $H$ uma vez que estão mais afastados do centro, ou seja, têm valores de $\mu$ e $\nu$ maiores. 
+
+\subsection{Redes de Difração}
+
+Uma rede de difração tem múltiplas frequências espaciais próprias: todas as combinações periódicas de riscas formam uma frequência espacial diferente: a frequência própria mais alta de uma rede difração é aquelas que corresponde ao padrão com todas as riscas.
+Por outro lado, a menor frequência corresponde ao padrão com apenas a primeira e a última risca: assim, a imagem de fourier de uma rede de difração é um conjunto concêntrico de pontos, sendo que à medida que nos afastamos do centro, a frequência espacial responsável pelo ponto é maior.
+
+\subsection{Relação Matemática}
+
+As transformadas de fourier óticas que observamos são descritas matematicamente pela transformada de fourier de um conjunto de funções 2D. 
+Se a nossa imagem for descrita pelo gráfico de uma função $f(x,y)$, então a sua transformada de fourier é dada por:
+\[ \mathcal{F}(f(x,y))(\mu, \nu) = \int_{-\infty}^{\infty} \int_{-\infty}^{\infty} f(x,y) e^{-2\pi i (\mu x + \nu y)} dx dy \]
+O imagem de fourier é então o gráfico da função $\mathcal{F}(f(x,y))(\mu, \nu)$ no plano $(\mu, \nu)$.
+\paragraph{}
+Em adição, como já vimos anteriormente, a relação entre as coordenadas no espaço de fourier $(\mu, \nu)$ e as frequências espaciais de um padrão do objeto na direção $x$ e $y$ $(\nu_x, \nu_y)$ é dada por:
+\[ \begin{cases}
+  \mu = \lambda f \nu_x \\
+  \nu = \lambda f \nu_y
+\end{cases} \]
 
 \section{Procedimento Experimental}
 
