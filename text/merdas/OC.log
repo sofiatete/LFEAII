@@ -1,4 +1,4 @@
-This is pdfTeX, Version 3.141592653-2.6-1.40.25 (TeX Live 2023) (preloaded format=pdflatex 2023.9.29)  30 SEP 2023 01:12
+This is pdfTeX, Version 3.141592653-2.6-1.40.25 (TeX Live 2023) (preloaded format=pdflatex 2023.10.2)  4 OCT 2023 14:41
 entering extended mode
  restricted \write18 enabled.
  %&-line parsing enabled.
@@ -1529,7 +1529,7 @@ LaTeX Font Info:    Overwriting symbol font `AMSb' in version `bold'
 
 Package array Warning: Column w is already defined on input line 144.
 
-<images/IST_Logo.png, id=31, 310.91156pt x 376.40625pt>
+<images/IST_Logo.png, id=47, 310.91156pt x 376.40625pt>
 File: images/IST_Logo.png Graphic file (type png)
 <use images/IST_Logo.png>
 Package pdftex.def Info: images/IST_Logo.png  used on input line 149.
@@ -1569,43 +1569,51 @@ LaTeX Font Warning: Font shape `OT1/xcmss/b/n' in size <10> not available
 [1
 
 {/usr/local/texlive/2023/texmf-var/fonts/map/pdftex/updmap/pdftex.map} <./image
-s/IST_Logo.png>] [2] (/Users/salvatorpes/Desktop/LFEAII/text/merdas/OC.aux)
+s/IST_Logo.png>]
 
-Package rerunfilecheck Warning: File `OC.out' has changed.
-(rerunfilecheck)                Rerun to get outlines right
-(rerunfilecheck)                or use package `bookmark'.
+Package hyperref Warning: Token not allowed in a PDF string (Unicode):
+(hyperref)                removing `math shift' on input line 269.
 
-Package rerunfilecheck Info: Checksums for `OC.out':
-(rerunfilecheck)             Before: 7BD165279990088AC9D3F312E548DD7C;1012
-(rerunfilecheck)             After:  9327B159CB6EE0A2366EFCA4D930769F;1123.
+
+Package hyperref Warning: Token not allowed in a PDF string (Unicode):
+(hyperref)                removing `\theta' on input line 269.
+
+
+Package hyperref Warning: Token not allowed in a PDF string (Unicode):
+(hyperref)                removing `math shift' on input line 269.
+
+[2] [3] (/Users/salvatorpes/Desktop/LFEAII/text/merdas/OC.aux)
+Package rerunfilecheck Info: File `OC.out' has not changed.
+(rerunfilecheck)             Checksum: A70410FDC31C720DD4E381E22D952D65;2181.
 Package logreq Info: Writing requests to 'OC.run.xml'.
 \openout1 = `OC.run.xml'.
 
  ) 
 Here is how much of TeX's memory you used:
- 38030 strings out of 476025
- 728446 string characters out of 5790017
+ 38059 strings out of 476025
+ 728910 string characters out of 5790017
  1881388 words of memory out of 5000000
- 57845 multiletter control sequences out of 15000+600000
+ 57864 multiletter control sequences out of 15000+600000
  524988 words of font info for 79 fonts, out of 8000000 for 9000
  1141 hyphenation exceptions out of 8191
- 84i,11n,80p,1186b,1619s stack positions out of 10000i,1000n,20000p,200000b,200000s
+ 84i,12n,80p,1186b,1619s stack positions out of 10000i,1000n,20000p,200000b,200000s
 </usr/local/texlive/2023/texmf-dist/fonts/type1/public/amsfonts/cm/cmss10.pfb
 ></usr/local/texlive/2023/texmf-dist/fonts/type1/public/amsfonts/cm/cmss12.pfb>
 </usr/local/texlive/2023/texmf-dist/fonts/type1/public/amsfonts/cm/cmss17.pfb><
 /usr/local/texlive/2023/texmf-dist/fonts/type1/public/amsfonts/cm/cmss8.pfb></u
-sr/local/texlive/2023/texmf-dist/fonts/type1/public/sansmathfonts/cmssbx12.pfb>
-</usr/local/texlive/2023/texmf-dist/fonts/type1/public/sansmathfonts/cmssex10.p
-fb></usr/local/texlive/2023/texmf-dist/fonts/type1/public/sansmathfonts/cmssmi1
-0.pfb></usr/local/texlive/2023/texmf-dist/fonts/type1/public/sansmathfonts/cmss
-mi7.pfb></usr/local/texlive/2023/texmf-dist/fonts/type1/public/sansmathfonts/cm
-sssy10.pfb></usr/local/texlive/2023/texmf-dist/fonts/type1/public/sansmathfonts
-/cmsssy7.pfb>
-Output written on /Users/salvatorpes/Desktop/LFEAII/text/merdas/OC.pdf (2 pages
-, 127332 bytes).
+sr/local/texlive/2023/texmf-dist/fonts/type1/public/amsfonts/cm/cmssbx10.pfb></
+usr/local/texlive/2023/texmf-dist/fonts/type1/public/sansmathfonts/cmssbx12.pfb
+></usr/local/texlive/2023/texmf-dist/fonts/type1/public/sansmathfonts/cmssex10.
+pfb></usr/local/texlive/2023/texmf-dist/fonts/type1/public/sansmathfonts/cmssmi
+10.pfb></usr/local/texlive/2023/texmf-dist/fonts/type1/public/sansmathfonts/cms
+smi7.pfb></usr/local/texlive/2023/texmf-dist/fonts/type1/public/sansmathfonts/c
+msssy10.pfb></usr/local/texlive/2023/texmf-dist/fonts/type1/public/sansmathfont
+s/cmsssy7.pfb>
+Output written on /Users/salvatorpes/Desktop/LFEAII/text/merdas/OC.pdf (3 pages
+, 150997 bytes).
 PDF statistics:
- 103 PDF objects out of 1000 (max. 8388607)
- 76 compressed objects within 1 object stream
- 12 named destinations out of 1000 (max. 500000)
- 66 words of extra memory for PDF output out of 10000 (max. 10000000)
+ 136 PDF objects out of 1000 (max. 8388607)
+ 105 compressed objects within 2 object streams
+ 22 named destinations out of 1000 (max. 500000)
+ 98 words of extra memory for PDF output out of 10000 (max. 10000000)
 

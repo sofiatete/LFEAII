@@ -153,7 +153,7 @@ LFEAII - Ótica Coerente \vspace{-5mm}}
 
 \begin{multicols}{2}
 
-\section{Teórica}
+\section{Teórica  - Transformada de Fourier Ótica}
 
 \subsection{Transformada de Fourier Ótica}
 
@@ -225,8 +225,86 @@ Em adição, como já vimos anteriormente, a relação entre as coordenadas no e
   \nu = \lambda f \nu_y
 \end{cases} \]
 
+\section{Teórica - Interferometria}
+
+Com o objetivo de estudar a interferência de ondas eletromagnéticas em fases diferentes, utilizamos um interferómetro de Michelson.
+O interferómetro de Michelson é composto por uma fonte de luz, um beam splitter, dois espelhos e uma câmara CCD. 
+
+\subsection{Funcionamento do Interferómetro de Michelson}
+
+A luz emitida pelo laser é direcionada (possivelemnte com a ajuda de um espelho) para o beam splitter.
+O beam splitter reflete o feixe em duas direções perpendiculares: uma direciona-se a um espelho fixo e é refletido de volta para o beam splitter e do beam splitter para a fonte; o outro feixe é refletido para um espelho móvel (a sua distância o BS varia) e é refletido de volta para o BS e do BS para a câmara CCD.
+Em adição, o espelho móvel tem um ligeiro tilt de modo a que o feixe que é refletido para a câmara CCD tenha um ângulo de incidência diferente do feixe que é refletido para o espelho fixo: o feixe proveninente do espelho fixo incide perpendicularmente ao CCD enquanto que o feixe proveniente do outro feixe tem um ângulo de incidência igual a $\theta$.
+\paragraph{} 
+Assim, existem dois fenómenos que estamos a observar: 
+\paragraph{Fenómenos Geométricos - Interferência}
+Em primeiro lugar, se mantivermos os dois espelhos a uma mesma distância $d_0$ do beam splitter e fizermos varia o ângulo de incidência de um dos feixes, podemos observar a formação do padrão de interferência: à medida que a diferença entre os dois ângulos de incidência aumenta, a distância entre os duas riscas no padrão de interferência torna-se cada vez menor - 
+os picos de intensidade do padrão correspondem aos cruzamentos das riscas oblíquas (onda com inclinação $\theta$) com as riscas verticais (onda com inclinação $0$).
+A relação entre a distância $a$ entre as riscas de interferência no padrão e o ângulo $\theta$ é dada por:
+\[ a = \frac{\lambda}{\sin \theta} \]
+Onde $\lambda$ é o comprimento de onda da luz do laser.
+\paragraph{Fenómenos Temporais - Contraste}
+Em segundo lugar, depois de fixarmos um ângulo $\theta$ para o qual o padrão de interferência seja razoável (uma distância entre discas não demasiado elevada), podemos fazer variar a distância do espelho inclinado ao beam splitter: mantemos um dos espelhos a uma distância $d_0$ e colocamos uma outra a uma distância $d_0 + \Delta d$ - ao fazer isto, vamos criar um desfasamento temporal entre a chegada dos dois feixes à CCD dado que, depois do feixe inicial incidir no beam splitter e se dividir, um deles percorre uma distância maior:
+O desfasamento temporal entre a chegada dos dois feixes à CCD é dado por:
+\[ \Delta t = \frac{2 \Delta d}{c} \]
+\[ \Delta d = d_2 - d_1 \]
+Onde assumimos que a velocidade da luz é igual à do vácuo e $d_2$ é a distância ao espelho móvel e $d_1$ é a distância ao espelho fixo.
+\paragraph{}
+Á medida que aumenta o desfasamento temporal entre os dois feixes, dado que estes são pulsos sinusoidais e não senos infinitos, os feixes deixam de se sobrepor e passamos a ter menos constraste - muito ruido e pouca interferência.
+O contraste máximo que podemos observar acontece quando o desfasamento temporal é nulo e os dois feixes estão em fase.
+\paragraph{}
+Em adição, o contraste pode ser calculado pela seguinte equação:
+\[ K = \frac{I_{max} - I_{min}}{I_{max} + I_{min}} \]
+Onde $I_{max}$ é a intensidade máxima e $I_{min}$ é a intensidade mínima do padrão de interferência.
+O objetivo nesta segunda parte é poder desenhar um gráfico do contraste da imagem de interferência obtida (para um $\theta$ constante) em função do desfasamento temporal $\Delta t$ entre os dois feixes.
+A relação entre o contraste como função do desfasamento $K(\Delta t)$ e o espetro de energia $I(\omega)$ é dada pela transformada de fourier:
+\[ K(\Delta t) = \mathcal{F}(I(\omega))(\Delta t) \]
+Onde $\omega$ é a frequência angular da onda e $I(\omega)$ é o espetro de energia da onda.
+Quando fazemos a transformada de fourier de $I$ obtemos o contraste do padrão de interferência como função do desfasamento temporal.
+
+\subsection{Equação da Difração}
+
+A equação da difração permite-nos relacionar o comprimento de onda da onda com o ângulo entre os dois feixes que estão a sofrer interferência. 
+
+\subsection{Cálculo do ângulo $\theta$}
+
+O ângulo $\theta$ calcula-se com a íris totalmente fechada uma vez que assim podemos tirar uma foto onde sejam visíveis/separáveis os dois feixes de luz que estão a sofrer interferência: como o feixe fica muito muito fino podemos vê-los distintos e calcular a distância entre eles através do comprimento dos pixeis do CCD. 
+Assim sendo, a distância entre os dois feixes $\Delta_{CCD}$ corresponde ao cateto oposto de um triângulo de cujo cateto adjacente é a distância $L$ entre o CCD e o espelho móvel onde um dos feixes está a ser refletido com inclinação. Assim, o ângulo $\theta$ é dado por:
+\[ \theta = \arctan \left( \frac{\Delta_{CCD}}{L} \right) \Leftrightarrow \tan \theta = \frac{\Delta_{CCD}}{L} \]
+
 \section{Procedimento Experimental}
 
 \end{multicols}
+
+\begin{tikzpicture}
+  % Beam splitter (BS)
+  \draw (-1,-1) rectangle (1,1);
+  
+  % Labels
+  \node at (0,0) {O};
+
+  % Incident light beam
+  \draw[->] (-8,0) -- (-1,0);
+  \node at (-4.5,0.3) {Incident Light};
+  \draw[dotted, ->] (-1,0) -- (0,0);
+  \draw[dotted, ->] (0,0) -- (1,0);
+  \draw[dotted, ->] (0,0) -- (0,1);
+  \draw[dotted, ->] (0,0) -- (0,-1);
+  \draw[<->] (1,0) -- (5,0);
+  \draw[<->] (0,1) -- (0,5);
+  \draw[->] (0,-1) -- (0,-6);
+  \draw[-] (0.5,-1.5) -- (1.5, -0.5);
+
+  \draw (-1,5) rectangle (1,5.2);
+  \fill[yellow!50] (-1,5) rectangle (1,5.2);
+
+  \draw (5,-1) rectangle (5.2,1);
+  \fill[yellow!50] (5,-1) rectangle (5.2,1);
+
+  \draw (-1,-6) rectangle (1,-6.6);
+  
+  
+  
+\end{tikzpicture}
 
 \end{document}
