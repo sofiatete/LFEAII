@@ -1,4 +1,4 @@
-This is pdfTeX, Version 3.141592653-2.6-1.40.25 (TeX Live 2023) (preloaded format=pdflatex 2023.10.2)  4 OCT 2023 14:41
+This is pdfTeX, Version 3.141592653-2.6-1.40.25 (TeX Live 2023) (preloaded format=pdflatex 2023.10.2)  6 OCT 2023 23:58
 entering extended mode
  restricted \write18 enabled.
  %&-line parsing enabled.
@@ -1529,11 +1529,20 @@ LaTeX Font Info:    Overwriting symbol font `AMSb' in version `bold'
 
 Package array Warning: Column w is already defined on input line 144.
 
-<images/IST_Logo.png, id=47, 310.91156pt x 376.40625pt>
-File: images/IST_Logo.png Graphic file (type png)
-<use images/IST_Logo.png>
-Package pdftex.def Info: images/IST_Logo.png  used on input line 149.
-(pdftex.def)             Requested size: 932.73235pt x 1129.21596pt.
+
+LaTeX Warning: File `images/IST_Logo.png' not found on input line 149.
+
+
+! Package pdftex.def Error: File `images/IST_Logo.png' not found: using draft s
+etting.
+
+See the pdftex.def package documentation for explanation.
+Type  H <return>  for immediate help.
+ ...                                              
+                                                  
+l.149 
+      
+? 
 LaTeX Font Info:    Trying to load font information for OT1+cmsmf on input line
  149.
 (/usr/local/texlive/2023/texmf-dist/tex/latex/sansmathfonts/ot1cmsmf.fd
@@ -1568,8 +1577,7 @@ LaTeX Font Warning: Font shape `OT1/xcmss/b/n' in size <10> not available
 
 [1
 
-{/usr/local/texlive/2023/texmf-var/fonts/map/pdftex/updmap/pdftex.map} <./image
-s/IST_Logo.png>]
+{/usr/local/texlive/2023/texmf-var/fonts/map/pdftex/updmap/pdftex.map}]
 
 Package hyperref Warning: Token not allowed in a PDF string (Unicode):
 (hyperref)                removing `math shift' on input line 269.
@@ -1582,7 +1590,7 @@ Package hyperref Warning: Token not allowed in a PDF string (Unicode):
 Package hyperref Warning: Token not allowed in a PDF string (Unicode):
 (hyperref)                removing `math shift' on input line 269.
 
-[2] [3] (/Users/salvatorpes/Desktop/LFEAII/text/merdas/OC.aux)
+[2] [3] [4] [5] (/Users/salvatorpes/Desktop/LFEAII/text/merdas/OC.aux)
 Package rerunfilecheck Info: File `OC.out' has not changed.
 (rerunfilecheck)             Checksum: A70410FDC31C720DD4E381E22D952D65;2181.
 Package logreq Info: Writing requests to 'OC.run.xml'.
@@ -1590,11 +1598,11 @@ Package logreq Info: Writing requests to 'OC.run.xml'.
 
  ) 
 Here is how much of TeX's memory you used:
- 38059 strings out of 476025
- 728910 string characters out of 5790017
+ 38165 strings out of 476025
+ 731128 string characters out of 5790017
  1881388 words of memory out of 5000000
- 57864 multiletter control sequences out of 15000+600000
- 524988 words of font info for 79 fonts, out of 8000000 for 9000
+ 57942 multiletter control sequences out of 15000+600000
+ 525157 words of font info for 80 fonts, out of 8000000 for 9000
  1141 hyphenation exceptions out of 8191
  84i,12n,80p,1186b,1619s stack positions out of 10000i,1000n,20000p,200000b,200000s
 </usr/local/texlive/2023/texmf-dist/fonts/type1/public/amsfonts/cm/cmss10.pfb
@@ -1608,12 +1616,13 @@ pfb></usr/local/texlive/2023/texmf-dist/fonts/type1/public/sansmathfonts/cmssmi
 10.pfb></usr/local/texlive/2023/texmf-dist/fonts/type1/public/sansmathfonts/cms
 smi7.pfb></usr/local/texlive/2023/texmf-dist/fonts/type1/public/sansmathfonts/c
 msssy10.pfb></usr/local/texlive/2023/texmf-dist/fonts/type1/public/sansmathfont
-s/cmsssy7.pfb>
-Output written on /Users/salvatorpes/Desktop/LFEAII/text/merdas/OC.pdf (3 pages
-, 150997 bytes).
+s/cmsssy7.pfb></usr/local/texlive/2023/texmf-dist/fonts/type1/public/amsfonts/c
+m/cmtt12.pfb>
+Output written on /Users/salvatorpes/Desktop/LFEAII/text/merdas/OC.pdf (5 pages
+, 145586 bytes).
 PDF statistics:
- 136 PDF objects out of 1000 (max. 8388607)
- 105 compressed objects within 2 object streams
- 22 named destinations out of 1000 (max. 500000)
- 98 words of extra memory for PDF output out of 10000 (max. 10000000)
+ 160 PDF objects out of 1000 (max. 8388607)
+ 127 compressed objects within 2 object streams
+ 36 named destinations out of 1000 (max. 500000)
+ 93 words of extra memory for PDF output out of 10000 (max. 10000000)
 

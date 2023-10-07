@@ -1,50 +1,73 @@
-import matplotlib.pyplot as plt
 from LightPipes import *
+import matplotlib.pyplot as plt
+import matplotlib.image as mpimg
+import numpy as np
 
-# Define the parameters of the optical system
-wavelength = 632.8 * nm   # Wavelength of the light (e.g., HeNe laser)
-size = 5 * mm             # Size of the grid (5 mm)
-N = 500                   # Number of grid points
-f = 100 * cm              # Focal length of the lens (e.g., 100 cm)
-z = f                    # Propagation distance to the Fourier plane (focal length)
+f=0.6*m
+gridsize=14*mm
+wavelength=632.8*nm
 
-# Create an instance of the Field class for the input field
-F = Begin(size, wavelength, N)
+def rgb2gray(rgb):
+    return np.dot(rgb[...,:3], [0.299, 0.587, 0.114])
+    
+def Fouriertransform(F):
+    F=Forvard(f,Lens(f,0,0,Forvard(f,F)))
+    return F
 
-# Define the object as two rectangular apertures (A and B)
-width_A = 0.4 * mm  # Width of aperture A
-height_A = 1.5 * mm  # Height of aperture A
-x_offset_A = -0.7 * mm  # Horizontal offset for aperture A
-F_A = RectAperture(width_A, height_A, x_offset_A, 0, 1, F)
+def MakePhaseFilter(img):
+    F=Begin(gridsize,wavelength,N)
+    F=SubIntensity(img,F)
+    F=Fouriertransform(F)
+    phase=np.asarray(np.negative(Phase(F)))
+    return phase
 
-width_B = 0.4 * mm  # Width of aperture B
-height_B = 1.5 * mm  # Height of aperture B
-x_offset_B = 0.7 * mm  # Horizontal offset for aperture B
-F_B = RectAperture(width_B, height_B, x_offset_B, 0, 1, F)
 
-# Combine the two apertures to form the object
-F_object = BeamMix(F_A, F_B)
+img=[
+    rgb2gray(mpimg.imread('A.png')),
+    rgb2gray(mpimg.imread('B.png')),
+    rgb2gray(mpimg.imread('C.png')),
+    rgb2gray(mpimg.imread('X.png'))
+    ]
+ABC=rgb2gray(mpimg.imread('ABC.png'))
 
-# Propagate the field through the lens
-F = Lens(f, 0, 0, F_object)
+choice=['A','B','C']
 
-# Calculate the intensity distribution at the object plane and Fourier plane
-I_object = Intensity(0, F_object)
-I_FT = Intensity(0, F)
+N=ABC.shape[0]
+X=range(N)
+Z=range(N)
+X, Z=np.meshgrid(X,Z)
 
-# Display the object (A and B apertures) and its Fourier Transform (AB image) separately
-plt.figure(figsize=(12, 6))
-plt.subplot(121)
-plt.imshow(I_object, cmap='gray', extent=[-size/2, size/2, -size/2, size/2])
-plt.title('Object (A and B Apertures)')
-plt.xlabel('x (mm)')
-plt.ylabel('y (mm)')
+#plt.contourf(X,Z,ABC,cmap='gray');plt.axis('off');plt.axis('equal')
+#plt.show()
 
-plt.subplot(122)
-plt.imshow(I_FT, cmap='gray', extent=[-size/2, size/2, -size/2, size/2])
-plt.title('Fourier Transform (AB Image) of Object')
-plt.xlabel('x (mm)')
-plt.ylabel('y (mm)')
+F1=Begin(gridsize,wavelength,N)
+F1=MultIntensity(ABC,F1)
+F1=Fouriertransform(F1)
+I_NOFILTER=Intensity(0,Fouriertransform(F1))
+#phase=MakePhaseFilter(img[0])
+#plt.contourf(X,Z,phase,cmap='hot');plt.axis('off');plt.axis('equal')
+#plt.show()
+#phase=MakePhaseFilter(img[0])
+#F=MultPhase(phase,F1)
+#I=Intensity(1,Fouriertransform(F))
+#plt.contourf(X,Z,I,cmap='hot');plt.axis('off');plt.axis('equal')
+#plt.show()
+fig, axs = plt.subplots(1,4,figsize=(12,5))
+fig.suptitle('Pattern recognition\nusing Fourier optics', fontsize=20)
+fig.canvas.manager.set_window_title('Pattern recognition example')
+axs[0].contourf(X,Z,I_NOFILTER,cmap='hot');
+axs[0].axis('off');axs[0].axis('equal');
+axs[0].text(50,N,'non-filtered image')
 
-plt.tight_layout()
+for l in range(3):
+    phase=MakePhaseFilter(img[l])
+    F=MultPhase(phase,F1)
+    I=Intensity(1,Fouriertransform(F))
+    plt.contourf(X,Z,I,cmap='hot');plt.axis('off');plt.axis('equal')
+    axs[l+1].contourf(X,Z,I,cmap='hot');
+    axs[l+1].axis('off');
+    axs[l+1].axis('equal');
+    axs[l+1].text(100,N,choice[l])
+
+plt.subplots_adjust(left=None, bottom=None, right=None, top=None, wspace=0.01, hspace=None)
 plt.show()

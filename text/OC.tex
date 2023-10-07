@@ -276,35 +276,107 @@ Assim sendo, a distância entre os dois feixes $\Delta_{CCD}$ corresponde ao cat
 
 \end{multicols}
 
+
+
+\newpage
+
+\begin{center}
 \begin{tikzpicture}
   % Beam splitter (BS)
   \draw (-1,-1) rectangle (1,1);
+  \node at (1.3,1.3) {BS};
   
   % Labels
-  \node at (0,0) {O};
+  % \node at (0,0) {O};
 
   % Incident light beam
   \draw[->] (-8,0) -- (-1,0);
-  \node at (-4.5,0.3) {Incident Light};
-  \draw[dotted, ->] (-1,0) -- (0,0);
+  \node at (-4.5,0.3) {Light ($\lambda$)};
+  \draw[dotted, -] (-1,0) -- (0,0);
   \draw[dotted, ->] (0,0) -- (1,0);
   \draw[dotted, ->] (0,0) -- (0,1);
   \draw[dotted, ->] (0,0) -- (0,-1);
   \draw[<->] (1,0) -- (5,0);
+  \node at (3,0.3) {$d_0$};
   \draw[<->] (0,1) -- (0,5);
+  \node at (0.3,3) {$d_0$};
   \draw[->] (0,-1) -- (0,-6);
-  \draw[-] (0.5,-1.5) -- (1.5, -0.5);
+  % \draw[-] (0.5,-1.5) -- (1.5, -0.5);
+  \draw[-, blue] (-1,-1) -- (1, 1);
+
 
   \draw (-1,5) rectangle (1,5.2);
   \fill[yellow!50] (-1,5) rectangle (1,5.2);
+  \draw[rotate=-6, dashed, red] (-1.5,5) rectangle (0.5,5.2);
+
+  \draw[dashed] (-1,7) rectangle (1,7.2);
+  \fill[yellow!50] (-1,7) rectangle (1,7.2);
+  \draw[rotate=-6, dashed, red] (-1.7,7) rectangle (0.3,7.2);
+
+
+  \draw[->] (0,5.2) -- (0,7);
+  \node at (0.3,6.1) {$\Delta d$};
 
   \draw (5,-1) rectangle (5.2,1);
   \fill[yellow!50] (5,-1) rectangle (5.2,1);
 
+  % Deviated ray of light:
+  \draw[dashed, ->, red] (0,5) -- (-0.7,-6);
+  \draw[dashed, ->, red] (0,7) -- (-0.9,-6);
+
+  % Laser:
+  \draw (-8.2,-1) rectangle (-8,1);
+  \node at (-8.2,1.4) {Laser};
+
+  % Angle:
+  \draw (-0.6,-4) arc (231:270:1);
+  \node at (-0.3,-4.5) {$\theta$};
+
+  % CCD:
+
   \draw (-1,-6) rectangle (1,-6.6);
+  \node at (0,-6.3) {CCD};
+
+  % Image from CCD:
+  \draw[dashed] (1,-6) -- (3,-4.6);
+  \draw[dashed] (1,-6.6) -- (3,-8);
+  \draw (3,-8) rectangle (7,-4.6);
+  % Draw lines of the diffraction pattern
+  \draw[-] (3.1,-6.6) -- (6.9,-6.6);
+  \draw[-] (3.1,-6) -- (6.9,-6);
+  \draw[-] (3.1,-5.4) -- (6.9,-5.4);
+  \draw[-] (3.1,-4.8) -- (6.9,-4.8);
+  \draw[-] (3.1,-7.2) -- (6.9,-7.2);
+  \draw[-] (3.1,-7.8) -- (6.9,-7.8);
+  \draw[<->] (4,-6.6) -- (4,-6);
+  \node at (5.3,-6.3) {$a=\lambda / \sin(\theta)$};
+
   
   
   
 \end{tikzpicture}
+\end{center}
+
+\newpage 
+
+\section*{LightPipes Simulation}
+
+\begin{multicols}{2}
+
+\begin{enumerate}
+  \item Criar o plano da simulação grid - tenho de dizer o tamanho total GridSize(), lambda, GridDimension() (=1024)
+  \item criar o feixe - begin()
+  \item criar o objeto - aperture() - objeto opaco ou screen() - objeto normal
+  \item propagar o feixe até à lente - exsitem várias - Forvard() ou Fresnel(): Field3 = Forvard(distância  a percorrer, Field2)
+  \item propagar a simulação a distância entre o objeto e a lente;
+  \item Simular a lente - lens() - é uma função de progação através da lente;
+  \item propagar a simulação a distância entre a lente e o plano de fourier - a distância focal da lente;
+  \item Se quiser bloquear altas ou baixas frequências, clocamos respetivamente uma circular aperture e um circular screen;
+  \item Informação guardada no campo: intensidade, fase;
+  \item Objeto branco no fundo preto em png: aperture;
+  \item Objeto preto no fundo branco em png: screen;
+\end{enumerate}
+
+\end{multicols}
 
 \end{document}
