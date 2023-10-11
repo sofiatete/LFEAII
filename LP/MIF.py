@@ -2,12 +2,12 @@
 from LightPipes import *
 import matplotlib.pyplot as plt
 
-wavelength=632.8*nm #wavelength of HeNe laser
+wavelength=633*nm #wavelength of HeNe laser
 size=15*mm # size of the grid
 N=500 # number (NxN) of grid pixels
-R=7*mm # laser beam radius
-z1=8*cm # length of arm 1
-z2=7*cm # length of arm 2
+R=4*mm # laser beam radius
+z1=107*cm # length of arm 1
+z2=158*cm # length of arm 2
 z3=3*cm # distance laser to beamsplitter
 z4=5*cm # distance beamsplitter to screen
 Rbs=0.5 # reflection beam splitter

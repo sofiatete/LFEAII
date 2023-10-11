@@ -272,13 +272,34 @@ O ângulo $\theta$ calcula-se com a íris totalmente fechada uma vez que assim p
 Assim sendo, a distância entre os dois feixes $\Delta_{CCD}$ corresponde ao cateto oposto de um triângulo de cujo cateto adjacente é a distância $L$ entre o CCD e o espelho móvel onde um dos feixes está a ser refletido com inclinação. Assim, o ângulo $\theta$ é dado por:
 \[ \theta = \arctan \left( \frac{\Delta_{CCD}}{L} \right) \Leftrightarrow \tan \theta = \frac{\Delta_{CCD}}{L} \]
 
-\section{Procedimento Experimental}
+\subsection{Amplificação da Imagem}
+
+Entre o BS e o CCD colocamos uma lente de ampliação de modo a que a imagem de interferência seja ampliada e possamos observar melhor o padrão de interferência.
+De modo a sabermos qual a distância a que deviamos colocar a lente para obter a ampliação pretendida, usamos a fórmula da lente:
+
+\[ \frac{1}{f} = \frac{1}{d_o} + \frac{1}{d_i} \]
+
+Onde $f$ é a distância focal da lente, $d_o$ é a distância entre a lente e o objeto (neste caso, o BS) e $d_i$ é a distância entre a lente e a imagem, neste caso, o CCD.
+\paragraph{}
+A magnificação $M$ da imagem é dada por:
+
+\[ M = - \frac{d_i}{d_o} \]
+
+\subsection{Desvio de fase no Interferograma}
+
+Como é que podemos calcular o desvio de fase entre o feixe emitido pelo laser e o feixe resultante da interferência?
+
+
 
 \end{multicols}
 
 
 
 \newpage
+
+\section{Montagem - Interferómetro de Michelson}
+
+\vspace{3cm}
 
 \begin{center}
 \begin{tikzpicture}
@@ -350,6 +371,7 @@ Assim sendo, a distância entre os dois feixes $\Delta_{CCD}$ corresponde ao cat
   \draw[-] (3.1,-7.8) -- (6.9,-7.8);
   \draw[<->] (4,-6.6) -- (4,-6);
   \node at (5.3,-6.3) {$a=\lambda / \sin(\theta)$};
+  \node at (5.1,-4.1) {Pattern of Interference};
 
   
   
@@ -361,7 +383,7 @@ Assim sendo, a distância entre os dois feixes $\Delta_{CCD}$ corresponde ao cat
 
 \section*{LightPipes Simulation}
 
-\begin{multicols}{2}
+% \begin{multicols}{2}
 
 \begin{enumerate}
   \item Criar o plano da simulação grid - tenho de dizer o tamanho total GridSize(), lambda, GridDimension() (=1024)
@@ -377,6 +399,6 @@ Assim sendo, a distância entre os dois feixes $\Delta_{CCD}$ corresponde ao cat
   \item Objeto preto no fundo branco em png: screen;
 \end{enumerate}
 
-\end{multicols}
+% \end{multicols}
 
 \end{document}

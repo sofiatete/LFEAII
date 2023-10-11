@@ -55,7 +55,7 @@ aperture_diameter = 2*mm # Diameter of the aperture (in mm)
 
 # Calculate the intensity of the FT
 
-filter = True
+filter = False
 
 if filter:
     # Com filtro espacial
@@ -67,7 +67,7 @@ else:
 
 
 # Plot the intensity of the FT
-vmax_value = 0.9
+vmax_value = 0.6
 plt.imshow(I_FT,cmap='hot', extent=[0,gridsize*1000,0,gridsize*1000], vmin=0, vmax=vmax_value)
 plt.xlabel('X (mm)')  # Label for the X-axis
 plt.ylabel('Y (mm)')  # Label for the Y-axis
