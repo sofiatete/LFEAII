@@ -26,7 +26,7 @@ def Fouriertransform(F):
 
 
 # Import the oject whose FT is to be calculated
-image = 'ABS2'
+image = 'ABS3'
 A=rgb2gray(mpimg.imread(image + '.png'))
 
 N=A.shape[0]
@@ -55,7 +55,7 @@ aperture_diameter = 2*mm # Diameter of the aperture (in mm)
 
 # Calculate the intensity of the FT
 
-filter = True
+filter = False
 
 if filter:
     # Com filtro espacial
@@ -67,8 +67,8 @@ else:
 
 
 # Plot the intensity of the FT
-vmax_value = 0.1
-plt.imshow(I_FT,cmap='hot', extent=[0,gridsize*10000,0,gridsize*10000], vmin=0, vmax=vmax_value)
+vmax_value = 0.3
+plt.imshow(I_FT,cmap='hot', extent=[0,gridsize*1000,0,gridsize*1000], vmin=0, vmax=vmax_value)
 plt.xlabel('X (mm)')  # Label for the X-axis
 plt.ylabel('Y (mm)')  # Label for the Y-axis
 plt.title('Intensity Pattern of FT')
