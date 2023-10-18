@@ -3,10 +3,52 @@ import matplotlib.pyplot as plt
 import matplotlib.image as mpimg
 import numpy as np
 
-f=0.2*m # focal length of the lens
-gridsize=7*mm # size of the grid to adjust the resolution
+f=0.2475*m # focal length of the lens
+gridsize=15*mm # size of the grid to adjust the resolution
 wavelength=633*nm
+lambda_1 = 633 * (10**(-9)) # m
 
+# calcular as distâncias certas
+pixeis = 4096
+
+
+# Tamanho real de AB em metros
+alturatotal_unidadespc = 724
+larguratotal_unidadespc = 964
+altura_AB_unidades_pc = 290.03
+largura_AB_unidades_pc = 248.03
+pixeis_altura_AB = pixeis * altura_AB_unidades_pc / alturatotal_unidadespc
+pixeis_largura_AB = pixeis * largura_AB_unidades_pc / larguratotal_unidadespc
+print('Altura de AB em pixeis para uma altura de imagem de ' + str(pixeis) + ' pixeis: ' + str(pixeis_altura_AB) + ' pixeis') 
+print('Largura de AB em pixeis para uma largura de imagem de ' + str(pixeis) + ' pixeis: ' + str(pixeis_largura_AB) + ' pixeis')
+
+# em metros
+altura = 5.5 * (10**(-3)) # m
+largura = 5 * (10**(-3)) # m
+alturatotal_metros = alturatotal_unidadespc * altura / altura_AB_unidades_pc
+print('A altura total da imagem em metros é ' + str(alturatotal_metros) + ' m')
+
+
+
+# calcular o tamanho para AB em pixeis
+
+# 1 é o índice da calibração - foram feitas várias medições para obter a calibração
+craveira_1 = 0.004 # m
+len_1 = 491.22
+len_B_1 = 407.46
+len_A_1 = 398.76
+distancia_real_B = len_B_1 * craveira_1 /len_1 # distância no eixo dos xx em metros
+distancia_real_A = len_A_1 * craveira_1 /len_1 # distância no eixo dos yy em metros
+# conversão para unidades de frequência:
+frequencia_B_x = distancia_real_B / (lambda_1 * f)
+frequência_A_y = distancia_real_A / (lambda_1 * f)
+print('Frequência espacial das riscas horizontais de A = ' + str(frequência_A_y) + ' ciclos/m')
+print('Número de riscas horizontais de A = ' + str(altura/2 * frequência_A_y) + ' ciclos')
+print('Largura de riscas horizontais de A = ' + str(1/frequência_A_y) + ' m = ' + str(pixeis_altura_AB / altura / frequência_A_y) + ' pixeis')
+
+print('Frequência espacial das riscas verticais de B = ' + str(frequencia_B_x) + ' ciclos/m')
+print('Número de riscas verticais de B = ' + str(largura/2 * frequencia_B_x) + ' ciclos')
+print('Largura de riscas verticais de B = ' + str(1/frequencia_B_x) + ' m = ' + str(pixeis_largura_AB / largura / frequencia_B_x) + ' pixeis')
 
 
 
