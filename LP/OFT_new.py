@@ -4,7 +4,7 @@ import matplotlib.image as mpimg
 import numpy as np
 
 f=0.2475*m # focal length of the lens
-gridsize=15*mm # size of the grid to adjust the resolution
+gridsize=9*mm # size of the grid to adjust the resolution
 wavelength=633*nm
 lambda_1 = 633 * (10**(-9)) # m
 
@@ -26,7 +26,12 @@ print('Largura de AB em pixeis para uma largura de imagem de ' + str(pixeis) + '
 altura = 5.5 * (10**(-3)) # m
 largura = 5 * (10**(-3)) # m
 alturatotal_metros = alturatotal_unidadespc * altura / altura_AB_unidades_pc
+alturatotal_metro_medidaccraveira = 7 * (10**(-3)) # é aproximadamente a distância de abertura da íris - a abertura da zona iluminada do objeto - altura e largura do quadradro da simulação
 print('A altura total da imagem em metros é ' + str(alturatotal_metros) + ' m')
+
+
+
+
 
 
 
@@ -51,6 +56,20 @@ print('Número de riscas verticais de B = ' + str(largura/2 * frequencia_B_x) + 
 print('Largura de riscas verticais de B = ' + str(1/frequencia_B_x) + ' m = ' + str(pixeis_largura_AB / largura / frequencia_B_x) + ' pixeis')
 
 
+# largura quadrado filtro = 23mm - 4096 pixeis
+# espaçamento  - x pixeis
+frequencia_espacial_AB = (frequencia_B_x + frequência_A_y) / 2
+espaçamento = 1 / frequencia_espacial_AB
+espaçamento_pixeis = pixeis * espaçamento / alturatotal_metro_medidaccraveira
+print('\n Espaçamento entre riscas = ' + str(espaçamento) + ' m = ' + str(espaçamento_pixeis) + ' pixeis')
+# 4096 - 7
+# x - 5.5
+altura_AB_pixeis = altura * pixeis / alturatotal_metro_medidaccraveira
+largura_AB_pixeis = largura * pixeis / alturatotal_metro_medidaccraveira
+print('Altura de AB em pixeis para uma altura de imagem de ' + str(pixeis) + ' pixeis: ' + str(altura_AB_pixeis) + ' pixeis')
+print('Largura de AB em pixeis para uma largura de imagem de ' + str(pixeis) + ' pixeis: ' + str(largura_AB_pixeis) + ' pixeis \n')
+
+
 
 
 def rgb2gray(rgb):
@@ -68,7 +87,7 @@ def Fouriertransform(F):
 
 
 # Import the oject whose FT is to be calculated
-image = 'ABS3'
+image = 'ABS6'
 A=rgb2gray(mpimg.imread(image + '.png'))
 
 N=A.shape[0]
@@ -89,7 +108,7 @@ F1=MultIntensity(A,F1)
 F1=Fouriertransform(F1)
 
 # coloco os filtros espaciais aqui ou quando faço a intensidade?
-aperture_diameter = 2*mm # Diameter of the aperture (in mm)
+aperture_diameter = 1*mm # Diameter of the aperture (in mm)
 # F1 = CircAperture(F1, aperture_diameter / 2, x_shift=0, y_shift=0)
 # F1 = CircScreen(F1, aperture_diameter / 2, 0, 0)
 
@@ -97,7 +116,7 @@ aperture_diameter = 2*mm # Diameter of the aperture (in mm)
 
 # Calculate the intensity of the FT
 
-filter = False
+filter = True
 
 if filter:
     # Com filtro espacial
@@ -109,7 +128,7 @@ else:
 
 
 # Plot the intensity of the FT
-vmax_value = 0.3
+vmax_value = 1
 plt.imshow(I_FT,cmap='hot', extent=[0,gridsize*1000,0,gridsize*1000], vmin=0, vmax=vmax_value)
 plt.xlabel('X (mm)')  # Label for the X-axis
 plt.ylabel('Y (mm)')  # Label for the Y-axis
