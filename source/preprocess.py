@@ -5,6 +5,7 @@ import seaborn as sns
 from PIL import Image
 from pathlib import Path
 from scipy.ndimage import gaussian_filter
+import os
 
 # Set up paths
 RAW_IMAGES_PATH = Path('../raw_images')
@@ -22,11 +23,15 @@ DATA_PATH.mkdir(exist_ok=True,
 GRAPH_PATH = Path('../graphs')
 GRAPH_PATH.mkdir(exist_ok=True,
                     parents=True)
+RAW_VIDEOS_PATH = Path('../raw_videos')
+RAW_VIDEOS_PATH.mkdir(exist_ok=True,
+                    parents=True)
 
 # ------------------------ All to PNG ------------------------ #
 for images in DATA_PATH.iterdir():
     IMAGE = images.name
     if IMAGE[-3:] != 'pgm':
+        os.system('cp ' + str(DATA_PATH/IMAGE) + ' ' + str(RAW_VIDEOS_PATH/IMAGE))
         continue
     img = Image.open(DATA_PATH/IMAGE)
     img = np.array(img)
@@ -35,14 +40,4 @@ for images in DATA_PATH.iterdir():
     plt.imshow(img, cmap='gray')
     plt.axis('off')
     plt.savefig(PNG_IMAGES_PATH/f"{IMAGE[:-4]}.png")
-
-
-# ------------------------ Redes de Ronchi ------------------------ #
-
-
-
-
-# --------------------------- Redes TEM --------------------------- #
-# ---------------------------- Slide AB --------------------------- #
-# ---------------------------- Resolução --------------------------- #
 
