@@ -173,7 +173,8 @@ Colocamos ainda, depois da lente de ampliação, a câmara CCD que irá captar a
 Assim, o filtro de fourier encontra-se no plano focal da lente de fourier. É no filtro de fourier que conseguimos observar a transformada de fourier do objeto formada pela lente de fourier.
 A relação entre as coordenadas no espaço de fourier $(\mu, \nu)$ e as frequências espaciais do objeto que estamos a observar $(\nu_x, \nu_y)$ é dada pelas seguintes equações:
 
-\[ \begin{cases}
+\[ \renewcommand*\familydefault{\sfdefault}
+  \begin{cases}
   \mu = \lambda f \nu_x \\
   \nu = \lambda f \nu_y
 \end{cases} \]
@@ -309,13 +310,42 @@ Verificamos que as ondas sonoras provocam um movimento do padrão de riscas de i
 Pretendemos agora estudar como varia o padrão de interferência com o ângulo de tilt do espelho móvel.
 Tiramos várias fotos do padrão à medida que variamos o ângulo.
 
+\section{Análise de Dados}
+
+\subsection{Tratamento de imagem}
+
+Existem dois tipos de imagens com as quais podemos trabalhar:
+Em primeiro lugar temos as imagens RGB - estas são imagens cuja informação está guardada numa matriz onde o número de linhas e colunas é o número de pixeis na vertical e na horizontal da imagem. 
+Cada entrada da matriz é um vetor com 3 entradas: $[R, G, B]$ onde $R$, $G$ e $B$ são as intensidades de vermelho, verde e azul respetivamente:
+
+\[ \text{image} = \begin{bmatrix}
+  [R, G, B] & [R, G, B] & \cdots & [R, G, B] \\
+  [R, G, B] & [R, G, B] & \cdots & [R, G, B] \\
+  \vdots & \vdots & \ddots & \vdots \\
+  [R, G, B] & [R, G, B] & \cdots & [R, G, B] \\ 
+\end{bmatrix} \]
+
+\[ \qquad \text{onde} \qquad \begin{cases}
+  R \in [0, 255] \\
+  G \in [0, 255] \\
+  B \in [0, 255]
+\end{cases} \]
+
+Em segundo lugar, temos as imagens \textbf{greyscale} - estas imagens são semelhantes mas a informação associada a cada ponto não é um array com três números mas sim um número entre 0 e 1 que representa a intensidade de cinzento do pixel:
+
+\[ \text{image} = \begin{bmatrix}
+  I & I & \cdots & I \\
+  I & I & \cdots & I \\
+  \vdots & \vdots & \ddots & \vdots \\
+  I & I & \cdots & I \\
+\end{bmatrix} \]
+
+
+
 \end{multicols}
 
 
-Demasiado texto e pouco desenho
-muito bom mas faltava no fim fazer um recap dos objetivos - o que se cumpriu e o q se deixou por fazerA
-falta analise ao longo da sessao - analisar os resultados observados e ver o que vai mudando
-utlimo logbook - montagem nao veridica
+
 
 
 \newpage
