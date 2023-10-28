@@ -1,10 +1,11 @@
 import numpy as np 
 import pandas as pd
 import matplotlib.pyplot as plt
-import seaborn as sns
+# import seaborn as sns
 from PIL import Image
 from pathlib import Path
 from scipy.ndimage import gaussian_filter
+from sklearn.cluster import KMeans
 
 # Set up paths
 IMAGES_PATH = Path('../data')
@@ -38,16 +39,19 @@ def analyse_AB_5aula(*args, **kwargs):
     # x_coords = [530, 529, 523]  
     # y_coords = [320, 729, 1144]  
     coordinates = list(zip(x_coords, y_coords))  # List of x, y coordinates
-    # point_labels = ['A', 'B', 'C']  # Labels for the points
+    point_labels = ['A', 'B', 'C']  # Labels for the points
 
 
     # Plot image
     plt.imshow(img_arr, cmap='gray')
     plt.scatter(x_coords, y_coords, color='red', s=1, label='Points')
     # Add labels to the points
-    # for i, label in enumerate(point_labels):
-    #     plt.text(x_coords[i], y_coords[i] - 40, label, color='white', fontsize=6, ha='center', va='bottom')
-    plt.axis('off')
+    for i, label in enumerate(point_labels):
+        plt.text(x_coords[i], y_coords[i] - 40, label + ' ' + str((x_coords[i], y_coords[i])), color='white', fontsize=6, ha='center', va='bottom')
+    # design axis for the pixel coordinates
+    plt.xlabel('$x$ [pixel]')
+    plt.ylabel('$y$ [pixel]')
+    # plt.axis('off')
     plt.show()
 
 
