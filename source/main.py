@@ -26,6 +26,7 @@ for images in IMAGES_PATH.iterdir():
         # Plot image
         plt.imshow(img_arr, cmap='gray')
         plt.axis('off')
+        plt.savefig(IMAGES_PATH/f"{IMAGE[:-4]}_img.png")
         plt.show()
 
         # Gaussian 3d from image 
