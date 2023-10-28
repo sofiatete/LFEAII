@@ -5,6 +5,7 @@ import seaborn as sns
 from PIL import Image
 from pathlib import Path
 from scipy.ndimage import gaussian_filter
+from sklearn.cluster import KMeans
 
 # Set up paths
 RAW_IMAGES_PATH = Path('../raw_images')
@@ -25,7 +26,7 @@ GRAPH_PATH.mkdir(exist_ok=True,
 
 
 # ------------------------ Redes de Ronchi ------------------------ #
-RONCHI_1 = np.array(Image.open(DATA_PATH/'ronchi_iris_3_50mm.pgm'))
+RONCHI_1 = np.array(Image.open(DATA_PATH/'AB_5aula.pgm'))
 RONCHI_2 = np.array(Image.open(DATA_PATH/'ronchi_iris_5_75mm.pgm'))
 RONCHI_3 = np.array(Image.open(DATA_PATH/'ronchi_iris_8_55mm.pgm'))
 RONCHI_4 = np.array(Image.open(DATA_PATH/'ronchi_iris_10_35mm.pgm'))
@@ -53,7 +54,6 @@ plt.scatter([x[0] for x in coordinates], [x[1] for x in coordinates], c='red')
 plt.show()
 
 # Find Clusters of points 
-from sklearn.cluster import KMeans
 kmeans = KMeans(n_clusters=6, random_state=0).fit(coordinates)
 
 # Print Clusters Centers

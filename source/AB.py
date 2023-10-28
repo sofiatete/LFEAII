@@ -43,11 +43,11 @@ def analyse_AB_5aula(*args, **kwargs):
 
     # Plot image
     plt.imshow(img_arr, cmap='gray')
+    plt.axis('off')
     plt.scatter(x_coords, y_coords, color='red', s=1, label='Points')
     # Add labels to the points
     # for i, label in enumerate(point_labels):
     #     plt.text(x_coords[i], y_coords[i] - 40, label, color='white', fontsize=6, ha='center', va='bottom')
-    plt.axis('off')
     plt.show()
 
 
