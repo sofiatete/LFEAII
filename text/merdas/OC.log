@@ -1,4 +1,4 @@
-This is pdfTeX, Version 3.141592653-2.6-1.40.25 (TeX Live 2023) (preloaded format=pdflatex 2023.10.2)  28 OCT 2023 14:58
+This is pdfTeX, Version 3.141592653-2.6-1.40.25 (TeX Live 2023) (preloaded format=pdflatex 2023.10.2)  28 OCT 2023 20:19
 entering extended mode
  restricted \write18 enabled.
  %&-line parsing enabled.
@@ -1572,25 +1572,25 @@ LaTeX Font Warning: Font shape `OT1/xcmss/b/n' in size <10> not available
 s/IST_Logo.png>]
 
 Package hyperref Warning: Token not allowed in a PDF string (Unicode):
-(hyperref)                removing `math shift' on input line 269.
+(hyperref)                removing `math shift' on input line 270.
 
 
 Package hyperref Warning: Token not allowed in a PDF string (Unicode):
-(hyperref)                removing `\theta' on input line 269.
+(hyperref)                removing `\theta' on input line 270.
 
 
 Package hyperref Warning: Token not allowed in a PDF string (Unicode):
-(hyperref)                removing `math shift' on input line 269.
+(hyperref)                removing `math shift' on input line 270.
 
 [2]
 LaTeX Font Info:    Trying to load font information for TS1+xcmss on input line
- 297.
-LaTeX Font Info:    No file TS1xcmss.fd. on input line 297.
+ 298.
+LaTeX Font Info:    No file TS1xcmss.fd. on input line 298.
 
 
 LaTeX Font Warning: Font shape `TS1/xcmss/b/n' undefined
 (Font)              using `TS1/cmr/m/n' instead
-(Font)              for symbol `textordmasculine' on input line 297.
+(Font)              for symbol `textordmasculine' on input line 298.
 
 [3{/usr/local/texlive/2023/texmf-dist/fonts/enc/dvips/cm-super/cm-super-ts1.enc
 }] [4] [5] [6] (/Users/salvatorpes/Desktop/LFEAII/text/merdas/OC.aux)
