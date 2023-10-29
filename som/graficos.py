@@ -51,7 +51,7 @@ def func334(t, a, w, b, c):
 
 t = data334['t']
 luma = data334['luma']
-p0 = [-59.6, -3.9, -9.9, 75]
+p0 = [-120.6, -36.9, -9.9, 75]
 
 params, covariance = curve_fit(func334, t, luma, p0=p0)
 
@@ -73,7 +73,7 @@ def func340(t, a, w, b, c):
 
 t = data340['t']
 luma = data340['luma']
-p0 = [-49.6, -3.9, -9.9, 95]
+p0 = [-89.6, -3.9, -9.9, 95]
 
 params, covariance = curve_fit(func340, t, luma, p0=p0)
 
@@ -95,7 +95,7 @@ def func346(t, a, w, b, c):
 
 t = data346['t']
 luma = data346['luma']
-p0 = [-49.6, -3.9, -9.9, 75]
+p0 = [-89.6, -3.9, -9.9, 75]
 
 params, covariance = curve_fit(func346, t, luma, p0=p0)
 
@@ -117,7 +117,7 @@ def func352(t, a, w, b, c):
 
 t = data352['t']
 luma = data352['luma']
-p0 = [-49.6, -3.9, -9.9, 75]
+p0 = [-89.6, -3.9, -9.9, 75]
 
 params, covariance = curve_fit(func352, t, luma, p0=p0)
 
@@ -139,7 +139,7 @@ def func354(t, a, w, b, c):
 
 t = data354['t']
 luma = data354['luma']
-p0 = [-49.6, -3.9, -9.9, 75]
+p0 = [-100.6, -9.9, -9.9, 80]
 
 params, covariance = curve_fit(func354, t, luma, p0=p0)
 
@@ -161,7 +161,7 @@ def func358(t, a, w, b, c):
 
 t = data358['t']
 luma = data358['luma']
-p0 = [-49.6, -3.9, -9.9, 75]
+p0 = [-99.6, -35.9, -20.9, 90]
 
 params, covariance = curve_fit(func358, t, luma, p0=p0)
 
@@ -183,7 +183,7 @@ def func360(t, a, w, b, c):
 
 t = data360['t']
 luma = data360['luma']
-p0 = [-49.6, -3.9, -9.9, 75]
+p0 = [-100.6, -75.9, -9.9, 75]
 
 params, covariance = curve_fit(func360, t, luma, p0=p0)
 
@@ -205,7 +205,7 @@ def func362(t, a, w, b, c):
 
 t = data362['t']
 luma = data362['luma']
-p0 = [-49.6, -3.9, -9.9, 75]
+p0 = [-100.6, -16.9, -9.9, 150]
 
 params, covariance = curve_fit(func362, t, luma, p0=p0)
 
@@ -249,7 +249,7 @@ def func370(t, a, w, b, c):
 
 t = data370['t']
 luma = data370['luma']
-p0 = [-49.6, -3.9, -9.9, 75]
+p0 = [-99.6, -34.9, -9.9, 75]
 
 params, covariance = curve_fit(func370, t, luma, p0=p0)
 
@@ -271,7 +271,7 @@ def func376(t, a, w, b, c):
 
 t = data376['t']
 luma = data376['luma']
-p0 = [-49.6, -3.9, -9.9, 75]
+p0 = [-99.6, -9.4, -9.9, 75]
 
 params, covariance = curve_fit(func376, t, luma, p0=p0)
 
@@ -293,7 +293,7 @@ def func382(t, a, w, b, c):
 
 t = data382['t']
 luma = data382['luma']
-p0 = [-49.6, -3.9, -9.9, 75]
+p0 = [-99.6, -66.9, -9.9, 75]
 
 params, covariance = curve_fit(func382, t, luma, p0=p0)
 
@@ -341,7 +341,7 @@ def func394(t, a, w, b, c):
 
 t = data394['t']
 luma = data394['luma']
-p0 = [-49.6, -3.9, -9.9, 75]
+p0 = [-150.6, -34.9, -9.9, 75]
 
 params, covariance = curve_fit(func394, t, luma, p0=p0)
 
@@ -363,7 +363,7 @@ def func400(t, a, w, b, c):
 
 t = data400['t']
 luma = data400['luma']
-p0 = [-69.6, -3.9, -9.9, 75]
+p0 = [-809.6, -5.9, -9.9, 75]
 
 params, covariance = curve_fit(func400, t, luma, p0=p0)
 
