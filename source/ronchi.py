@@ -42,6 +42,12 @@ RONCHI_6 = np.array(Image.open(DATA_PATH/'ronchi1_2aula.pgm'))
 RONCHI_7 = np.array(Image.open(DATA_PATH/'ronchi2_2aula.pgm'))
 
 def ronchi_plot(image, k, points, center_dot=True):
+    # Extract Parameters from calibration image
+    with open('../graphs/calibraton.txt', 'r') as f:
+        m = float(f.readline().split(' ')[1])
+        b = float(f.readline().split(' ')[1])
+    print(f'{m}, {b}')
+
     # Normalize Image
     image = image / max(image.flatten())
 
@@ -110,6 +116,8 @@ def ronchi_plot(image, k, points, center_dot=True):
     if not center_dot:
         x = np.array([start + i for i in range(k + 1) if start + i != 0])
 
+    # Calibrate distance_center_point
+    distance_center_point = distance_center_point * m + b
     # Fit a linear model
     model = np.polyfit(x, distance_center_point, 1)
     # Plot linear model
@@ -118,8 +126,9 @@ def ronchi_plot(image, k, points, center_dot=True):
     plt.plot(x, distance_center_point, 'o', label='Pontos Experimentais')
     plt.plot(x, model[0]*x + model[1], label='Função de Ajuste')
     plt.xlabel('n')
-    plt.ylabel(r'Distance ($\mu m$)')
+    plt.ylabel(r'Distance ($m$)')
     plt.title('Distance between Maximum Points')
+    plt.legend()
     plt.show()
 
 
@@ -180,19 +189,4 @@ def ronchi_plot(image, k, points, center_dot=True):
 ronchi_plot(RONCHI_5, 7, 1000)
 ronchi_plot(RONCHI_6, 8, 1500, center_dot=False)
 # ronchi_plot(RONCHI_7, 7, 1000)
-
-
-
-
-
-
-
-
-
-
-
-
-# --------------------------- Redes TEM --------------------------- #
-# ---------------------------- Slide AB --------------------------- #
-# ---------------------------- Resolução --------------------------- #
 
