@@ -28,8 +28,8 @@ DATA_PATH.mkdir(exist_ok=True,
 GRAPH_PATH = Path('../graphs')
 GRAPH_PATH.mkdir(exist_ok=True,
                     parents=True)
-GRAPH_RONCHI_PATH = Path('../graphs/ronchi')
-GRAPH_RONCHI_PATH.mkdir(exist_ok=True,
+GRAPH_TEM_PATH = Path('../graphs/tem')
+GRAPH_TEM_PATH.mkdir(exist_ok=True,
                     parents=True)
 
 # ------------------------ TEM ------------------------ #
@@ -42,6 +42,13 @@ for x in range(TEM_1.shape[1]):
         if np.sqrt((x - center[0] + 40)**2 + (y - center[1])**2) < radius:
             TEM_1[y, x] = 0
 TEM_2 = np.array(Image.open(DATA_PATH/'RedeTEM2_1_2aula.pgm'))
+# Define the radius of the circle and its center coordinates
+radius = 115
+center = (TEM_2.shape[1] // 2, TEM_2.shape[0] // 2)
+for x in range(TEM_2.shape[1]):
+    for y in range(TEM_2.shape[0]):
+        if np.sqrt((x - center[0] + 40)**2 + (y - center[1])**2) < radius:
+            TEM_2[y, x] = 0
 TEM_3 = np.array(Image.open(DATA_PATH/'RedeTEM2_2_2aula.pgm'))
 TEM_4 = np.array(Image.open(DATA_PATH/'RedeTEM3_1_2aula.pgm'))
 
@@ -60,7 +67,7 @@ def separate_list(main_list, separator_list):
     return result
 
 
-def tem_plot(image, k, points, center_dot=True):
+def tem_plot(image, k, points, center_dot=True, title=None):
     # Extract Parameters from calibration image
     with open('../graphs/calibraton.txt', 'r') as f:
         m = float(f.readline().split(' ')[1])
@@ -96,6 +103,7 @@ def tem_plot(image, k, points, center_dot=True):
     plt.imshow(image, cmap='gray')
     plt.axis('off')
     plt.scatter([x[0] for x in kmeans.cluster_centers_], [x[1] for x in kmeans.cluster_centers_], c='red', s=10, label='Points')
+    plt.savefig(GRAPH_TEM_PATH/f'{title}_points.png')
     plt.show()
 
     # List of center of clusters rounded
@@ -202,13 +210,14 @@ def tem_plot(image, k, points, center_dot=True):
     plt.plot(maximums, y, 'o', label='Pontos Experimentais')
     plt.xlabel('n')
     plt.xticks(maximums)
-    plt.ylabel(r'Distance ($\mu m$)')
+    plt.ylabel(r'Distance ($m$)')
     plt.title('Distance between Maximum X-Points')
 
     # Fit Linear Regression
     m_fit_x, b_fit_x = np.polyfit(x, y, 1)
     plt.plot(x, m_fit_x*x + b_fit_x, label='Linear Regression')
     plt.legend()
+    plt.savefig(GRAPH_TEM_PATH/f'{title}_distance_x.png')
     plt.show()
 
     # Plot maximums in y and center point of distance matrix in x
@@ -221,12 +230,13 @@ def tem_plot(image, k, points, center_dot=True):
     plt.plot(maximums, y, 'o', label='Pontos Experimentais')
     plt.xlabel('n')
     plt.xticks(maximums)
-    plt.ylabel(r'Distance ($\mu m$)')
+    plt.ylabel(r'Distance ($m$)')
     plt.title('Distance between Maximum Y-Points')
 
     # Fit Linear Regression
     plt.plot(x, m_fit_y*x + b_fit_y, label='Linear Regression')
     plt.legend()
+    plt.savefig(GRAPH_TEM_PATH/f'{title}_distance_y.png')
     plt.show()
 
     # Create a 3D scatter plot
@@ -294,7 +304,11 @@ def tem_plot(image, k, points, center_dot=True):
     fitted_data = model((X, Y), A_fit, B_fit, C_fit, D_fit)
 
     # Plot the fitted function
-    ax.plot_surface(X, Y, fitted_data, cmap='varidis', alpha=0.5)
+    ax.plot_surface(X, Y, fitted_data, cmap='viridis', alpha=0.5)
+
+    # Change elevation, azimuth and roll
+    ax.view_init(30, 30)
+    plt.savefig(GRAPH_TEM_PATH/f'{title}_3d_surface.png')
     plt.show()
 
 
@@ -308,5 +322,8 @@ def tem_plot(image, k, points, center_dot=True):
     
 
 
-
-tem_plot(TEM_1, 12, 500)
+if __name__ == '__main__':
+    tem_plot(TEM_1, 12, 500, title='RedeTEM1_1_2aula')
+    # tem_plot(TEM_2, 4, 500, title='RedeTEM2_1_2aula')
+    # tem_plot(TEM_3, 8, 500, title='RedeTEM2_2_2aula')
+    # tem_plot(TEM_4, 12, 500, title='RedeTEM3_1_2aula')
