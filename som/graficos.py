@@ -42,6 +42,7 @@ plt.xlabel('Time (s)')
 plt.ylabel('Amplitude')
 plt.title('328Hz')
 plt.grid(True)
+plt.savefig('328Hz.png')
 plt.show()
 
 ### Gráfico 334Hz
@@ -64,6 +65,7 @@ plt.xlabel('Time (s)')
 plt.ylabel('Amplitude')
 plt.title('334Hz')
 plt.grid(True)
+plt.savefig('334Hz.png')
 plt.show()
 
 ### Gráfico 340Hz
@@ -86,6 +88,7 @@ plt.xlabel('Time (s)')
 plt.ylabel('Amplitude')
 plt.title('340Hz')
 plt.grid(True)
+plt.savefig('340Hz.png')
 plt.show()
 
 ### Gráfico 346Hz
@@ -108,6 +111,7 @@ plt.xlabel('Time (s)')
 plt.ylabel('Amplitude')
 plt.title('346Hz')
 plt.grid(True)
+plt.savefig('346Hz.png')
 plt.show()
 
 ### Gráfico 352Hz
@@ -130,6 +134,7 @@ plt.xlabel('Time (s)')
 plt.ylabel('Amplitude')
 plt.title('352Hz')
 plt.grid(True)
+plt.savefig('352Hz.png')
 plt.show()
 
 ### Gráfico 354Hz
@@ -152,6 +157,7 @@ plt.xlabel('Time (s)')
 plt.ylabel('Amplitude')
 plt.title('354Hz')
 plt.grid(True)
+plt.savefig('354Hz.png')
 plt.show()
 
 ### Gráfico 358Hz
@@ -174,6 +180,7 @@ plt.xlabel('Time (s)')
 plt.ylabel('Amplitude')
 plt.title('358Hz')
 plt.grid(True)
+plt.savefig('358Hz.png')
 plt.show()
 
 ### Gráfico 360Hz
@@ -196,6 +203,7 @@ plt.xlabel('Time (s)')
 plt.ylabel('Amplitude')
 plt.title('360Hz')
 plt.grid(True)
+plt.savefig('360Hz.png')
 plt.show()
 
 ### Gráfico 362Hz
@@ -218,6 +226,7 @@ plt.xlabel('Time (s)')
 plt.ylabel('Amplitude')
 plt.title('362Hz')
 plt.grid(True)
+plt.savefig('362Hz.png')
 plt.show()
 
 ### Gráfico 364Hz
@@ -240,6 +249,7 @@ plt.xlabel('Time (s)')
 plt.ylabel('Amplitude')
 plt.title('364Hz')
 plt.grid(True)
+plt.savefig('364Hz.png')
 plt.show()
 
 ### Gráfico 370Hz
@@ -262,6 +272,7 @@ plt.xlabel('Time (s)')
 plt.ylabel('Amplitude')
 plt.title('370Hz')
 plt.grid(True)
+plt.savefig('370Hz.png')
 plt.show()
 
 ### Gráfico 376Hz
@@ -284,6 +295,7 @@ plt.xlabel('Time (s)')
 plt.ylabel('Amplitude')
 plt.title('376Hz')
 plt.grid(True)
+plt.savefig('376Hz.png')
 plt.show()
 
 ### Gráfico 382Hz
@@ -309,6 +321,7 @@ plt.xlabel('Time (s)')
 plt.ylabel('Amplitude')
 plt.title('382Hz')
 plt.grid(True)
+plt.savefig('382Hz.png')
 plt.show()
 
 ### Gráfico 388Hz
@@ -332,6 +345,7 @@ plt.xlabel('Time (s)')
 plt.ylabel('Amplitude')
 plt.title('388Hz')
 plt.grid(True)
+plt.savefig('388Hz.png')
 plt.show()
 
 ### Gráfico 394Hz
@@ -354,6 +368,7 @@ plt.xlabel('Time (s)')
 plt.ylabel('Amplitude')
 plt.title('394Hz')
 plt.grid(True)
+plt.savefig('394Hz.png')
 plt.show()
 
 ### Gráfico 400Hz
@@ -376,6 +391,7 @@ plt.xlabel('Time (s)')
 plt.ylabel('Amplitude')
 plt.title('400Hz')
 plt.grid(True)
+plt.savefig('400Hz.png')
 plt.show()
 
 
