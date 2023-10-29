@@ -13,8 +13,6 @@ import os
 import math
 from math import sqrt
 
-
-
 # Set up paths
 IMAGES_PATH = Path('../data')
 IMAGES_PATH.mkdir(exist_ok=True,parents=True)
@@ -231,25 +229,41 @@ def calibrator(meters: list, pixels: list) -> list:
 
     # linear regression
     m, b = np.polyfit(pixels, meters, 1)
-    er
+    # Residuals (difference between observed and predicted values)
+    residuals = meters - (m * np.array(pixels) + b)
+
+    # Number of observations
+    n = len(pixels)
+
+    # Standard deviation of the residuals
+    residual_std = np.sqrt(np.sum(residuals**2) / (n - 2))  # n - 2 for degrees of freedom (2 parameters: slope and intercept)
+
+    # Standard error of the regression slope (m) and intercept (b)
+    std_error_slope = residual_std / np.sqrt(np.sum((pixels - np.mean(pixels))**2))
+    std_error_intercept = residual_std * np.sqrt(1/n + (np.mean(pixels)**2) / np.sum((pixels - np.mean(pixels))**2))
+
+    print("Standard error of the slope (m):", std_error_slope)
+    print("Standard error of the intercept (b):", std_error_intercept)
     # print('m: ', m)
     # print('b: ', b)
 
     # plot the line
     x_values = np.linspace(0, 1.05*max(pixels), 100)
     y_values = m*x_values + b
-    plt.plot(x_values, y_values, color='blue', label='Linear Regression \n y = ' + str(m.round(9)) + 'x + ' + str(b.round(9)))
+    plt.plot(x_values, y_values, color='blue', label=f'Linear Regression \n y = mx + b \n m = {m:.3e} ± {std_error_slope:.3e}\n b = {b:.3e} ± {std_error_intercept:.3e}')
+    # plt.plot(x_values, y_values, color='blue', label='Linear Regression \n y = mx + b \n m = ' + str(m.round(9)) + ' ± ' + str(std_error_slope.round(9)) + '\n b = ' + str(b.round(9)) + ' ± ' + str(std_error_intercept.round(9)))
 
 
     plt.title('Calibration')
     plt.xlabel('Distance (pixels)')
     plt.ylabel('Distance (m)')
     plt.legend()
+    plt.grid(True)
     plt.savefig(f'../graphs/regr_calibration.png', dpi=400)
     # plt.show()
     plt.close()
 
-    return [m, b]
+    return [m, b, std_error_slope, std_error_intercept] # = [m, b, error_m, error_b]
 
 if __name__ == '__main__':
 
@@ -271,7 +285,7 @@ if __name__ == '__main__':
     distance_ABCD = [abs(mean[0, 0] - center[0]), abs(mean[1, 1] - center[1]), abs(mean[2, 1] - center[1]), abs(mean[3, 0] - center[0])]
     print('\n Distance of each point considering A and D as being located in the x axis and B and C in the y axis:')
     for i, label in enumerate(['A', 'B', 'C', 'D']):
-        print(label + ': ' + str(distance_ABCD[i]))
+        print(label + ': ' + str(distance_ABCD[i]) +  ' ± ' + str(1) + ' pixels')
 
     # Calibration
     calibration_2mm = calibrate_image('craveira2mm_AB_5aula', intensity_limit=3500)[0]
@@ -283,7 +297,7 @@ if __name__ == '__main__':
     mm = [2, 3, 4, 4]
     m = [0.002, 0.003, 0.004, 0.004]
 
-    regression = calibrator(m, pixels) # = [m, b]
+    regression = calibrator(m, pixels) # = [m, b, error_m, error_b]
     os.system('../graphs/calibraton.txt')
     with open('../graphs/calibraton.txt', 'w') as f:
         f.write('m: ' + str(regression[0]) + '\n')
@@ -293,34 +307,71 @@ if __name__ == '__main__':
     
     
     print('\n Linear Regression: y = ' + str(regression[0].round(9)) + 'x + ' + str(regression[1].round(9)))
+    print(f'm = {regression[0]:.3e} ± {regression[2]:.3e}')
+    print(f'b = {regression[1]:.3e} ± {regression[3]:.3e}')
     calibrated_value = lambda x: abs(float(regression[0]) * float(x) + float(regression[1]))
+    error_calib_value = lambda x: abs(x) * regression[2] + abs(regression[0]) + regression[3]
 
     # print all not calibrated and then calibrated values for distances A, B, C and D
     print('\n Distances A, B, C and D Calibrated:')
     for i, label in enumerate(['A', 'B', 'C', 'D']):
-        print(label + ': ' + str(distance_ABCD[i]) + ' pixels' + '   calibrated: ' + str(calibrated_value(distance_ABCD[i])) + ' m')
+        # print(label + f': {distance_ABCD[i]:.0f} ± {1:.0f} pixels' + f'   calibrated: {calibrated_value(distance_ABCD[i]):.3e} ± {error_calib_value(distance_ABCD[i]):.3e} m')
+        # in milimeters
+        print(label + f': {distance_ABCD[i]:.0f} ± {1:.0f} pixels' + f'   calibrated: {(calibrated_value(distance_ABCD[i])*10**3):.3f} ± {(error_calib_value(distance_ABCD[i])*10**3):.3f} mm')
 
     f=0.2475 # focal length of the lens in m
     wavelength=633*10**(-9) # wavelength of the laser in m
 
     # array with the calibrated values of the distances in m
-    distance_ABCD_m = [calibrated_value(distance) for distance in distance_ABCD]
-    print('\n Distances A, B, C and D Calibrated in m:')
-    for i, label in enumerate(['A', 'B', 'C', 'D']):
-        print(label + ': ' + str(distance_ABCD_m[i]) + ' m')
+    distance_ABCD_m = [(calibrated_value(distance), error_calib_value(distance)) for distance in distance_ABCD]
+
 
     # compute the spatial frequencies
+    spacial_frequency_x_1 = distance_ABCD_m[0][0]/(f*wavelength) # distance of A to the center
+    error_spacial_frequency_x_1 = distance_ABCD_m[0][1]/(f*wavelength)/spacial_frequency_x_1 * 100
+    spacial_frequency_x_2 = distance_ABCD_m[3][0]/(f*wavelength) # distance of D to the center
+    error_spacial_frequency_x_2 = distance_ABCD_m[3][1]/(f*wavelength)/spacial_frequency_x_2 * 100
+    spacial_frequency_y_1 = distance_ABCD_m[1][0]/(f*wavelength) # distance of B to the center
+    error_spacial_frequency_y_1 = distance_ABCD_m[1][1]/(f*wavelength)/spacial_frequency_y_1 * 100
+    spacial_frequency_y_2 = distance_ABCD_m[2][0]/(f*wavelength) # distance of C to the center
+    error_spacial_frequency_y_2 = distance_ABCD_m[2][1]/(f*wavelength)/spacial_frequency_y_2 * 100
 
-    spacial_frequency_x_1 = distance_ABCD_m[0]/(f*wavelength) # distance of A to the center
-    spacial_frequency_x_2 = distance_ABCD_m[3]/(f*wavelength) # distance of D to the center
-    spacial_frequency_y_1 = distance_ABCD_m[1]/(f*wavelength) # distance of B to the center
-    spacial_frequency_y_2 = distance_ABCD_m[2]/(f*wavelength) # distance of C to the center
-
+    # the error of the spatial frequency is the error of the distance divided by f*wavelength
     print('\n Spatial Frequencies:')
-    print('Spatial Frequency along X for point A: ' + str(spacial_frequency_x_1))
-    print('Spatial Frequency along X for point D: ' + str(spacial_frequency_x_2))
-    print('Spatial Frequency along Y for point B: ' + str(spacial_frequency_y_1))
-    print('Spatial Frequency along Y for point C: ' + str(spacial_frequency_y_2))
+    print('Spatial Frequency along X for point A: ' + f'{spacial_frequency_x_1:.2f} m^-1' + ' ± ' + f'{error_spacial_frequency_x_1:.2f} %')
+    print('Spatial Frequency along X for point D: ' + f'{spacial_frequency_x_2:.2f} m^-1' + ' ± ' + f'{error_spacial_frequency_x_2:.2f} %')
+    print('Spatial Frequency along Y for point B: ' + f'{spacial_frequency_y_1:.2f} m^-1' + ' ± ' + f'{error_spacial_frequency_y_1:.2f} %')
+    print('Spatial Frequency along Y for point C: ' + f'{spacial_frequency_y_2:.2f} m^-1' + ' ± ' + f'{error_spacial_frequency_y_2:.2f} %')
+
+    frequancy_x = (spacial_frequency_x_1 + spacial_frequency_x_2)/2
+    error_frequancy_x = (error_spacial_frequency_x_1 + error_spacial_frequency_x_2)/2
+    frequancy_y = (spacial_frequency_y_1 + spacial_frequency_y_2)/2
+    error_frequancy_y = (error_spacial_frequency_y_1 + error_spacial_frequency_y_2)/2
+    print('Spatial Frequency along X: ' f'{(frequancy_x):.2f} m^-1' + ' ± ' + f'{(error_frequancy_x):.2f} %')
+    print('Spatial Frequency along Y: ' f'{(frequancy_y):.2f} m^-1' + ' ± ' + f'{(error_frequancy_y):.2f} %')
+
+    print('\n Separation of the fringes:')
+    separation_letterB = 1/(frequancy_y) 
+    error_separation_B = error_frequancy_y/(frequancy_y**2)
+    error_separation_B_percentage = error_separation_B/separation_letterB*100
+    separation_letterA = 1/(frequancy_x)
+    error_separation_A = error_frequancy_x/(frequancy_x**2)
+    error_separation_A_percentage = error_separation_A/separation_letterA*100
+
+    print('Separation of the fringes along X: ' + f'{(separation_letterA):.3e} ± {(error_separation_A):.3e} m')
+    print('Separation of the fringes along Y: ' + f'{(separation_letterB):.3e} ± {(error_separation_B):.3e} m')
+
+    print('\n Separation of the fringes in micrometers:')
+    print('Separation of the fringes along X: ' + f'{(separation_letterA*10**6):.5f} ± {(error_separation_A*10**6):.5f} μm')
+    print('Separation of the fringes along Y: ' + f'{(separation_letterB*10**6):.5f} ± {(error_separation_B*10**6):.5f} μm')
+
+    # separation of the fringes with error in percentage
+    print('\n Separation of the fringes with error in percentage:')
+    print('Separation of the fringes along X: ' + f'{(separation_letterA*10**6):.5f} μm ± {(error_separation_A_percentage):.5f} %')
+    print('Separation of the fringes along Y: ' + f'{(separation_letterB*10**6):.5f} μm ± {(error_separation_B_percentage):.5f} %')
+
+
+    
 
     
 

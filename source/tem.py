@@ -305,10 +305,13 @@ def tem_plot(image, k, points, center_dot=True, title=None):
 
     # Plot the fitted function
     ax.plot_surface(X, Y, fitted_data, cmap='viridis', alpha=0.5)
+<<<<<<< HEAD
+=======
 
     # Change elevation, azimuth and roll
     ax.view_init(30, 30)
     plt.savefig(GRAPH_TEM_PATH/f'{title}_3d_surface.png')
+>>>>>>> 2541316370bf807e62202cf4cf2c93349d3c7dcd
     plt.show()
 
 

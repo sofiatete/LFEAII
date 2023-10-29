@@ -8,7 +8,7 @@ from scipy.ndimage import gaussian_filter
 from sklearn.cluster import KMeans
 from numpy import sinc
 from scipy.optimize import curve_fit
-from math import ceil
+from math import ceil, sin
 
 
 # Set up paths
@@ -70,12 +70,16 @@ def ronchi_plot(image, k, points, center_dot=True, title=None):
     # Plot Cluster Centers with diferent colors side with image
     plt.figure(figsize=(10,5))
     plt.subplot(1,2,2)
+    plt.xlabel(r'x ($pixels$)')
+    plt.ylabel(r'y ($pixels$)')
     plt.imshow(image, cmap='gray')
-    plt.axis('off')
+    # plt.axis('off')
 
     plt.subplot(1,2,1)
     plt.imshow(image, cmap='gray')
-    plt.axis('off')
+    # plt.axis('off')
+    plt.xlabel(r'x ($pixels$)')
+    plt.ylabel(r'y ($pixels$)')
     plt.scatter([x[0] for x in kmeans.cluster_centers_], [x[1] for x in kmeans.cluster_centers_], c='red', s=10, label='Points')
     plt.savefig(GRAPH_RONCHI_PATH/f'{title}_points.png')
     plt.show()
@@ -166,10 +170,11 @@ def ronchi_plot(image, k, points, center_dot=True, title=None):
     # Fit a custom model
     # Define the sinc function
     def sinc_function(x, A, B, C):
+        return A * np.sin(B * x) ** 2 / (B * x) **2 + C
         return A * np.sinc(B * x) + C
-    
+    print(x)
     # Fit the model
-    popt, pcov = curve_fit(sinc_function, x, cluster_mean, p0=[1, 1, 1])
+    popt, pcov = curve_fit(sinc_function, x, cluster_mean, p0=[max(cluster_mean), 1, 0])
 
     # Plot the result
     plt.figure(figsize=(8,6))
