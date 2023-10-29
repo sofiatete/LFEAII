@@ -426,3 +426,16 @@ print('w (382Hz) = ', w_382)
 print('w (388Hz) = ', w_388)
 print('w (394Hz) = ', w_394)
 print('w (400Hz) = ', w_400)
+
+# Gráfico de w em função da frequência
+f = [328, 346, 354, 358, 362, 364, 370, 376, 388, 394, 400]
+w = [w_328, w_346, w_354, w_358, w_362, w_364, w_370, w_376, w_388, w_394, w_400]
+
+plt.plot(f, w, 'o')
+plt.xlabel('Frequency (Hz)')
+plt.ylabel('Angular frequency (rad/s)')
+plt.title('Angular frequency vs Frequency')
+plt.grid(True)
+plt.savefig('som/w_vs_f.png')
+plt.show()
+
