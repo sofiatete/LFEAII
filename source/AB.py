@@ -322,6 +322,10 @@ if __name__ == '__main__':
     print('Spatial Frequency along Y for point B: ' + str(spacial_frequency_y_1))
     print('Spatial Frequency along Y for point C: ' + str(spacial_frequency_y_2))
 
+
+
+    
+
     
 
     

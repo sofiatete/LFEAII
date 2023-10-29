@@ -294,7 +294,7 @@ def tem_plot(image, k, points, center_dot=True):
     fitted_data = model((X, Y), A_fit, B_fit, C_fit, D_fit)
 
     # Plot the fitted function
-    ax.plot_surface(X, Y, fitted_data, cmap='varidis', alpha=0.5)
+    ax.plot_surface(X, Y, fitted_data, cmap='viridis', alpha=0.5)
     plt.show()
 
 
