@@ -1,4 +1,4 @@
-This is pdfTeX, Version 3.141592653-2.6-1.40.25 (TeX Live 2023) (preloaded format=pdflatex 2023.10.2)  29 OCT 2023 11:36
+This is pdfTeX, Version 3.141592653-2.6-1.40.25 (TeX Live 2023) (preloaded format=pdflatex 2023.10.2)  29 OCT 2023 13:55
 entering extended mode
  restricted \write18 enabled.
  %&-line parsing enabled.
@@ -1529,7 +1529,7 @@ LaTeX Font Info:    Overwriting symbol font `AMSb' in version `bold'
 
 Package array Warning: Column w is already defined on input line 144.
 
-<images/IST_Logo.png, id=87, 310.91156pt x 376.40625pt>
+<images/IST_Logo.png, id=91, 310.91156pt x 376.40625pt>
 File: images/IST_Logo.png Graphic file (type png)
 <use images/IST_Logo.png>
 Package pdftex.def Info: images/IST_Logo.png  used on input line 149.
@@ -1592,60 +1592,68 @@ LaTeX Font Warning: Font shape `TS1/xcmss/b/n' undefined
 (Font)              using `TS1/cmr/m/n' instead
 (Font)              for symbol `textordmasculine' on input line 298.
 
-<../graphs/craveira2mm_AB_5aula_calibration.png, id=118, 462.528pt x 346.896pt>
+[3{/usr/local/texlive/2023/texmf-dist/fonts/enc/dvips/cm-super/cm-super-ts1.enc
+}]
+Overfull \hbox (7.3903pt too wide) detected at line 358
+[]
+ []
+
+<../graphs/craveira2mm_AB_5aula_calibration.png, id=128, 462.528pt x 346.896pt>
 
 File: ../graphs/craveira2mm_AB_5aula_calibration.png Graphic file (type png)
 <use ../graphs/craveira2mm_AB_5aula_calibration.png>
 Package pdftex.def Info: ../graphs/craveira2mm_AB_5aula_calibration.png  used o
-n input line 352.
+n input line 363.
 (pdftex.def)             Requested size: 241.82362pt x 181.37149pt.
-[3{/usr/local/texlive/2023/texmf-dist/fonts/enc/dvips/cm-super/cm-super-ts1.enc
-}]
-<../graphs/craveira3mm_AB_5aula_calibration.png, id=125, 462.528pt x 346.896pt>
+<../graphs/craveira3mm_AB_5aula_calibration.png, id=129, 462.528pt x 346.896pt>
 
 File: ../graphs/craveira3mm_AB_5aula_calibration.png Graphic file (type png)
 <use ../graphs/craveira3mm_AB_5aula_calibration.png>
 Package pdftex.def Info: ../graphs/craveira3mm_AB_5aula_calibration.png  used o
-n input line 358.
+n input line 369.
 (pdftex.def)             Requested size: 241.82362pt x 181.37149pt.
-<../graphs/craveira4mm_AB_5aula_calibration.png, id=126, 462.528pt x 346.896pt>
+<../graphs/craveira4mm_AB_5aula_calibration.png, id=130, 462.528pt x 346.896pt>
 
 File: ../graphs/craveira4mm_AB_5aula_calibration.png Graphic file (type png)
 <use ../graphs/craveira4mm_AB_5aula_calibration.png>
 Package pdftex.def Info: ../graphs/craveira4mm_AB_5aula_calibration.png  used o
-n input line 364.
+n input line 375.
 (pdftex.def)             Requested size: 241.82362pt x 181.37149pt.
-<../graphs/craveira4mm2_AB_5aula_calibration.png, id=127, 462.528pt x 346.896pt
+<../graphs/craveira4mm2_AB_5aula_calibration.png, id=131, 462.528pt x 346.896pt
 >
 File: ../graphs/craveira4mm2_AB_5aula_calibration.png Graphic file (type png)
 <use ../graphs/craveira4mm2_AB_5aula_calibration.png>
 Package pdftex.def Info: ../graphs/craveira4mm2_AB_5aula_calibration.png  used 
-on input line 370.
+on input line 381.
 (pdftex.def)             Requested size: 241.82362pt x 181.37149pt.
-<../graphs/regr_calibration.png, id=128, 462.528pt x 346.896pt>
+<../graphs/regr_calibration.png, id=132, 462.528pt x 346.896pt>
 File: ../graphs/regr_calibration.png Graphic file (type png)
 <use ../graphs/regr_calibration.png>
-Package pdftex.def Info: ../graphs/regr_calibration.png  used on input line 378
+Package pdftex.def Info: ../graphs/regr_calibration.png  used on input line 389
 .
 (pdftex.def)             Requested size: 241.82362pt x 181.37149pt.
- [4 <../graphs/craveira2mm_AB_5aula_calibration.png> <../graphs/craveira3mm_AB_
-5aula_calibration.png> <../graphs/craveira4mm_AB_5aula_calibration.png> <../gra
-phs/craveira4mm2_AB_5aula_calibration.png> <../graphs/regr_calibration.png>]
-[5] [6] [7] (/Users/salvatorpes/Desktop/LFEAII/text/merdas/OC.aux)
+
+Overfull \vbox (61.44301pt too high) has occurred while \output is active []
+
+
+[4 <../graphs/craveira2mm_AB_5aula_calibration.png> <../graphs/craveira3mm_AB_5
+aula_calibration.png> <../graphs/craveira4mm_AB_5aula_calibration.png> <../grap
+hs/craveira4mm2_AB_5aula_calibration.png> <../graphs/regr_calibration.png>]
+[5] [6] [7] [8] (/Users/salvatorpes/Desktop/LFEAII/text/merdas/OC.aux)
 
 LaTeX Font Warning: Some font shapes were not available, defaults substituted.
 
 Package rerunfilecheck Info: File `OC.out' has not changed.
-(rerunfilecheck)             Checksum: D804EF87D9D444998A3623B5B53A471C;4421.
+(rerunfilecheck)             Checksum: 7B1BDD879D1C3D00B56FC7269E4F71B1;4569.
 Package logreq Info: Writing requests to 'OC.run.xml'.
 \openout1 = `OC.run.xml'.
 
  ) 
 Here is how much of TeX's memory you used:
- 38219 strings out of 476025
- 732739 string characters out of 5790017
+ 38222 strings out of 476025
+ 732785 string characters out of 5790017
  1881388 words of memory out of 5000000
- 57977 multiletter control sequences out of 15000+600000
+ 57978 multiletter control sequences out of 15000+600000
  525625 words of font info for 81 fonts, out of 8000000 for 9000
  1141 hyphenation exceptions out of 8191
  84i,12n,80p,1186b,1619s stack positions out of 10000i,1000n,20000p,200000b,200000s
@@ -1662,11 +1670,11 @@ smi7.pfb></usr/local/texlive/2023/texmf-dist/fonts/type1/public/sansmathfonts/c
 msssy10.pfb></usr/local/texlive/2023/texmf-dist/fonts/type1/public/sansmathfont
 s/cmsssy7.pfb></usr/local/texlive/2023/texmf-dist/fonts/type1/public/cm-super/s
 frm1200.pfb>
-Output written on /Users/salvatorpes/Desktop/LFEAII/text/merdas/OC.pdf (7 pages
-, 5037047 bytes).
+Output written on /Users/salvatorpes/Desktop/LFEAII/text/merdas/OC.pdf (8 pages
+, 5040220 bytes).
 PDF statistics:
- 241 PDF objects out of 1000 (max. 8388607)
- 194 compressed objects within 2 object streams
- 59 named destinations out of 1000 (max. 500000)
- 203 words of extra memory for PDF output out of 10000 (max. 10000000)
+ 251 PDF objects out of 1000 (max. 8388607)
+ 202 compressed objects within 3 object streams
+ 61 named destinations out of 1000 (max. 500000)
+ 211 words of extra memory for PDF output out of 10000 (max. 10000000)
 

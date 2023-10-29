@@ -10,6 +10,8 @@ from sklearn_extra.cluster import KMedoids
 import itertools
 import string
 import os
+import math
+from math import sqrt
 
 
 
@@ -100,7 +102,7 @@ def analyse_image(name: str, points: int = 2000, *args, **kwargs) -> np.ndarray:
     # return the coordinates of the clusters centroids
     return kmeans.cluster_centers_
 
-def calibrate_image(name: str, intensity_limit: int = 3500, *args, **kwargs) -> float:
+def calibrate_image(name: str, intensity_limit: int = 3500, *args, **kwargs) -> list:
     """
     Calibrate the image
     """
@@ -171,6 +173,9 @@ def calibrate_image(name: str, intensity_limit: int = 3500, *args, **kwargs) -> 
     distance = np.sqrt((x_1 - x_2)**2 + (y_1 - y_2)**2)
     # print('distance in pixels between the points of intersection: ', distance)
 
+    # error in the distance
+    error = (abs((x_1 - x_2) / sqrt((x_1 - x_2) ** 2 + (y_1 - y_2) ** 2)) + abs((x_2 - x_1) / sqrt((x_1 - x_2) ** 2 + (y_1 - y_2) ** 2)) + abs((y_1 - y_2) / sqrt((x_1 - x_2) ** 2 + (y_1 - y_2) ** 2)) + abs((y_2 - y_1) / sqrt((x_1 - x_2) ** 2 + (y_1 - y_2) ** 2))).round(1)
+
     # Plot image
     plt.imshow(img_arr, cmap='gray')
     # plot axis
@@ -207,8 +212,7 @@ def calibrate_image(name: str, intensity_limit: int = 3500, *args, **kwargs) -> 
     plt.text(intersection_x[1] + 50, intersection_y[1] - 40, 'B', color='white', fontsize=7, ha='center', va='bottom')
 
     # add the distance between the points in a label in the right below corner
-    plt.text(0.8, 0.05, 'Distance AB: ' + str(distance.round(3)) + ' pixels', color='white', fontsize=7, ha='center', va='bottom', transform=plt.gca().transAxes)
-
+    plt.text(0.8, 0.05, 'Distance AB: ' + str(distance.round(1)) + ' ± ' + str(error) + ' pixels', color='white', fontsize=7, ha='center', va='bottom', transform=plt.gca().transAxes)
 
 
     # plot title
@@ -218,7 +222,7 @@ def calibrate_image(name: str, intensity_limit: int = 3500, *args, **kwargs) -> 
     # plt.show()
     plt.close()
 
-    return distance
+    return [distance, error]
 
 def calibrator(meters: list, pixels: list) -> list:
 
@@ -227,6 +231,7 @@ def calibrator(meters: list, pixels: list) -> list:
 
     # linear regression
     m, b = np.polyfit(pixels, meters, 1)
+    er
     # print('m: ', m)
     # print('b: ', b)
 
@@ -269,10 +274,10 @@ if __name__ == '__main__':
         print(label + ': ' + str(distance_ABCD[i]))
 
     # Calibration
-    calibration_2mm = calibrate_image('craveira2mm_AB_5aula', intensity_limit=3500)
-    calibration_3mm = calibrate_image('craveira3mm_AB_5aula', intensity_limit=6500)
-    calibration_4mm = calibrate_image('craveira4mm_AB_5aula', intensity_limit=5500)
-    calibration_4mm2 = calibrate_image('craveira4mm2_AB_5aula', intensity_limit=3500)
+    calibration_2mm = calibrate_image('craveira2mm_AB_5aula', intensity_limit=3500)[0]
+    calibration_3mm = calibrate_image('craveira3mm_AB_5aula', intensity_limit=6500)[0]
+    calibration_4mm = calibrate_image('craveira4mm_AB_5aula', intensity_limit=5500)[0]
+    calibration_4mm2 = calibrate_image('craveira4mm2_AB_5aula', intensity_limit=3500)[0]
 
     pixels = [calibration_2mm, calibration_3mm, calibration_4mm, calibration_4mm2]
     mm = [2, 3, 4, 4]

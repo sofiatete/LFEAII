@@ -345,6 +345,17 @@ Em segundo lugar, temos as imagens \textbf{greyscale} - estas imagens são semel
 \subsubsection{Calibração}
 
 Para a calibração, utilizamos as seguintes imagens: em cada uma foram feitas duas linhas paralelas aos limites da craveira e duas linhas perpendiculares às anteriores. Foi medida a distância, em pixeis, entre os pontos de interseção das linhas paralelas e perpendiculares - essa foi a distância utilizada para a calibração.
+A incerteza de cada pixel é de 1 pixel uma vez que a a imagem 2D funciona como um histograma onde cada pixel é um bin - apenas podemos estar num pixel ou noutro, não há valores intermédios.
+A distância entre dois pontos $(x_1, y_1)$ e $(x_2, y_2)$ em pixeis é dada por:
+
+\[ d = \sqrt{(x_1 - x_2)^2 + (y_1 - y_2)^2} \]
+
+Sabendo que os erros de $x_1$, $x_2$, $y_1$ e $y_2$ são todos iguais a $\pm 1$ pixel, a incerteza da distância $d$ é dada por:
+
+\begin{align*}
+  \delta d &= \left| \frac{x_1 - x_2}{\sqrt{(x_1 - x_2)^2 + (y_1 - y_2)^2}} \right| + \left| \frac{x_2 - x_1}{\sqrt{(x_1 - x_2)^2 + (y_1 - y_2)^2}} \right| + \\
+  &+ \left| \frac{y_1 - y_2}{\sqrt{(x_1 - x_2)^2 + (y_1 - y_2)^2}} \right| + \left| \frac{y_2 - y_1}{\sqrt{(x_1 - x_2)^2 + (y_1 - y_2)^2}} \right|
+\end{align*}
 
 
 \begin{figure}[H]
@@ -384,6 +395,8 @@ A reta de ajuste foi:
 \[ \text{Distance (m)} = 8.144 \times 10^{-6} \times \text{Pixels} + 9.141 \times 10^{-5} \]
 
 \subsubsection{Filtro AB}
+
+O nosso objetivo é agora determinar as frequências espaciais do filtro AB utilizado
 
 
 
