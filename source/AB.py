@@ -176,7 +176,11 @@ def calibrate_image(name: str, intensity_limit: int = 3500, *args, **kwargs) -> 
     plt.xlabel('$x$ (pixels)')
     plt.ylabel('$y$ (pixels)')
 
-    # plot the points used to find the clusters
+    plt.title(f'Calibration {name} ')
+    plt.legend()
+    plt.savefig(f'../graphs/{name}_image.png', dpi=400)
+
+    # plot the points used to find the lines
     plt.scatter(points_x, points_y, color='red', s=10, label='Points')
 
     # plot the lines
