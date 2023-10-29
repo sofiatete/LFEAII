@@ -3,7 +3,7 @@ import matplotlib.pyplot as plt
 import numpy as np
 from scipy.optimize import curve_fit
 
-data = pd.read_csv('som/428Hz.csv')
+data = pd.read_csv('som/328Hz.csv')
 
 print(data)
 
