@@ -41,7 +41,7 @@ RONCHI_5 = np.array(Image.open(DATA_PATH/'ronchi_iris_aberta_aula2.pgm'))
 RONCHI_6 = np.array(Image.open(DATA_PATH/'ronchi1_2aula.pgm'))
 RONCHI_7 = np.array(Image.open(DATA_PATH/'ronchi2_2aula.pgm'))
 
-def ronchi_plot(image, k, points, center_dot=True):
+def ronchi_plot(image, k, points, center_dot=True, title=None):
     # Extract Parameters from calibration image
     with open('../graphs/calibraton.txt', 'r') as f:
         m = float(f.readline().split(' ')[1])
@@ -77,6 +77,7 @@ def ronchi_plot(image, k, points, center_dot=True):
     plt.imshow(image, cmap='gray')
     plt.axis('off')
     plt.scatter([x[0] for x in kmeans.cluster_centers_], [x[1] for x in kmeans.cluster_centers_], c='red', s=10, label='Points')
+    plt.savefig(GRAPH_RONCHI_PATH/f'{title}_points.png')
     plt.show()
 
 
@@ -129,6 +130,7 @@ def ronchi_plot(image, k, points, center_dot=True):
     plt.ylabel(r'Distance ($m$)')
     plt.title('Distance between Maximum Points')
     plt.legend()
+    plt.savefig(GRAPH_RONCHI_PATH/f'{title}_distance.png')
     plt.show()
 
 
@@ -178,15 +180,15 @@ def ronchi_plot(image, k, points, center_dot=True):
     plt.ylabel(r'$I_{rel}$ ($Greyscale$))')
     plt.title('Intensity of Maximum Points')
     plt.legend()
+    plt.savefig(GRAPH_RONCHI_PATH/f'{title}_intensity.png')
     plt.show()
-    #plt.savefig(GRAPH_RONCHI_PATH/f'{str(image)[:-3]}')
 
 
 # ronchi_plot(RONCHI_1, 5, 200)
 # ronchi_plot(RONCHI_2, 5, 200)
 # ronchi_plot(RONCHI_3, 5, 200)
 # ronchi_plot(RONCHI_4, 5, 200)
-ronchi_plot(RONCHI_5, 7, 1000)
-ronchi_plot(RONCHI_6, 8, 1500, center_dot=False)
+ronchi_plot(RONCHI_5, 7, 1000, title='ronchi_iris_aberta_aula2')
+ronchi_plot(RONCHI_6, 8, 1500, center_dot=False, title='ronchi1_2aula')
 # ronchi_plot(RONCHI_7, 7, 1000)
 
