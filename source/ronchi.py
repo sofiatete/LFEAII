@@ -27,6 +27,9 @@ DATA_PATH.mkdir(exist_ok=True,
 GRAPH_PATH = Path('../graphs')
 GRAPH_PATH.mkdir(exist_ok=True,
                     parents=True)
+GRAPH_RONCHI_PATH = Path('../graphs/ronchi')
+GRAPH_RONCHI_PATH.mkdir(exist_ok=True,
+                    parents=True)
 
 
 # ------------------------ Redes de Ronchi ------------------------ #
@@ -38,7 +41,7 @@ RONCHI_5 = np.array(Image.open(DATA_PATH/'ronchi_iris_aberta_aula2.pgm'))
 RONCHI_6 = np.array(Image.open(DATA_PATH/'ronchi1_2aula.pgm'))
 RONCHI_7 = np.array(Image.open(DATA_PATH/'ronchi2_2aula.pgm'))
 
-def ronchi_plot(image, k, points, odd=True):
+def ronchi_plot(image, k, points, center_dot=True):
     # Normalize Image
     image = image / max(image.flatten())
 
@@ -84,23 +87,38 @@ def ronchi_plot(image, k, points, odd=True):
         for j in range(k):
             if i < j:
                 distance_matrix[i,j] = np.sqrt((cluster_centers[i][0] - cluster_centers[j][0])**2 + (cluster_centers[i][1] - cluster_centers[j][1])**2)
+            elif i == j:
+                distance_matrix[i,j] = 0
             elif i > j:
                 distance_matrix[i,j] = - np.sqrt((cluster_centers[i][0] - cluster_centers[j][0])**2 + (cluster_centers[i][1] - cluster_centers[j][1])**2)
 
 
-    distance_center_point = distance_matrix[round(len(distance_matrix)/2),:]
+    distance_center_point = distance_matrix[ceil(len(distance_matrix)/2) - 1,:]
+
+    # Center in case of not having a center dot, shift points half a distance from two center points
+    if not center_dot:
+        for i in range(len(distance_center_point)):
+            if distance_center_point[i] == 0:
+                value = distance_center_point[i+1] / 2
+                distance_center_point -= value
+                break
 
     start = - ceil(k / 2) + 1
+    if not center_dot:
+        start = - k / 2
     x = np.array([start + i for i in range(k)])
+    if not center_dot:
+        x = np.array([start + i for i in range(k + 1) if start + i != 0])
 
     # Fit a linear model
     model = np.polyfit(x, distance_center_point, 1)
     # Plot linear model
     plt.figure(figsize=(8,6))
-    plt.plot(x, distance_center_point, 'o')
-    plt.plot(x, model[0]*x + model[1])
+    plt.grid()
+    plt.plot(x, distance_center_point, 'o', label='Pontos Experimentais')
+    plt.plot(x, model[0]*x + model[1], label='Função de Ajuste')
     plt.xlabel('n')
-    plt.ylabel('Distance')
+    plt.ylabel(r'Distance ($\mu m$)')
     plt.title('Distance between Maximum Points')
     plt.show()
 
@@ -128,40 +146,40 @@ def ronchi_plot(image, k, points, odd=True):
     
     cluster_mean = mean_per_cluster.copy()
     start = - ceil(k / 2) + 1
+    if not center_dot:
+        start = - k / 2
     x = np.array([start + i for i in range(k)])
-    # Plot Mean Value per cluster
-    plt.figure(figsize=(8,6))
-    plt.plot(x, cluster_mean, 'o')
-    plt.xlabel('n')
-    plt.ylabel('Mean Value')
-    plt.title('Mean Value per Cluster')
-    plt.show()
+    if not center_dot:
+        x = np.array([start + i for i in range(k + 1) if start + i != 0])
 
     # Fit a custom model
     # Define the sinc function
-    def sinc_function(x, A, B):
-        return A * np.sinc(B * x) * np.sinc(B * x)
+    def sinc_function(x, A, B, C):
+        return A * np.sinc(B * x) + C
     
     # Fit the model
-    popt, pcov = curve_fit(sinc_function, x, cluster_mean, p0=[1, 1])
+    popt, pcov = curve_fit(sinc_function, x, cluster_mean, p0=[1, 1, 1])
 
     # Plot the result
     plt.figure(figsize=(8,6))
-    plt.plot(x, cluster_mean, 'o')
-    plt.plot(x, sinc_function(x, *popt))
+    plt.plot(x, cluster_mean, 'o', label='Pontos Experimentais')
+    x_for_plot = np.linspace(-10, 10, 1000)
+    plt.plot(x_for_plot, sinc_function(x_for_plot, *popt), label='Função de Ajuste')
     plt.xlabel('n')
-    plt.ylabel('Mean Value')
-    plt.title('Mean Value per Cluster')
+    plt.ylabel(r'$I_{rel}$ ($Greyscale$))')
+    plt.title('Intensity of Maximum Points')
+    plt.legend()
     plt.show()
+    #plt.savefig(GRAPH_RONCHI_PATH/f'{str(image)[:-3]}')
 
 
-ronchi_plot(RONCHI_1, 5, 200)
-ronchi_plot(RONCHI_2, 5, 200)
-ronchi_plot(RONCHI_3, 5, 200)
-ronchi_plot(RONCHI_4, 5, 200)
+# ronchi_plot(RONCHI_1, 5, 200)
+# ronchi_plot(RONCHI_2, 5, 200)
+# ronchi_plot(RONCHI_3, 5, 200)
+# ronchi_plot(RONCHI_4, 5, 200)
 ronchi_plot(RONCHI_5, 7, 1000)
-ronchi_plot(RONCHI_6, 7, 1000)
-ronchi_plot(RONCHI_7, 7, 1000)
+ronchi_plot(RONCHI_6, 8, 1500, center_dot=False)
+# ronchi_plot(RONCHI_7, 7, 1000)
 
 
 
