@@ -35,6 +35,7 @@ params, covariance = curve_fit(func328, t, luma, p0=p0)
 
 # extrair parametros
 a, w, b, c = params
+w_328 = w
 
 plt.plot(data328['t'], data328['luma'])
 plt.plot(t, func328(t, a, w, b, c), label='fit')
@@ -42,7 +43,7 @@ plt.xlabel('Time (s)')
 plt.ylabel('Amplitude')
 plt.title('328Hz')
 plt.grid(True)
-plt.savefig('328Hz.png')
+plt.savefig('som/328Hz.png')
 plt.show()
 
 ### Gráfico 334Hz
@@ -58,6 +59,7 @@ params, covariance = curve_fit(func334, t, luma, p0=p0)
 
 # extrair parametros
 a, w, b, c = params
+w_334 = w
 
 plt.plot(data334['t'], data334['luma'])
 plt.plot(t, func334(t, a, w, b, c), label='fit')
@@ -65,7 +67,7 @@ plt.xlabel('Time (s)')
 plt.ylabel('Amplitude')
 plt.title('334Hz')
 plt.grid(True)
-plt.savefig('334Hz.png')
+plt.savefig('som/334Hz.png')
 plt.show()
 
 ### Gráfico 340Hz
@@ -81,6 +83,7 @@ params, covariance = curve_fit(func340, t, luma, p0=p0)
 
 # extrair parametros
 a, w, b, c = params
+w_340 = w
 
 plt.plot(data340['t'], data340['luma'])
 plt.plot(t, func340(t, a, w, b, c), label='fit')
@@ -88,7 +91,7 @@ plt.xlabel('Time (s)')
 plt.ylabel('Amplitude')
 plt.title('340Hz')
 plt.grid(True)
-plt.savefig('340Hz.png')
+plt.savefig('som/340Hz.png')
 plt.show()
 
 ### Gráfico 346Hz
@@ -104,6 +107,7 @@ params, covariance = curve_fit(func346, t, luma, p0=p0)
 
 # extrair parametros
 a, w, b, c = params
+w_346 = w
 
 plt.plot(data346['t'], data346['luma'])
 plt.plot(t, func346(t, a, w, b, c), label='fit')
@@ -111,7 +115,7 @@ plt.xlabel('Time (s)')
 plt.ylabel('Amplitude')
 plt.title('346Hz')
 plt.grid(True)
-plt.savefig('346Hz.png')
+plt.savefig('som/346Hz.png')
 plt.show()
 
 ### Gráfico 352Hz
@@ -127,6 +131,7 @@ params, covariance = curve_fit(func352, t, luma, p0=p0)
 
 # extrair parametros
 a, w, b, c = params
+w_352 = w
 
 plt.plot(data352['t'], data352['luma'])
 plt.plot(t, func352(t, a, w, b, c), label='fit')
@@ -134,7 +139,7 @@ plt.xlabel('Time (s)')
 plt.ylabel('Amplitude')
 plt.title('352Hz')
 plt.grid(True)
-plt.savefig('352Hz.png')
+plt.savefig('som/352Hz.png')
 plt.show()
 
 ### Gráfico 354Hz
@@ -150,6 +155,7 @@ params, covariance = curve_fit(func354, t, luma, p0=p0)
 
 # extrair parametros
 a, w, b, c = params
+w_354 = w
 
 plt.plot(data354['t'], data354['luma'])
 plt.plot(t, func354(t, a, w, b, c), label='fit')
@@ -157,7 +163,7 @@ plt.xlabel('Time (s)')
 plt.ylabel('Amplitude')
 plt.title('354Hz')
 plt.grid(True)
-plt.savefig('354Hz.png')
+plt.savefig('som/354Hz.png')
 plt.show()
 
 ### Gráfico 358Hz
@@ -173,6 +179,7 @@ params, covariance = curve_fit(func358, t, luma, p0=p0)
 
 # extrair parametros
 a, w, b, c = params
+w_358 = w
 
 plt.plot(data358['t'], data358['luma'])
 plt.plot(t, func358(t, a, w, b, c), label='fit')
@@ -180,7 +187,7 @@ plt.xlabel('Time (s)')
 plt.ylabel('Amplitude')
 plt.title('358Hz')
 plt.grid(True)
-plt.savefig('358Hz.png')
+plt.savefig('som/358Hz.png')
 plt.show()
 
 ### Gráfico 360Hz
@@ -196,6 +203,7 @@ params, covariance = curve_fit(func360, t, luma, p0=p0)
 
 # extrair parametros
 a, w, b, c = params
+w_360 = w
 
 plt.plot(data360['t'], data360['luma'])
 plt.plot(t, func360(t, a, w, b, c), label='fit')
@@ -203,7 +211,7 @@ plt.xlabel('Time (s)')
 plt.ylabel('Amplitude')
 plt.title('360Hz')
 plt.grid(True)
-plt.savefig('360Hz.png')
+plt.savefig('som/360Hz.png')
 plt.show()
 
 ### Gráfico 362Hz
@@ -219,6 +227,7 @@ params, covariance = curve_fit(func362, t, luma, p0=p0)
 
 # extrair parametros
 a, w, b, c = params
+w_362 = w
 
 plt.plot(data362['t'], data362['luma'])
 plt.plot(t, func362(t, a, w, b, c), label='fit')
@@ -226,7 +235,7 @@ plt.xlabel('Time (s)')
 plt.ylabel('Amplitude')
 plt.title('362Hz')
 plt.grid(True)
-plt.savefig('362Hz.png')
+plt.savefig('som/362Hz.png')
 plt.show()
 
 ### Gráfico 364Hz
@@ -242,6 +251,7 @@ params, covariance = curve_fit(func364, t, luma, p0=p0)
 
 # extrair parametros
 a, w, b, c = params
+w_364 = w
 
 plt.plot(data364['t'], data364['luma'])
 plt.plot(t, func364(t, a, w, b, c), label='fit')
@@ -249,7 +259,7 @@ plt.xlabel('Time (s)')
 plt.ylabel('Amplitude')
 plt.title('364Hz')
 plt.grid(True)
-plt.savefig('364Hz.png')
+plt.savefig('som/364Hz.png')
 plt.show()
 
 ### Gráfico 370Hz
@@ -265,6 +275,7 @@ params, covariance = curve_fit(func370, t, luma, p0=p0)
 
 # extrair parametros
 a, w, b, c = params
+w_370 = w
 
 plt.plot(data370['t'], data370['luma'])
 plt.plot(t, func370(t, a, w, b, c), label='fit')
@@ -272,7 +283,7 @@ plt.xlabel('Time (s)')
 plt.ylabel('Amplitude')
 plt.title('370Hz')
 plt.grid(True)
-plt.savefig('370Hz.png')
+plt.savefig('som/370Hz.png')
 plt.show()
 
 ### Gráfico 376Hz
@@ -288,6 +299,7 @@ params, covariance = curve_fit(func376, t, luma, p0=p0)
 
 # extrair parametros
 a, w, b, c = params
+w_376 = w
 
 plt.plot(data376['t'], data376['luma'])
 plt.plot(t, func376(t, a, w, b, c), label='fit')
@@ -295,7 +307,7 @@ plt.xlabel('Time (s)')
 plt.ylabel('Amplitude')
 plt.title('376Hz')
 plt.grid(True)
-plt.savefig('376Hz.png')
+plt.savefig('som/376Hz.png')
 plt.show()
 
 ### Gráfico 382Hz
@@ -305,13 +317,14 @@ def func382(t, a, w, b, c):
 
 t = data382['t']
 luma = data382['luma']
-p0 = [-99.6, -66.9, -9.9, 75]
+p0 = [-99.6, -46.9, -10.9, 75]
 
 params, covariance = curve_fit(func382, t, luma, p0=p0)
 
 # extrair parametros
 
 a, w, b, c = params
+w_382 = w
 
 plt.plot(data382['t'], data382['luma'])
 
@@ -321,7 +334,7 @@ plt.xlabel('Time (s)')
 plt.ylabel('Amplitude')
 plt.title('382Hz')
 plt.grid(True)
-plt.savefig('382Hz.png')
+plt.savefig('som/382Hz.png')
 plt.show()
 
 ### Gráfico 388Hz
@@ -338,6 +351,7 @@ params, covariance = curve_fit(func388, t, luma, p0=p0)
 
 # extrair parametros
 a, w, b, c = params
+w_388 = w
 
 plt.plot(data388['t'], data388['luma'])
 plt.plot(t, func388(t, a, w, b, c), label='fit')
@@ -345,7 +359,7 @@ plt.xlabel('Time (s)')
 plt.ylabel('Amplitude')
 plt.title('388Hz')
 plt.grid(True)
-plt.savefig('388Hz.png')
+plt.savefig('som/388Hz.png')
 plt.show()
 
 ### Gráfico 394Hz
@@ -361,6 +375,7 @@ params, covariance = curve_fit(func394, t, luma, p0=p0)
 
 # extrair parametros
 a, w, b, c = params
+w_394 = w
 
 plt.plot(data394['t'], data394['luma'])
 plt.plot(t, func394(t, a, w, b, c), label='fit')
@@ -368,7 +383,7 @@ plt.xlabel('Time (s)')
 plt.ylabel('Amplitude')
 plt.title('394Hz')
 plt.grid(True)
-plt.savefig('394Hz.png')
+plt.savefig('som/394Hz.png')
 plt.show()
 
 ### Gráfico 400Hz
@@ -384,6 +399,7 @@ params, covariance = curve_fit(func400, t, luma, p0=p0)
 
 # extrair parametros
 a, w, b, c = params
+w_400 = w
 
 plt.plot(data400['t'], data400['luma'])
 plt.plot(t, func400(t, a, w, b, c), label='fit')
@@ -391,7 +407,22 @@ plt.xlabel('Time (s)')
 plt.ylabel('Amplitude')
 plt.title('400Hz')
 plt.grid(True)
-plt.savefig('400Hz.png')
+plt.savefig('som/400Hz.png')
 plt.show()
 
-
+print('w (328Hz) = ', w_328)
+print('w (334Hz) = ', w_334)
+print('w (340Hz) = ', w_340)
+print('w (346Hz) = ', w_346)
+print('w (352Hz) = ', w_352)
+print('w (354Hz) = ', w_354)
+print('w (358Hz) = ', w_358)
+print('w (360Hz) = ', w_360)
+print('w (362Hz) = ', w_362)
+print('w (364Hz) = ', w_364)
+print('w (370Hz) = ', w_370)
+print('w (376Hz) = ', w_376)
+print('w (382Hz) = ', w_382)
+print('w (388Hz) = ', w_388)
+print('w (394Hz) = ', w_394)
+print('w (400Hz) = ', w_400)
