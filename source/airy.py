@@ -29,8 +29,8 @@ DATA_PATH.mkdir(exist_ok=True,
 GRAPH_PATH = Path('../graphs')
 GRAPH_PATH.mkdir(exist_ok=True,
                     parents=True)
-GRAPH_RONCHI_PATH = Path('../graphs/ronchi')
-GRAPH_RONCHI_PATH.mkdir(exist_ok=True,
+GRAPH_AIRY_PATH = Path('../graphs/airy')
+GRAPH_AIRY_PATH.mkdir(exist_ok=True,
                     parents=True)
 
 AIRY_1 = np.array(Image.open(DATA_PATH/'Bessel_diam_iris_3,85mm_2aula.pgm'))
@@ -42,7 +42,7 @@ AIRY_3 = AIRY_3[703:753, 900:950]
 AIRY_4 = np.array(Image.open(DATA_PATH/'Bessel_diam_iris_3mm_2aula.tif'))
 AIRY_4 = AIRY_4[703:753, 900:950]
 
-def airy_plot(image, k, points):
+def airy_plot(image, k, points, title=None):
     # Plot image for visualization
     plt.imshow(image, cmap='gray')
     plt.axis('off')
@@ -106,9 +106,10 @@ def airy_plot(image, k, points):
     zeta = zeta / max(zeta.flatten())
     #ax.scatter(x, y, zeta, c='red')
     ax.plot_surface(x, y, zeta, cmap='viridis', alpha=0.5)
+    plt.savefig(GRAPH_AIRY_PATH/f'{title}_3d.png')
     plt.show()
 
-def resolution_plot(points):
+def resolution_plot(points, title=None):
     x_res = [i[0] for i in points]
     y_res = [i[1] for i in points]
     # Fit a resolution function 
@@ -132,6 +133,7 @@ def resolution_plot(points):
     plt.ylabel('Resolution')
     plt.title('Points vs Resolution')
     plt.legend()
+    plt.savefig(GRAPH_AIRY_PATH/f'{title}_resolution.png')
     plt.show()
 
 def airy_resolution_plot(images, points, iris_diameter=None):
@@ -141,7 +143,7 @@ def airy_resolution_plot(images, points, iris_diameter=None):
         plt.imshow(image, cmap='gray')
         plt.axis('off')
         plt.show()
-        
+
         # Copy image
         img_copy = image.copy()
 
@@ -219,6 +221,6 @@ def airy_resolution_plot(images, points, iris_diameter=None):
 
 
 if __name__ == '__main__':
-    airy_plot(AIRY_1, 30, 300)
-    resolution_plot([(1.20, 0.165), (1.40, 0.126), (2.10, 0.096), (3.85, 0.046)])
+    airy_plot(AIRY_1, 30, 300, title='Bessel_diam_iris_3,85mm_2aula')
+    resolution_plot([(1.20, 0.165), (1.40, 0.126), (2.10, 0.096), (3.85, 0.046)], title='Resolution')
     airy_resolution_plot([AIRY_2], 700)
