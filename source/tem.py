@@ -44,6 +44,20 @@ TEM_2 = np.array(Image.open(DATA_PATH/'RedeTEM2_1_2aula.pgm'))
 TEM_3 = np.array(Image.open(DATA_PATH/'RedeTEM2_2_2aula.pgm'))
 TEM_4 = np.array(Image.open(DATA_PATH/'RedeTEM3_1_2aula.pgm'))
 
+def separate_list(main_list, separator_list):
+    result = []
+    sublist = []
+    
+    for value in separator_list:
+        while main_list and value > 0:
+            sublist.append(main_list.pop(0))
+            value -= 1
+        result.append(sublist)
+        sublist = []
+
+    return result
+
+
 def tem_plot(image, k, points, center_dot=True):
     # Normalize Image
     image = image / max(image.flatten())
@@ -97,6 +111,11 @@ def tem_plot(image, k, points, center_dot=True):
         mean_per_cluster.append(np.mean([image[co[1], co[0]] for co in points]))
     print(f"Mean per Cluster: {mean_per_cluster}")
     
+    list_all_points = []
+    for i in range(len(cluster_centers)):
+        list_all_points.append(list([cluster_centers[i][0], cluster_centers[i][1], mean_per_cluster[i]]))
+    print(f"List All Points: {list_all_points}")
+
     # Select one then 3 then 5 then 3 then 1 points from the center
     points_per_cluster = []
     sequence = [1]  # Start with the initial value
@@ -108,8 +127,125 @@ def tem_plot(image, k, points, center_dot=True):
             sequence.append(sequence[-1] - 2)
     # subraction of 1 to the middle value
     sequence[len(sequence)//2] -= 1
+
+    list_all_points_sorted_by_x = sorted(list_all_points, key=lambda x: x[0])
+    list_all_points_sorted_by_y = sorted(list_all_points, key=lambda x: x[1])
+
+    x_points = separate_list(list_all_points_sorted_by_x, sequence)
+    y_points = separate_list(list_all_points_sorted_by_y, sequence)
+
+    print(f"X Points: {x_points}\n")
+    print(f"Y Points: {y_points}\n")
+
+    # Choose only the x points and for distance and to the mean 
+    x_points_updated = []
+    for groups in x_points:
+        value = 0
+        for points in groups:
+            value += points[0]
+        x_points_updated.append(value / len(groups))
+
+    # Choose only the y points and for distance and to the mean
+    y_points_updated = []
+    for groups in y_points:
+        value = 0
+        for points in groups:
+            value += points[1]
+        y_points_updated.append(value / len(groups))
+
+    print(f"X Points: {x_points_updated}\n")
+    print(f"Y Points: {y_points_updated}\n")
+
+    # Create a list from -k//2 to k//2
+    start = - ceil(k / 4) + 1
+    maximums = np.array([start + i for i in range(ceil(k//2 - 1))])
+    print(f"Maximums: {maximums}")
+
+    # Matrix with distance from x points to x points
+    distance_matrix_x = np.zeros((len(maximums),len(maximums)))
+
+    for i in range(len(maximums)):
+        for j in range(len(maximums)):
+            if i < j:
+                distance_matrix_x[i,j] = np.sqrt((x_points_updated[i] - x_points_updated[j])**2 + (y_points_updated[i] - y_points_updated[j])**2)
+            elif i == j:
+                distance_matrix_x[i,j] = 0
+            elif i > j:
+                distance_matrix_x[i,j] = - np.sqrt((x_points_updated[i] - x_points_updated[j])**2 + (y_points_updated[i] - y_points_updated[j])**2)
+
+    # Matrix with distance from y points to y points
+    distance_matrix_y = np.zeros((len(maximums),len(maximums)))
+
+    for i in range(len(maximums)):
+        for j in range(len(maximums)):
+            if i < j:
+                distance_matrix_y[i,j] = np.sqrt((y_points_updated[i] - y_points_updated[j])**2 + (x_points_updated[i] - x_points_updated[j])**2)
+            elif i == j:
+                distance_matrix_y[i,j] = 0
+            elif i > j:
+                distance_matrix_y[i,j] = - np.sqrt((y_points_updated[i] - y_points_updated[j])**2 + (x_points_updated[i] - x_points_updated[j])**2)
     
+    # Plot maximums in x and center point of distance matrix in y 
+    plt.figure(figsize=(8,6))
+    plt.grid()
+    plt.plot(maximums, distance_matrix_x[ceil(len(distance_matrix_x)/2) - 1,:], 'o', label='Pontos Experimentais')
+    plt.xlabel('n')
+    plt.xticks(maximums)
+    plt.ylabel(r'Distance ($\mu m$)')
+    plt.title('Distance between Maximum Points')
+    plt.show()
+
+    # Plot maximums in y and center point of distance matrix in x
+    plt.figure(figsize=(8,6))
+    plt.grid()
+    plt.plot(maximums, distance_matrix_y[ceil(len(distance_matrix_y)/2) - 1,:], 'o', label='Pontos Experimentais')
+    plt.xlabel('n')
+    plt.xticks(maximums)
+    plt.ylabel(r'Distance ($\mu m$)')
+    plt.title('Distance between Maximum Points')
+    plt.show()
+
+    # Create a 3D scatter plot
+    fig = plt.figure()
+    ax = fig.add_subplot(111, projection='3d')
+    data_points = np.array(list_all_points)
+
+    # Extract x, y, and intensity values from the data points
+    x = np.array([point[0] for point in data_points])
+    y = np.array([point[1] for point in data_points])
+    intensity = np.array([point[2] for point in data_points])
+
+    # Find the center of the data points
+    center = (np.mean(x), np.mean(y))
+
+    # Subtract the center from the data points
+    x -= center[0]
+    y -= center[1]
+
+    # Create a 3D scatter plot
+    fig = plt.figure()
+    ax = fig.add_subplot(111, projection='3d')
+
+    # Define marker properties based on intensity values
+    colors = intensity  # Use intensity for color mapping
+    marker_size = [20 * i for i in intensity]  # Use intensity for marker size
+
+    # Plot the 3D scatter plot
+    scatter = ax.scatter(x, y, intensity, c=colors, s=marker_size, cmap='viridis')
+
+    # Add labels and colorbar
+    ax.set_xlabel('X-axis')
+    ax.set_ylabel('Y-axis')
+    ax.set_zlabel('Intensity')
+    cbar = plt.colorbar(scatter)
+    cbar.set_label('Intensity')
+
+    plt.title('3D Scatter Plot with Intensity')
+    plt.show()
+        
+
     
+
 
 
 
