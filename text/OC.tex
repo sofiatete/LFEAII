@@ -340,6 +340,51 @@ Em segundo lugar, temos as imagens \textbf{greyscale} - estas imagens são semel
   I & I & \cdots & I \\
 \end{bmatrix} \]
 
+\subsection{Ótica de Fourier}
+
+\subsubsection{Calibração}
+
+Para a calibração, utilizamos as seguintes imagens: em cada uma foram feitas duas linhas paralelas aos limites da craveira e duas linhas perpendiculares às anteriores. Foi medida a distância, em pixeis, entre os pontos de interseção das linhas paralelas e perpendiculares - essa foi a distância utilizada para a calibração.
+
+
+\begin{figure}[H]
+  \centering
+  \includegraphics[width=0.9\linewidth]{../graphs/craveira2mm_AB_5aula_calibration.png}
+  \caption{Calibração da craveira 2mm}
+\end{figure}
+
+\begin{figure}[H]
+  \centering
+  \includegraphics[width=0.9\linewidth]{../graphs/craveira3mm_AB_5aula_calibration.png}
+  \caption{Calibração da craveira 3mm}
+\end{figure}
+
+\begin{figure}[H]
+  \centering
+  \includegraphics[width=0.9\linewidth]{../graphs/craveira4mm_AB_5aula_calibration.png}
+  \caption{Calibração da craveira 4mm}
+\end{figure}
+
+\begin{figure}[H]
+  \centering
+  \includegraphics[width=0.9\linewidth]{../graphs/craveira4mm2_AB_5aula_calibration.png}
+  \caption{Calibração da craveira 4mm 2}
+\end{figure}
+
+Em seguida, realizou-se uma regressão linear entre os valores em metros e em pixeis para obter uma calibração:
+
+\begin{figure}[H]
+  \centering
+  \includegraphics[width=0.9\linewidth]{../graphs/regr_calibration.png}
+  \caption{Calibração}
+\end{figure}
+
+A reta de ajuste foi:
+
+\[ \text{Distance (m)} = 8.144 \times 10^{-6} \times \text{Pixels} + 9.141 \times 10^{-5} \]
+
+\subsubsection{Filtro AB}
+
 
 
 \end{multicols}

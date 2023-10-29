@@ -9,6 +9,7 @@ from sklearn.cluster import KMeans
 from sklearn_extra.cluster import KMedoids
 import itertools
 import string
+import os
 
 
 
@@ -219,25 +220,25 @@ def calibrate_image(name: str, intensity_limit: int = 3500, *args, **kwargs) -> 
 
     return distance
 
-def calibrator(mm: list, pixels: list) -> list:
+def calibrator(meters: list, pixels: list) -> list:
 
     # plot the points
-    plt.scatter(pixels, mm, color='orange', s=40, label='Points')
+    plt.scatter(pixels, meters, color='orange', s=40, label='Points')
 
     # linear regression
-    m, b = np.polyfit(pixels, mm, 1)
+    m, b = np.polyfit(pixels, meters, 1)
     # print('m: ', m)
     # print('b: ', b)
 
     # plot the line
     x_values = np.linspace(0, 1.05*max(pixels), 100)
     y_values = m*x_values + b
-    plt.plot(x_values, y_values, color='blue', label='Linear Regression \n y = ' + str(m.round(3)) + 'x + ' + str(b.round(3)))
+    plt.plot(x_values, y_values, color='blue', label='Linear Regression \n y = ' + str(m.round(9)) + 'x + ' + str(b.round(9)))
 
 
     plt.title('Calibration')
     plt.xlabel('Distance (pixels)')
-    plt.ylabel('Distance (mm)')
+    plt.ylabel('Distance (m)')
     plt.legend()
     plt.savefig(f'../graphs/regr_calibration.png', dpi=400)
     # plt.show()
@@ -275,21 +276,30 @@ if __name__ == '__main__':
 
     pixels = [calibration_2mm, calibration_3mm, calibration_4mm, calibration_4mm2]
     mm = [2, 3, 4, 4]
+    m = [0.002, 0.003, 0.004, 0.004]
 
-    regression = calibrator(mm, pixels)
-    print('Linear Regression: y = ' + str(regression[0].round(3)) + 'x + ' + str(regression[1].round(3)))
+    regression = calibrator(m, pixels) # = [m, b]
+    os.system('../graphs/calibraton.txt')
+    with open('../graphs/calibraton.txt', 'w') as f:
+        f.write('m: ' + str(regression[0]) + '\n')
+        f.write('b: ' + str(regression[1]) + '\n')
+        f.write('y = ' + str(regression[0]) + 'x + ' + str(regression[1]) + '\n y in m and x in pixels')
+        f.close()
+    
+    
+    print('\n Linear Regression: y = ' + str(regression[0].round(9)) + 'x + ' + str(regression[1].round(9)))
     calibrated_value = lambda x: abs(float(regression[0]) * float(x) + float(regression[1]))
 
     # print all not calibrated and then calibrated values for distances A, B, C and D
     print('\n Distances A, B, C and D Calibrated:')
     for i, label in enumerate(['A', 'B', 'C', 'D']):
-        print(label + ': ' + str(distance_ABCD[i]) + ' pixels' + '   calibrated: ' + str(calibrated_value(distance_ABCD[i])) + ' mm')
+        print(label + ': ' + str(distance_ABCD[i]) + ' pixels' + '   calibrated: ' + str(calibrated_value(distance_ABCD[i])) + ' m')
 
     f=0.2475 # focal length of the lens in m
     wavelength=633*10**(-9) # wavelength of the laser in m
 
-    # Transform the distances in mm to m
-    distance_ABCD_m = [calibrated_value(distance)*10**(-3) for distance in distance_ABCD]
+    # array with the calibrated values of the distances in m
+    distance_ABCD_m = [calibrated_value(distance) for distance in distance_ABCD]
     print('\n Distances A, B, C and D Calibrated in m:')
     for i, label in enumerate(['A', 'B', 'C', 'D']):
         print(label + ': ' + str(distance_ABCD_m[i]) + ' m')
