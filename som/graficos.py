@@ -40,7 +40,7 @@ plt.plot(data328['t'], data328['luma'])
 plt.plot(t, func328(t, a, w, b, c), label='fit')
 plt.xlabel('Time (s)')
 plt.ylabel('Amplitude')
-plt.title('428Hz')
+plt.title('328Hz')
 plt.grid(True)
 plt.show()
 
@@ -51,7 +51,7 @@ def func334(t, a, w, b, c):
 
 t = data334['t']
 luma = data334['luma']
-p0 = [-49.6, -3.9, -9.9, 75]
+p0 = [-59.6, -3.9, -9.9, 75]
 
 params, covariance = curve_fit(func334, t, luma, p0=p0)
 
@@ -73,7 +73,7 @@ def func340(t, a, w, b, c):
 
 t = data340['t']
 luma = data340['luma']
-p0 = [-49.6, -3.9, -9.9, 75]
+p0 = [-49.6, -3.9, -9.9, 95]
 
 params, covariance = curve_fit(func340, t, luma, p0=p0)
 
@@ -363,7 +363,7 @@ def func400(t, a, w, b, c):
 
 t = data400['t']
 luma = data400['luma']
-p0 = [-49.6, -3.9, -9.9, 75]
+p0 = [-69.6, -3.9, -9.9, 75]
 
 params, covariance = curve_fit(func400, t, luma, p0=p0)
 
