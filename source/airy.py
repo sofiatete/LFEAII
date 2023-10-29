@@ -109,6 +109,7 @@ def airy_plot(image, k, points, title=None):
     plt.savefig(GRAPH_AIRY_PATH/f'{title}_3d.png')
     plt.show()
 
+
 def resolution_plot(points, title=None):
     x_res = [i[0] for i in points]
     y_res = [i[1] for i in points]
