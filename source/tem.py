@@ -9,6 +9,7 @@ from sklearn.cluster import KMeans, BisectingKMeans, DBSCAN
 from numpy import sinc
 from scipy.optimize import curve_fit
 from math import ceil
+from matplotlib.colors import ListedColormap, LinearSegmentedColormap
 
 
 # Set up paths
@@ -44,6 +45,7 @@ TEM_2 = np.array(Image.open(DATA_PATH/'RedeTEM2_1_2aula.pgm'))
 TEM_3 = np.array(Image.open(DATA_PATH/'RedeTEM2_2_2aula.pgm'))
 TEM_4 = np.array(Image.open(DATA_PATH/'RedeTEM3_1_2aula.pgm'))
 
+
 def separate_list(main_list, separator_list):
     result = []
     sublist = []
@@ -59,6 +61,12 @@ def separate_list(main_list, separator_list):
 
 
 def tem_plot(image, k, points, center_dot=True):
+    # Extract Parameters from calibration image
+    with open('../graphs/calibraton.txt', 'r') as f:
+        m = float(f.readline().split(' ')[1])
+        b = float(f.readline().split(' ')[1])
+    print(f'{m}, {b}')
+
     # Normalize Image
     image = image / max(image.flatten())
 
@@ -186,23 +194,39 @@ def tem_plot(image, k, points, center_dot=True):
                 distance_matrix_y[i,j] = - np.sqrt((y_points_updated[i] - y_points_updated[j])**2 + (x_points_updated[i] - x_points_updated[j])**2)
     
     # Plot maximums in x and center point of distance matrix in y 
+    x = maximums
+    y = distance_matrix_x[ceil(len(distance_matrix_x)/2) - 1,:]
+    y = y * m + b
     plt.figure(figsize=(8,6))
     plt.grid()
-    plt.plot(maximums, distance_matrix_x[ceil(len(distance_matrix_x)/2) - 1,:], 'o', label='Pontos Experimentais')
+    plt.plot(maximums, y, 'o', label='Pontos Experimentais')
     plt.xlabel('n')
     plt.xticks(maximums)
     plt.ylabel(r'Distance ($\mu m$)')
-    plt.title('Distance between Maximum Points')
+    plt.title('Distance between Maximum X-Points')
+
+    # Fit Linear Regression
+    m_fit_x, b_fit_x = np.polyfit(x, y, 1)
+    plt.plot(x, m_fit_x*x + b_fit_x, label='Linear Regression')
+    plt.legend()
     plt.show()
 
     # Plot maximums in y and center point of distance matrix in x
+    x = maximums
+    y = distance_matrix_y[ceil(len(distance_matrix_y)/2) - 1,:]
+    y = y * m + b
+    m_fit_y, b_fit_y = np.polyfit(x, y, 1)
     plt.figure(figsize=(8,6))
     plt.grid()
-    plt.plot(maximums, distance_matrix_y[ceil(len(distance_matrix_y)/2) - 1,:], 'o', label='Pontos Experimentais')
+    plt.plot(maximums, y, 'o', label='Pontos Experimentais')
     plt.xlabel('n')
     plt.xticks(maximums)
     plt.ylabel(r'Distance ($\mu m$)')
-    plt.title('Distance between Maximum Points')
+    plt.title('Distance between Maximum Y-Points')
+
+    # Fit Linear Regression
+    plt.plot(x, m_fit_y*x + b_fit_y, label='Linear Regression')
+    plt.legend()
     plt.show()
 
     # Create a 3D scatter plot
@@ -212,7 +236,9 @@ def tem_plot(image, k, points, center_dot=True):
 
     # Extract x, y, and intensity values from the data points
     x = np.array([point[0] for point in data_points])
+    x = x * m + b
     y = np.array([point[1] for point in data_points])
+    y = y * m + b
     intensity = np.array([point[2] for point in data_points])
 
     # Find the center of the data points
@@ -241,7 +267,37 @@ def tem_plot(image, k, points, center_dot=True):
     cbar.set_label('Intensity')
 
     plt.title('3D Scatter Plot with Intensity')
+    #plt.show()
+
+    # Define the model function
+    # Define the function to fit
+    def model(data, A, B, C, D):
+        x, y = data
+        return A * np.sin(B * x)**2 * np.sin(C * y)**2 / (B * C * x * y)**2 + D
+
+    # Perform the curve fitting
+    initial_guess = (0.3, 1e-3, 1e3-2, 0)  # Initial parameter guess
+    params, params_covariance = curve_fit(model, (x, y), intensity, p0=initial_guess)
+
+    # Extract the fitted parameters
+    A_fit, B_fit, C_fit, D_fit = params
+
+    print(f"Parameters: {params}")
+
+    # Meshgrid for plotting
+    x_grid = np.linspace(-0.002, 0.002, 400)
+    y_grid = np.linspace(-0.002, 0.002, 400)
+    X, Y = np.meshgrid(x_grid, y_grid)
+
+
+    # Generate the fitted data using the optimized parameters
+    fitted_data = model((X, Y), A_fit, B_fit, C_fit, D_fit)
+
+    # Plot the fitted function
+    ax.plot_surface(X, Y, fitted_data, cmap='varidis', alpha=0.5)
     plt.show()
+
+
         
 
     
