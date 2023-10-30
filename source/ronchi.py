@@ -30,6 +30,7 @@ GRAPH_PATH.mkdir(exist_ok=True,
 GRAPH_RONCHI_PATH = Path('../graphs/ronchi')
 GRAPH_RONCHI_PATH.mkdir(exist_ok=True,
                     parents=True)
+CALIBRATION_PATH = Path('../graphs/calibration.txt')
 
 
 # ------------------------ Redes de Ronchi ------------------------ #
@@ -43,7 +44,7 @@ RONCHI_7 = np.array(Image.open(DATA_PATH/'ronchi2_2aula.pgm'))
 
 def ronchi_plot(image, k, points, center_dot=True, title=None):
     # Extract Parameters from calibration image
-    with open('../graphs/calibraton.txt', 'r') as f:
+    with open(CALIBRATION_PATH, 'r') as f:
         m = float(f.readline().split(' ')[1])
         b = float(f.readline().split(' ')[1])
     print(f'{m}, {b}')
@@ -69,19 +70,24 @@ def ronchi_plot(image, k, points, center_dot=True, title=None):
 
     # Plot Cluster Centers with diferent colors side with image
     plt.figure(figsize=(10,5))
-    plt.subplot(1,2,2)
+    # plt.subplot(1,2,2)
     plt.xlabel(r'x ($pixels$)')
     plt.ylabel(r'y ($pixels$)')
     plt.imshow(image, cmap='gray')
+    plt.title('Ronchi')
     # plt.axis('off')
+    plt.savefig(GRAPH_RONCHI_PATH/f'{title}_image.png', dpi=400)
+    plt.show()
 
-    plt.subplot(1,2,1)
+    # plt.subplot(1,2,1)
     plt.imshow(image, cmap='gray')
     # plt.axis('off')
     plt.xlabel(r'x ($pixels$)')
     plt.ylabel(r'y ($pixels$)')
-    plt.scatter([x[0] for x in kmeans.cluster_centers_], [x[1] for x in kmeans.cluster_centers_], c='red', s=10, label='Points')
-    plt.savefig(GRAPH_RONCHI_PATH/f'{title}_points.png')
+    plt.title('Ronchi')
+    plt.scatter([x[0] for x in kmeans.cluster_centers_], [x[1] for x in kmeans.cluster_centers_], c='red', s=10, label='Centroids')
+    plt.legend()
+    plt.savefig(GRAPH_RONCHI_PATH/f'{title}_centroids.png', dpi=400)
     plt.show()
 
 
@@ -128,13 +134,13 @@ def ronchi_plot(image, k, points, center_dot=True, title=None):
     # Plot linear model
     plt.figure(figsize=(8,6))
     plt.grid()
-    plt.plot(x, distance_center_point, 'o', label='Pontos Experimentais')
-    plt.plot(x, model[0]*x + model[1], label='Função de Ajuste')
+    plt.plot(x, distance_center_point, 'o', label='Experimental Points')
+    plt.plot(x, model[0]*x + model[1], label='Fit Function')
     plt.xlabel('n')
     plt.ylabel(r'Distance ($m$)')
     plt.title('Distance between Maximum Points')
     plt.legend()
-    plt.savefig(GRAPH_RONCHI_PATH/f'{title}_distance.png')
+    plt.savefig(GRAPH_RONCHI_PATH/f'{title}_distance.png', dpi=400)
     plt.show()
 
 
@@ -176,16 +182,21 @@ def ronchi_plot(image, k, points, center_dot=True, title=None):
     # Fit the model
     popt, pcov = curve_fit(sinc_function, x, cluster_mean, p0=[max(cluster_mean), 1, 0])
 
+    # Plot Chi Squared into legend
+    chi_squared = np.sum((cluster_mean - sinc_function(x, *popt))**2 / sinc_function(x, *popt))
+
     # Plot the result
     plt.figure(figsize=(8,6))
-    plt.plot(x, cluster_mean, 'o', label='Pontos Experimentais')
-    x_for_plot = np.linspace(-10, 10, 1000)
-    plt.plot(x_for_plot, sinc_function(x_for_plot, *popt), label='Função de Ajuste')
+    plt.plot(x, cluster_mean, 'o', label='Experimental Points')
+    x_for_plot = np.linspace(-ceil(k/2), ceil(k/2), 1000)
+    plt.plot(x_for_plot, sinc_function(x_for_plot, *popt), label='Fit Function')
     plt.xlabel('n')
-    plt.ylabel(r'$I_{rel}$ ($Greyscale$))')
+    plt.ylabel(r'$I_{rel}$ ($Grayscale$)')
     plt.title('Intensity of Maximum Points')
     plt.legend()
-    plt.savefig(GRAPH_RONCHI_PATH/f'{title}_intensity.png')
+    plt.grid()
+    plt.xticks(range(-ceil(k/2), ceil(k/2) + 1))
+    plt.savefig(GRAPH_RONCHI_PATH/f'{title}_intensity.png', dpi=400)
     plt.show()
 
 
