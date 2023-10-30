@@ -12,6 +12,7 @@ from math import ceil, sin
 from sklearn.cluster import DBSCAN
 import math
 from scipy.ndimage import convolve1d
+import abel
 
 # Set Up Paths
 RAW_IMAGES_PATH = Path('../raw_images')
@@ -29,7 +30,7 @@ DATA_PATH.mkdir(exist_ok=True,
 GRAPH_PATH = Path('../graphs')
 GRAPH_PATH.mkdir(exist_ok=True,
                     parents=True)
-GRAPH_TEMPERATURE_PATH = Path('../graphs/airy')
+GRAPH_TEMPERATURE_PATH = Path('../graphs/temperature')
 GRAPH_TEMPERATURE_PATH.mkdir(exist_ok=True,
                     parents=True)
 
@@ -65,10 +66,13 @@ curve_points_3 = [(60, 280), (187, 283), (325, 302), (423, 305), (520, 317), (63
 
 
 # ------------------------ Temperatura ------------------------ #
-def temperature_plot(image, line_points, curve_points, adjusted_x=0, box_y=None, box_x=None, Rad=None):
+def temperature_plot(image, line_points, adjusted_x=0, box_y=None, box_x=None, Rad=None, title=None):
     # Visualize image
     plt.imshow(image, cmap='gray')
-    plt.axis('off')
+    plt.xlabel(r'x ($pixels$)')
+    plt.ylabel(r'y ($pixels$)')
+    plt.title(title)
+    plt.savefig(GRAPH_TEMPERATURE_PATH/f"image_{title}.png", dpi=400)
     plt.show()
 
     # Plot line points
@@ -79,17 +83,13 @@ def temperature_plot(image, line_points, curve_points, adjusted_x=0, box_y=None,
 
     # Plot regression line
     plt.imshow(image, cmap='gray')
-    plt.plot(x, y, 'o')
-    plt.plot(x, m*np.array(x) + b)
-    plt.axis('off')
-    plt.show()
-
-   # Plot curve points
-    x_curve, y_curve = zip(*curve_points)
-    plt.plot(x_curve, y_curve, 'o')
-
-    plt.imshow(image, cmap='gray')
-    plt.axis('off')
+    plt.plot(x, y, 'o', label='Marked Points')
+    plt.plot(x, m*np.array(x) + b, label='Linear Regression')
+    plt.xlabel(r'x ($pixels$)')
+    plt.ylabel(r'y ($pixels$)')
+    plt.title('Regression Line for Marked Points')
+    plt.legend()
+    plt.savefig(GRAPH_TEMPERATURE_PATH/f"line_{title}.png", dpi=400)
     plt.show()
 
 
@@ -105,9 +105,13 @@ def temperature_plot(image, line_points, curve_points, adjusted_x=0, box_y=None,
 
     # Plot Points
     plt.imshow(image, cmap='gray')
-    plt.scatter([x[0] for x in coordinates], [x[1] for x in coordinates], c='red', s=10, label='Points')
-    plt.axis('off')
+    plt.scatter([x[0] for x in coordinates], [x[1] for x in coordinates], c='red', s=10, label='Black Points')
+    plt.xlabel(r'x ($pixels$)')
+    plt.ylabel(r'y ($pixels$)')
+    plt.title('Black Points')
+    plt.legend()
     plt.show()
+    plt.savefig(GRAPH_TEMPERATURE_PATH/f"black_points_{title}.png", dpi=400)
     x_curve, y_curve = zip(*coordinates)
 
 
@@ -132,7 +136,11 @@ def temperature_plot(image, line_points, curve_points, adjusted_x=0, box_y=None,
 
     # Plot the rotated points in a new figure
     plt.plot(rotated_x, rotated_y, 'o')
+    plt.xlabel(r'x ($pixels$)')
+    plt.ylabel(r'y ($pixels$)')
+    plt.title('Rotated Points')
     plt.grid()
+    plt.savefig(GRAPH_TEMPERATURE_PATH/f"rotated_points_{title}.png", dpi=400)
     plt.show()
 
 
@@ -147,7 +155,11 @@ def temperature_plot(image, line_points, curve_points, adjusted_x=0, box_y=None,
 
     # Plot the rotated points in a new figure
     plt.plot(new_rotated_x, new_rotated_y, 'o')
+    plt.xlabel(r'x ($pixels$)')
+    plt.ylabel(r'y ($pixels$)')
+    plt.title('Selected Region for Analysis')
     plt.grid()
+    plt.savefig(GRAPH_TEMPERATURE_PATH/f"selected_region_{title}.png", dpi=400)
     plt.show()
 
     # Perform Sliding Average
@@ -191,7 +203,9 @@ def temperature_plot(image, line_points, curve_points, adjusted_x=0, box_y=None,
 
 
     # Intervale to remove
-    pixeis_point_iron = (902 - 997) / 2
+    # pixeis_point_iron = (902 - 997) / 2
+    pixeis_point_iron = 35
+
 
     # Define the condition to keep points outside the interval
     condition = np.logical_and(x_points >= pixeis_point_iron, x_points <= -pixeis_point_iron)
@@ -205,33 +219,64 @@ def temperature_plot(image, line_points, curve_points, adjusted_x=0, box_y=None,
 
     # Plot the rotated points in a new figure
     plt.plot(x_points, y_points, 'o')
+    plt.xlabel(r'x ($pixels$)')
+    plt.ylabel(r'y ($pixels$)')
+    plt.title('Selected Boundary for Analysis')
     plt.grid()
+    plt.savefig(GRAPH_TEMPERATURE_PATH/f"selected_boundary_{title}.png", dpi=400)
     plt.show()
+
+    x_points = np.delete(x_points, np.where(x_points >= 0))
+    y_points = np.delete(y_points, np.where(x_points >= 0))
 
     # Fit a 6th order degree polynomial
     model = np.polyfit(x_points, y_points, 6)
 
     # Plot the polynomial
-    plt.plot(x_points, y_points, 'o', label='Pontos Experimentais')
+    plt.plot(x_points, y_points, 'o', label='Experimental Points')
     x_grid = np.linspace(min(x_points), max(x_points), 100)
-    plt.plot(x_grid, np.polyval(model, x_grid), label='Função de Ajuste')
+    plt.plot(x_grid, np.polyval(model, x_grid), label='Fitted 6th Degree Polynomial')
     plt.xlabel('x')
     plt.ylabel('y')
-    plt.title('Points vs Polynomial')
+    plt.title('6th Degree Polynomial')
     plt.legend()
+    plt.grid()
+    plt.savefig(GRAPH_TEMPERATURE_PATH/f"points_vs_polynomial_{title}.png", dpi=400)
     plt.show()
     g, f, e, d, c, b, a = model
 
 
-    r = Rad - 0.5
+    r = Rad - Rad / 1000
     u = np.sqrt(Rad ** 2 - r ** 2)
     nr = - 1 / np.pi * (2 * c * u + 4 * e * (u * r**2 + u**3 / 3) + 6 * g * (u*r**4 + 2*u**3 /3 * r**2 + u**5/5)) + 1
     print(f"nr: {nr}")
+    # Indice de refração do ar para temp=0ºC
+    n2 = 1.00029115
+    T2 = 273.15 # temp em k
+
+    T1 = (n2 - 1) * T2 / (nr - 1)
+    print(f"Temp: {T1 - 273.15}")
+
+    # Transform x_points and y_points in a matrix
+    x_points = np.asarray(x_points)
+    y_points = np.asarray(y_points)
+    points = np.vstack((x_points, y_points)).T
+
+
+    # Plot Abel 
+    y_abel = abel.Transform(image,
+                            direction='inverse',
+                            method='three_point').transform
+    plt.imshow(y_abel, cmap='gray')
+    plt.xlabel(r'x ($pixels$)')
+    plt.ylabel(r'y ($pixels$)')
+    plt.title('Abel Transform')
+    plt.show()
 
 
 
 
 if __name__ == '__main__':
-    temperature_plot(TEMPERATURE_1, line, curve_points, adjusted_x=-10, box_y=(-75, 46), box_x=(2754, 3750), Rad=150)
-    temperature_plot(TEMPERATURE_2, line_2, curve_points_2, adjusted_x=47, box_y=(-45, 65), box_x=(2900, 3506), Rad=248)
-    temperature_plot(TEMPERATURE_3, line_3, curve_points_3, adjusted_x=-80, box_y=(-52, 67), box_x=(2800, 3289))
+    temperature_plot(TEMPERATURE_1, line, adjusted_x=-10, box_y=(-75, 46), box_x=(2754, 3750), Rad=150, title='ferro150')
+    temperature_plot(TEMPERATURE_2, line_2, adjusted_x=47, box_y=(-45, 65), box_x=(2900, 3506), Rad=248, title='ferro300')
+    temperature_plot(TEMPERATURE_3, line_3, adjusted_x=-80, box_y=(-52, 67), box_x=(2800, 3289), Rad=350, title='ferro450')

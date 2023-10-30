@@ -100,7 +100,7 @@ def tem_plot(image, k, points, center_dot=True, title=None):
     plt.xlabel(r'x ($pixels$)')
     plt.ylabel(r'y ($pixels$)')
     plt.title('Rede TEM')
-    plt.savefig(GRAPH_TEM_PATH/f'{title}_image.png')
+    plt.savefig(GRAPH_TEM_PATH/f'{title}_image.png', dpi=400)
     plt.show()
 
     plt.figure(figsize=(10,5))
@@ -109,7 +109,7 @@ def tem_plot(image, k, points, center_dot=True, title=None):
     plt.xlabel(r'x ($pixels$)')
     plt.ylabel(r'y ($pixels$)')
     plt.scatter([x[0] for x in kmeans.cluster_centers_], [x[1] for x in kmeans.cluster_centers_], c='red', s=10, label='Points')
-    plt.savefig(GRAPH_TEM_PATH/f'{title}_centroids.png')
+    plt.savefig(GRAPH_TEM_PATH/f'{title}_centroids.png', dpi=400)
     plt.show()
 
     # List of center of clusters rounded
@@ -223,7 +223,7 @@ def tem_plot(image, k, points, center_dot=True, title=None):
     m_fit_x, b_fit_x = np.polyfit(x, y, 1)
     plt.plot(x, m_fit_x*x + b_fit_x, label='Linear Regression')
     plt.legend()
-    plt.savefig(GRAPH_TEM_PATH/f'{title}_distance_x.png')
+    plt.savefig(GRAPH_TEM_PATH/f'{title}_distance_x.png', dpi=400)
     plt.show()
 
     # Plot maximums in y and center point of distance matrix in x
@@ -242,7 +242,7 @@ def tem_plot(image, k, points, center_dot=True, title=None):
     # Fit Linear Regression
     plt.plot(x, m_fit_y*x + b_fit_y, label='Linear Regression')
     plt.legend()
-    plt.savefig(GRAPH_TEM_PATH/f'{title}_distance_y.png')
+    plt.savefig(GRAPH_TEM_PATH/f'{title}_distance_y.png', dpi=400)
     plt.show()
 
     # Create a 3D scatter plot
