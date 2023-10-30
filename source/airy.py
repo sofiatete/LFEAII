@@ -32,6 +32,7 @@ GRAPH_PATH.mkdir(exist_ok=True,
 GRAPH_AIRY_PATH = Path('../graphs/airy')
 GRAPH_AIRY_PATH.mkdir(exist_ok=True,
                     parents=True)
+CALIBRATION_PATH = Path('../graphs/calibration.txt')
 
 AIRY_1 = np.array(Image.open(DATA_PATH/'Bessel_diam_iris_3,85mm_2aula.pgm'))
 AIRY_1 = AIRY_1[703:753, 900:950]
@@ -43,9 +44,17 @@ AIRY_4 = np.array(Image.open(DATA_PATH/'Bessel_diam_iris_3mm_2aula.tif'))
 AIRY_4 = AIRY_4[703:753, 900:950]
 
 def airy_plot(image, k, points, title=None):
+    # Extract Parameters from calibration image
+    with open(CALIBRATION_PATH, 'r') as f:
+        m = float(f.readline().split(' ')[1])
+        b = float(f.readline().split(' ')[1])
+
     # Plot image for visualization
     plt.imshow(image, cmap='gray')
-    plt.axis('off')
+    plt.xlabel(r'x ($pixels$)')
+    plt.ylabel(r'y ($pixels$)')
+    plt.title('Airy')
+    plt.savefig(GRAPH_AIRY_PATH/f'{title}_image.png', dpi=400)
     plt.show()
 
     # Normalize Image using min-max normalization
@@ -75,17 +84,22 @@ def airy_plot(image, k, points, title=None):
     colors = intensity  # Use intensity for color mapping
     marker_size = [20 * i for i in intensity]  # Use intensity for marker size
 
+    # Coordinates
+    # for values in coordinates:
+    #     print(values)
+    #     values = values[0] * m + b, values[1] * m + b
+
     x = [i[0] for i in coordinates]
     y = [i[1] for i in coordinates]
     # Plot the 3D scatter plot
     scatter = ax.scatter(x, y, intensity, c=colors, s=marker_size, cmap='viridis')
 
     # Add labels and colorbar
-    ax.set_xlabel('X-axis')
-    ax.set_ylabel('Y-axis')
-    ax.set_zlabel('Intensity')
+    ax.set_xlabel('X-axis (pixels)')
+    ax.set_ylabel('Y-axis (pixels)')
+    ax.set_zlabel('Intensity (Gray Scale)')
     cbar = plt.colorbar(scatter)
-    cbar.set_label('Intensity')
+    cbar.set_label('Intensity (Gray Scale)')
 
     plt.title('3D Scatter Plot with Intensity')
     # plt.show()
@@ -106,13 +120,17 @@ def airy_plot(image, k, points, title=None):
     zeta = zeta / max(zeta.flatten())
     #ax.scatter(x, y, zeta, c='red')
     ax.plot_surface(x, y, zeta, cmap='viridis', alpha=0.5)
-    plt.savefig(GRAPH_AIRY_PATH/f'{title}_3d.png')
+    plt.savefig(GRAPH_AIRY_PATH/f'{title}_3d.png', dpi=400)
     plt.show()
 
 
 def resolution_plot(points, title=None):
+    # Extract Parameters from calibration image
+    with open(CALIBRATION_PATH, 'r') as f:
+        m = float(f.readline().split(' ')[1])
+        b = float(f.readline().split(' ')[1])
     x_res = [i[0] for i in points]
-    y_res = [i[1] for i in points]
+    y_res = [(i[1] * m + b)/2 * 1000 for i in points]
     # Fit a resolution function 
     # Fit a custom model
     # Define the sinc function
@@ -128,16 +146,24 @@ def resolution_plot(points, title=None):
 
     # Plot the result
     plt.figure(figsize=(8,6))
-    plt.plot(x_grid, resolution(x_grid, *popt), label='Função de Ajuste')
-    plt.plot(x_res, y_res, label='Pontos Experimentais', marker='o', linestyle='None')
-    plt.xlabel('Points')
-    plt.ylabel('Resolution')
-    plt.title('Points vs Resolution')
+    plt.plot(x_grid, resolution(x_grid, *popt), label='Fit Function')
+    plt.plot(x_res, y_res, label='Experimental Points', marker='o', linestyle='None')
+    plt.xlabel('D (mm)')
+    plt.ylabel('R (mm)')
+    plt.title('Resolution')
     plt.legend()
-    plt.savefig(GRAPH_AIRY_PATH/f'{title}_resolution.png')
+    plt.savefig(GRAPH_AIRY_PATH/f'{title}_resolution.png', dpi=400)
     plt.show()
 
 def airy_resolution_plot(images, points, iris_diameter=None):
+    # Extract Parameters from calibration image
+    with open(CALIBRATION_PATH, 'r') as f:
+        m = float(f.readline().split(' ')[1])
+        b = float(f.readline().split(' ')[1])
+    print(f'{m}, {b}')
+    for x_y in points:
+        print(((x_y[0]*10e-6) - b) / m)
+
     x_radius_points = []
     for image in images:
         # Plot image for visualization
@@ -223,5 +249,4 @@ def airy_resolution_plot(images, points, iris_diameter=None):
 
 if __name__ == '__main__':
     airy_plot(AIRY_1, 30, 300, title='Bessel_diam_iris_3,85mm_2aula')
-    resolution_plot([(1.20, 0.165), (1.40, 0.126), (2.10, 0.096), (3.85, 0.046)], title='Resolution')
-    #airy_resolution_plot([AIRY_2], 700)
+    resolution_plot([(1.20, 70), (1.40, 50), (2.10, 36), (3.85, 10)], title='Resolution')
