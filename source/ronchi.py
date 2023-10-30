@@ -30,6 +30,7 @@ GRAPH_PATH.mkdir(exist_ok=True,
 GRAPH_RONCHI_PATH = Path('../graphs/ronchi')
 GRAPH_RONCHI_PATH.mkdir(exist_ok=True,
                     parents=True)
+CALIBRATION_PATH = Path('../graphs/calibration.txt')
 
 
 # ------------------------ Redes de Ronchi ------------------------ #
@@ -43,7 +44,7 @@ RONCHI_7 = np.array(Image.open(DATA_PATH/'ronchi2_2aula.pgm'))
 
 def ronchi_plot(image, k, points, center_dot=True, title=None):
     # Extract Parameters from calibration image
-    with open('../graphs/calibraton.txt', 'r') as f:
+    with open(CALIBRATION_PATH, 'r') as f:
         m = float(f.readline().split(' ')[1])
         b = float(f.readline().split(' ')[1])
     print(f'{m}, {b}')

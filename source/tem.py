@@ -31,6 +31,7 @@ GRAPH_PATH.mkdir(exist_ok=True,
 GRAPH_TEM_PATH = Path('../graphs/tem')
 GRAPH_TEM_PATH.mkdir(exist_ok=True,
                     parents=True)
+CALIBRATION_PATH = Path('../graphs/calibration.txt')
 
 # ------------------------ TEM ------------------------ #
 TEM_1 = np.array(Image.open(DATA_PATH/'RedeTEM1_1_2aula.pgm'))
@@ -69,7 +70,7 @@ def separate_list(main_list, separator_list):
 
 def tem_plot(image, k, points, center_dot=True, title=None):
     # Extract Parameters from calibration image
-    with open('../graphs/calibraton.txt', 'r') as f:
+    with open(CALIBRATION_PATH, 'r') as f:
         m = float(f.readline().split(' ')[1])
         b = float(f.readline().split(' ')[1])
     print(f'{m}, {b}')
@@ -95,15 +96,20 @@ def tem_plot(image, k, points, center_dot=True, title=None):
 
     # Plot Cluster Centers with diferent colors side with image
     plt.figure(figsize=(10,5))
-    plt.subplot(1,2,2)
     plt.imshow(image, cmap='gray')
-    plt.axis('off')
+    plt.xlabel(r'x ($pixels$)')
+    plt.ylabel(r'y ($pixels$)')
+    plt.title('Rede TEM')
+    plt.savefig(GRAPH_TEM_PATH/f'{title}_image.png')
+    plt.show()
 
-    plt.subplot(1,2,1)
+    plt.figure(figsize=(10,5))
     plt.imshow(image, cmap='gray')
-    plt.axis('off')
+    plt.title('Rede TEM')
+    plt.xlabel(r'x ($pixels$)')
+    plt.ylabel(r'y ($pixels$)')
     plt.scatter([x[0] for x in kmeans.cluster_centers_], [x[1] for x in kmeans.cluster_centers_], c='red', s=10, label='Points')
-    plt.savefig(GRAPH_TEM_PATH/f'{title}_points.png')
+    plt.savefig(GRAPH_TEM_PATH/f'{title}_centroids.png')
     plt.show()
 
     # List of center of clusters rounded
@@ -207,7 +213,7 @@ def tem_plot(image, k, points, center_dot=True, title=None):
     y = y * m + b
     plt.figure(figsize=(8,6))
     plt.grid()
-    plt.plot(maximums, y, 'o', label='Pontos Experimentais')
+    plt.plot(maximums, y, 'o', label='Experimental Points')
     plt.xlabel('n')
     plt.xticks(maximums)
     plt.ylabel(r'Distance ($m$)')
@@ -227,7 +233,7 @@ def tem_plot(image, k, points, center_dot=True, title=None):
     m_fit_y, b_fit_y = np.polyfit(x, y, 1)
     plt.figure(figsize=(8,6))
     plt.grid()
-    plt.plot(maximums, y, 'o', label='Pontos Experimentais')
+    plt.plot(maximums, y, 'o', label='Experimental Points')
     plt.xlabel('n')
     plt.xticks(maximums)
     plt.ylabel(r'Distance ($m$)')
@@ -270,11 +276,11 @@ def tem_plot(image, k, points, center_dot=True, title=None):
     scatter = ax.scatter(x, y, intensity, c=colors, s=marker_size, cmap='viridis')
 
     # Add labels and colorbar
-    ax.set_xlabel('X-axis')
-    ax.set_ylabel('Y-axis')
+    ax.set_xlabel('X-axis (m)')
+    ax.set_ylabel('Y-axis (m)')
     ax.set_zlabel('Intensity')
     cbar = plt.colorbar(scatter)
-    cbar.set_label('Intensity')
+    cbar.set_label(r'I_{rel} (Gray Scale)')
 
     plt.title('3D Scatter Plot with Intensity')
     #plt.show()
@@ -305,13 +311,10 @@ def tem_plot(image, k, points, center_dot=True, title=None):
 
     # Plot the fitted function
     ax.plot_surface(X, Y, fitted_data, cmap='viridis', alpha=0.5)
-<<<<<<< HEAD
-=======
 
     # Change elevation, azimuth and roll
     ax.view_init(30, 30)
-    plt.savefig(GRAPH_TEM_PATH/f'{title}_3d_surface.png')
->>>>>>> 2541316370bf807e62202cf4cf2c93349d3c7dcd
+    plt.savefig(GRAPH_TEM_PATH/f'{title}_3d_surface.png', dpi=400)
     plt.show()
 
 
@@ -328,5 +331,5 @@ def tem_plot(image, k, points, center_dot=True, title=None):
 if __name__ == '__main__':
     tem_plot(TEM_1, 12, 500, title='RedeTEM1_1_2aula')
     # tem_plot(TEM_2, 4, 500, title='RedeTEM2_1_2aula')
-    # tem_plot(TEM_3, 8, 500, title='RedeTEM2_2_2aula')
-    # tem_plot(TEM_4, 12, 500, title='RedeTEM3_1_2aula')
+    tem_plot(TEM_3, 8, 500, title='RedeTEM2_2_2aula')
+    tem_plot(TEM_4, 12, 500, title='RedeTEM3_1_2aula')
