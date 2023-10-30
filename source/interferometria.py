@@ -21,6 +21,8 @@ def linear(x, m, b):
     return m*x+b
 def divcos(theta,lam):
     return lam/np.sin(theta)
+def k(d, a, b, e1, e2, f1, f2):
+    return 0
 bound = np.array([[0.0109, 0.0124],
                  [0.02, 0.05],
                  [0.04, 0.08],
@@ -137,7 +139,7 @@ plt.errorbar(angulos, dlinhas,
 print("Comprimento de onda: ", *popt)
 print(633e-9)
 #plt.plot(0.004*np.arange(100)/100, divcos(0.004*np.arange(100)/100,633e-9),'-', label='633 nm')
-plt.plot(0.004*np.arange(100)/100, divcos(0.004*np.arange(100)/100,5.584643765004666e-07),'-', label=f"fit - [{round(popt[0] *10e8)}+- 5] nm")
+plt.plot(0.004*np.arange(100)/100, divcos(0.004*np.arange(100)/100,5.584643765004666e-07),'-', label=f"fit: [{round(popt[0] *10e8)}+- 5] nm")
 
 plt.xlabel('ângulo entre os centros [rad]')
 plt.ylabel('distância entre linhas [m]')
