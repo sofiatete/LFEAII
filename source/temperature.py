@@ -67,6 +67,7 @@ curve_points_3 = [(60, 280), (187, 283), (325, 302), (423, 305), (520, 317), (63
 
 # ------------------------ Temperatura ------------------------ #
 def temperature_plot(image, line_points, adjusted_x=0, box_y=None, box_x=None, Rad=None, title=None):
+    
     # Visualize image
     plt.imshow(image, cmap='gray')
     plt.xlabel(r'x ($pixels$)')
@@ -110,8 +111,8 @@ def temperature_plot(image, line_points, adjusted_x=0, box_y=None, box_x=None, R
     plt.ylabel(r'y ($pixels$)')
     plt.title('Black Points')
     plt.legend()
-    plt.show()
     plt.savefig(GRAPH_TEMPERATURE_PATH/f"black_points_{title}.png", dpi=400)
+    plt.show()
     x_curve, y_curve = zip(*coordinates)
 
 
@@ -226,8 +227,6 @@ def temperature_plot(image, line_points, adjusted_x=0, box_y=None, box_x=None, R
     plt.savefig(GRAPH_TEMPERATURE_PATH/f"selected_boundary_{title}.png", dpi=400)
     plt.show()
 
-    x_points = np.delete(x_points, np.where(x_points >= 0))
-    y_points = np.delete(y_points, np.where(x_points >= 0))
 
     # Fit a 6th order degree polynomial
     model = np.polyfit(x_points, y_points, 6)
@@ -246,7 +245,7 @@ def temperature_plot(image, line_points, adjusted_x=0, box_y=None, box_x=None, R
     g, f, e, d, c, b, a = model
 
 
-    r = Rad - Rad / 1000
+    r = Rad - Rad / 5000
     u = np.sqrt(Rad ** 2 - r ** 2)
     nr = - 1 / np.pi * (2 * c * u + 4 * e * (u * r**2 + u**3 / 3) + 6 * g * (u*r**4 + 2*u**3 /3 * r**2 + u**5/5)) + 1
     print(f"nr: {nr}")
@@ -257,21 +256,6 @@ def temperature_plot(image, line_points, adjusted_x=0, box_y=None, box_x=None, R
     T1 = (n2 - 1) * T2 / (nr - 1)
     print(f"Temp: {T1 - 273.15}")
 
-    # Transform x_points and y_points in a matrix
-    x_points = np.asarray(x_points)
-    y_points = np.asarray(y_points)
-    points = np.vstack((x_points, y_points)).T
-
-
-    # Plot Abel 
-    y_abel = abel.Transform(image,
-                            direction='inverse',
-                            method='three_point').transform
-    plt.imshow(y_abel, cmap='gray')
-    plt.xlabel(r'x ($pixels$)')
-    plt.ylabel(r'y ($pixels$)')
-    plt.title('Abel Transform')
-    plt.show()
 
 
 
