@@ -224,4 +224,4 @@ def airy_resolution_plot(images, points, iris_diameter=None):
 if __name__ == '__main__':
     airy_plot(AIRY_1, 30, 300, title='Bessel_diam_iris_3,85mm_2aula')
     resolution_plot([(1.20, 0.165), (1.40, 0.126), (2.10, 0.096), (3.85, 0.046)], title='Resolution')
-    airy_resolution_plot([AIRY_2], 700)
+    #airy_resolution_plot([AIRY_2], 700)
