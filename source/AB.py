@@ -77,7 +77,7 @@ def analyse_image(name: str, points: int = 2000, *args, **kwargs) -> np.ndarray:
     plt.title(f'Image {name} ')
 
     plt.legend()
-    plt.savefig(f'../graphs/{name}_image.png', dpi=400)
+    plt.savefig(f'../graphs/AB/{name}_image.png', dpi=400)
     # plot the center in green
     plt.scatter(center[0], center[1], color='green', s=10, label='Center \n {}'.format(center))
     # plot the points used to find the clusters
@@ -94,7 +94,7 @@ def analyse_image(name: str, points: int = 2000, *args, **kwargs) -> np.ndarray:
     
     plt.legend()
     # plt.show()
-    plt.savefig(f'../graphs/{name}_clusters.png', dpi=400)
+    plt.savefig(f'../graphs/AB/{name}_clusters.png', dpi=400)
     plt.close()
 
     # return the coordinates of the clusters centroids
@@ -182,7 +182,7 @@ def calibrate_image(name: str, intensity_limit: int = 3500, *args, **kwargs) -> 
 
     plt.title(f'Calibration {name} ')
     plt.legend()
-    plt.savefig(f'../graphs/{name}_image.png', dpi=400)
+    plt.savefig(f'../graphs/AB/{name}_image.png', dpi=400)
 
     # plot the points used to find the lines
     plt.scatter(points_x, points_y, color='red', s=10, label='Points')
@@ -216,7 +216,7 @@ def calibrate_image(name: str, intensity_limit: int = 3500, *args, **kwargs) -> 
     # plot title
     plt.title(f'Calibration {name} ')
     plt.legend()
-    plt.savefig(f'../graphs/{name}_calibration.png', dpi=400)
+    plt.savefig(f'../graphs/AB/{name}_calibration.png', dpi=400)
     # plt.show()
     plt.close()
 
@@ -259,11 +259,29 @@ def calibrator(meters: list, pixels: list) -> list:
     plt.ylabel('Distance (m)')
     plt.legend()
     plt.grid(True)
-    plt.savefig(f'../graphs/regr_calibration.png', dpi=400)
+    plt.savefig(f'../graphs/AB/regr_calibration.png', dpi=400)
     # plt.show()
     plt.close()
 
     return [m, b, std_error_slope, std_error_intercept] # = [m, b, error_m, error_b]
+
+def save_image_png(names: np.array, path: str, *args, **kwargs) -> None:
+    """
+    Save the images in png format
+    """
+    for name in names:
+        IMAGE = name + '.pgm'
+        img = Image.open(IMAGES_PATH/IMAGE)
+        img_arr = np.array(img)
+        plt.imshow(img_arr, cmap='gray')
+        plt.xlabel('$x$ (pixels)')
+        plt.ylabel('$y$ (pixels)')
+        plt.title(name)
+        plt.savefig(f"..{path}/{name}.png", dpi=400)
+        plt.clf()
+    plt.close()
+
+    return None
 
 if __name__ == '__main__':
 
@@ -298,8 +316,8 @@ if __name__ == '__main__':
     m = [0.002, 0.003, 0.004, 0.004]
 
     regression = calibrator(m, pixels) # = [m, b, error_m, error_b]
-    os.system('../graphs/calibraton.txt')
-    with open('../graphs/calibraton.txt', 'w') as f:
+    os.system('../graphs/AB/calibration.txt')
+    with open('../graphs/AB/calibration.txt', 'w') as f:
         f.write('m: ' + str(regression[0]) + '\n')
         f.write('b: ' + str(regression[1]) + '\n')
         f.write('y = ' + str(regression[0]) + 'x + ' + str(regression[1]) + '\n y in m and x in pixels')
@@ -370,6 +388,10 @@ if __name__ == '__main__':
     print('Separation of the fringes along X: ' + f'{(separation_letterA*10**6):.5f} μm ± {(error_separation_A_percentage):.5f} %')
     print('Separation of the fringes along Y: ' + f'{(separation_letterB*10**6):.5f} μm ± {(error_separation_B_percentage):.5f} %')
 
+
+    # Extra with filters on the fourier plane
+    images_names = np.array(['aula5_moire', 'extra1_A', 'extra1_A2', 'extra1_B', 'extra1_B2', 'extra1_TFB', 'slideAB_aula5'])
+    save_image_png(images_names, '/graphs/AB/Extra')
 
     
 
