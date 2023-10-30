@@ -328,13 +328,13 @@ if __name__ == '__main__':
 
     # compute the spatial frequencies
     spacial_frequency_x_1 = distance_ABCD_m[0][0]/(f*wavelength) # distance of A to the center
-    error_spacial_frequency_x_1 = distance_ABCD_m[0][1]/(f*wavelength)/spacial_frequency_x_1
+    error_spacial_frequency_x_1 = distance_ABCD_m[0][1]/(f*wavelength)/spacial_frequency_x_1 * 100
     spacial_frequency_x_2 = distance_ABCD_m[3][0]/(f*wavelength) # distance of D to the center
-    error_spacial_frequency_x_2 = distance_ABCD_m[3][1]/(f*wavelength)/spacial_frequency_x_2
+    error_spacial_frequency_x_2 = distance_ABCD_m[3][1]/(f*wavelength)/spacial_frequency_x_2 * 100
     spacial_frequency_y_1 = distance_ABCD_m[1][0]/(f*wavelength) # distance of B to the center
-    error_spacial_frequency_y_1 = distance_ABCD_m[1][1]/(f*wavelength)/spacial_frequency_y_1
+    error_spacial_frequency_y_1 = distance_ABCD_m[1][1]/(f*wavelength)/spacial_frequency_y_1 * 100
     spacial_frequency_y_2 = distance_ABCD_m[2][0]/(f*wavelength) # distance of C to the center
-    error_spacial_frequency_y_2 = distance_ABCD_m[2][1]/(f*wavelength)/spacial_frequency_y_2
+    error_spacial_frequency_y_2 = distance_ABCD_m[2][1]/(f*wavelength)/spacial_frequency_y_2 * 100
 
     # the error of the spatial frequency is the error of the distance divided by f*wavelength
     print('\n Spatial Frequencies:')
@@ -353,8 +353,10 @@ if __name__ == '__main__':
     print('\n Separation of the fringes:')
     separation_letterB = 1/(frequancy_y) 
     error_separation_B = error_frequancy_y/(frequancy_y**2)
+    error_separation_B_percentage = error_separation_B/separation_letterB*100
     separation_letterA = 1/(frequancy_x)
     error_separation_A = error_frequancy_x/(frequancy_x**2)
+    error_separation_A_percentage = error_separation_A/separation_letterA*100
 
     print('Separation of the fringes along X: ' + f'{(separation_letterA):.3e} ± {(error_separation_A):.3e} m')
     print('Separation of the fringes along Y: ' + f'{(separation_letterB):.3e} ± {(error_separation_B):.3e} m')
@@ -363,6 +365,10 @@ if __name__ == '__main__':
     print('Separation of the fringes along X: ' + f'{(separation_letterA*10**6):.5f} ± {(error_separation_A*10**6):.5f} μm')
     print('Separation of the fringes along Y: ' + f'{(separation_letterB*10**6):.5f} ± {(error_separation_B*10**6):.5f} μm')
 
+    # separation of the fringes with error in percentage
+    print('\n Separation of the fringes with error in percentage:')
+    print('Separation of the fringes along X: ' + f'{(separation_letterA*10**6):.5f} μm ± {(error_separation_A_percentage):.5f} %')
+    print('Separation of the fringes along Y: ' + f'{(separation_letterB*10**6):.5f} μm ± {(error_separation_B_percentage):.5f} %')
 
 
     
