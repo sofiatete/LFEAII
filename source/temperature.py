@@ -199,13 +199,10 @@ def temperature_plot(image, line_points, adjusted_x=0, box_y=None, box_x=None, R
     # Sum the y value with the largest y value
     y_points = y_points - min_y
 
-    # Adjust for Rad 
-    y_points = y_points
-
 
     # Intervale to remove
     # pixeis_point_iron = (902 - 997) / 2
-    pixeis_point_iron = 35
+    pixeis_point_iron = 50
 
 
     # Define the condition to keep points outside the interval
@@ -214,6 +211,7 @@ def temperature_plot(image, line_points, adjusted_x=0, box_y=None, box_x=None, R
     # Apply the condition to the x and y arrays
     x_points = np.delete(x_points, np.where(condition))
     y_points = np.delete(y_points, np.where(condition))
+
 
     # Divide by two * pi to get it in radians
     y_points = y_points / 2 / np.pi
@@ -227,9 +225,13 @@ def temperature_plot(image, line_points, adjusted_x=0, box_y=None, box_x=None, R
     plt.savefig(GRAPH_TEMPERATURE_PATH/f"selected_boundary_{title}.png", dpi=400)
     plt.show()
 
+    # Remove nons and zeros
+    x_points = x_points[np.logical_not(np.isnan(y_points))]
+    y_points = y_points[np.logical_not(np.isnan(y_points))]
 
     # Fit a 6th order degree polynomial
     model = np.polyfit(x_points, y_points, 6)
+
 
     # Plot the polynomial
     plt.plot(x_points, y_points, 'o', label='Experimental Points')
@@ -245,7 +247,7 @@ def temperature_plot(image, line_points, adjusted_x=0, box_y=None, box_x=None, R
     g, f, e, d, c, b, a = model
 
 
-    r = Rad - Rad / 5000
+    r = Rad - Rad / 1000 
     u = np.sqrt(Rad ** 2 - r ** 2)
     nr = - 1 / np.pi * (2 * c * u + 4 * e * (u * r**2 + u**3 / 3) + 6 * g * (u*r**4 + 2*u**3 /3 * r**2 + u**5/5)) + 1
     print(f"nr: {nr}")
