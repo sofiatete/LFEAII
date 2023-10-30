@@ -134,13 +134,40 @@ plt.xlabel('X (mm)')  # Label for the X-axis
 plt.ylabel('Y (mm)')  # Label for the Y-axis
 plt.title('Intensity Pattern of FT')
 plt.colorbar()
-plt.savefig('OFT.' + image + '.png', dpi=300)
+# plt.savefig('OFT.' + image + '.png', dpi=300)
 if filter:
     plt.savefig('OFT_' + image + '_filtered_' + str(aperture_diameter) + '_vmax_' + str(vmax_value) + '.png', dpi=300)
 else:
     plt.savefig('OFT_' + image + '_vmax_' + str(vmax_value) + '.png', dpi=300)
 
 
-plt.show()
+# plt.show()
+plt.close()
 # Command + W to close the window
+
+
+# propagate the field f more in order to se AB again
+F2=Forvard(1*f,F1)
+I2=Intensity(f,F2)
+vmax_value_2 = 1.3
+plt.imshow(I2,cmap='gray', extent=[0,gridsize*1000,0,gridsize*1000], vmin=0, vmax=vmax_value_2)
+plt.xlabel('X (mm)')  # Label for the X-axis
+plt.ylabel('Y (mm)')  # Label for the Y-axis
+plt.title('Intensity Pattern of FT')
+plt.colorbar()
+plt.savefig('OFT_object.' + image + '.png', dpi=300)
+plt.show()
+plt.close()
+
+F2=Forvard(0.8*f,F2)
+I2=Intensity(f,F2)
+vmax_value_2 = 0.7
+plt.imshow(I2,cmap='gray', extent=[0,gridsize*1000,0,gridsize*1000], vmin=0, vmax=vmax_value_2)
+plt.xlabel('X (mm)')  # Label for the X-axis
+plt.ylabel('Y (mm)')  # Label for the Y-axis
+plt.title('Intensity Pattern of FT')
+plt.colorbar()
+plt.savefig('OFT_object2.' + image + '.png', dpi=300)
+plt.show()
+plt.close()
 

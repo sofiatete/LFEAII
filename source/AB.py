@@ -392,6 +392,8 @@ if __name__ == '__main__':
     # Extra with filters on the fourier plane
     images_names = np.array(['aula5_moire', 'extra1_A', 'extra1_A2', 'extra1_B', 'extra1_B2', 'extra1_TFB', 'slideAB_aula5'])
     save_image_png(images_names, '/graphs/AB/Extra')
+    images_names2 = np.array(['riscas0_aula6', 'riscas1_aula6', 'riscas2_aula6', 'riscas3_aula6'])
+    save_image_png(images_names2, '/graphs/tem')
 
     
 
