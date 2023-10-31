@@ -33,6 +33,7 @@ GRAPH_PATH.mkdir(exist_ok=True,
 GRAPH_TEMPERATURE_PATH = Path('../graphs/temperature')
 GRAPH_TEMPERATURE_PATH.mkdir(exist_ok=True,
                     parents=True)
+CALIBRATION_PATH = Path('../graphs/calibration.txt')
 
 
 TEMPERATURE_1 = np.array(Image.open(DATA_PATH/'ferro150.pgm'))
@@ -67,6 +68,10 @@ curve_points_3 = [(60, 280), (187, 283), (325, 302), (423, 305), (520, 317), (63
 
 # ------------------------ Temperatura ------------------------ #
 def temperature_plot(image, line_points, adjusted_x=0, box_y=None, box_x=None, Rad=None, title=None):
+    # Extract Parameters from calibration image
+    with open(CALIBRATION_PATH, 'r') as f:
+        m_pixel = float(f.readline().split(' ')[1])
+        b_pixel = float(f.readline().split(' ')[1])
     
     # Visualize image
     plt.imshow(image, cmap='gray')
@@ -213,8 +218,10 @@ def temperature_plot(image, line_points, adjusted_x=0, box_y=None, box_x=None, R
     y_points = np.delete(y_points, np.where(condition))
 
 
-    # Divide by two * pi to get it in radians
-    y_points = y_points / 2 / np.pi
+    # Multiply by two * pi to get it in radians
+    y_points = y_points * 3 / 80 
+    x_points = x_points * 3 / 80
+    # y_points = y_points * 2 * np.pi
 
     # Plot the rotated points in a new figure
     plt.plot(x_points, y_points, 'o')
@@ -229,40 +236,103 @@ def temperature_plot(image, line_points, adjusted_x=0, box_y=None, box_x=None, R
     x_points = x_points[np.logical_not(np.isnan(y_points))]
     y_points = y_points[np.logical_not(np.isnan(y_points))]
 
+    
     # Fit a 6th order degree polynomial
     model = np.polyfit(x_points, y_points, 6)
 
+    # Fit a exponential model
+    def expo(x, a, b, c):
+        return a * np.exp(-b * x) + c
+    
+    def gaussian_func(x, a, b, c):
+        return a * np.exp(-((x - b) ** 2) / (2 * c ** 2))
+
+    def triangle(x, amplitude, base, peak):
+        return np.piecewise(x, [x < base, (x >= base) & (x < peak), x >= peak],
+                            [0, lambda x: (amplitude / (peak - base)) * (x - base), 0])
+
+    x_exp = []
+    y_exp = []
+    for i in range(len(x_points)):
+        if x_points[i] > 0:
+            x_exp.append(x_points[i])
+            y_exp.append(y_points[i])
+    x_exp = np.asarray(x_exp)
+    y_exp = np.asarray(y_exp)
+
+    
+    popt, pcov = curve_fit(expo, x_exp, y_exp, p0=(1, 1e-6, 1))
+    print(popt)
+
+    popt_gaussian, pcov_gaussian = curve_fit(gaussian_func, x_points, y_points, p0=(1, 1e-6, 200))
 
     # Plot the polynomial
     plt.plot(x_points, y_points, 'o', label='Experimental Points')
     x_grid = np.linspace(min(x_points), max(x_points), 100)
+    x_exp_grid = np.linspace(min(x_exp), max(x_exp), 100)
     plt.plot(x_grid, np.polyval(model, x_grid), label='Fitted 6th Degree Polynomial')
-    plt.xlabel('x')
-    plt.ylabel('y')
+    plt.plot(x_exp_grid, expo(x_exp_grid, *popt), label='Fitted Exponential')
+    plt.plot(x_grid, gaussian_func(x_grid, *popt_gaussian), label='Fitted Gaussian')
+    plt.xlabel('x (mm)')
+    plt.ylabel('y (mm)')
     plt.title('6th Degree Polynomial')
     plt.legend()
     plt.grid()
     plt.savefig(GRAPH_TEMPERATURE_PATH/f"points_vs_polynomial_{title}.png", dpi=400)
     plt.show()
     g, f, e, d, c, b, a = model
+    
+
+    print(f"y_max: {gaussian_func(0, *popt_gaussian)}")
+    lambda_laser = 633e-9
+    alpha = popt_gaussian[2] 
+    nr_gaussian = gaussian_func(0, *popt_gaussian)
+    nr_expontential = expo(min(x_exp), *popt)
 
 
-    r = Rad - Rad / 1000 
+
+    r = 0
+    Rad = Rad * 3 / 80
+    r *= 3 / 80
     u = np.sqrt(Rad ** 2 - r ** 2)
     nr = - 1 / np.pi * (2 * c * u + 4 * e * (u * r**2 + u**3 / 3) + 6 * g * (u*r**4 + 2*u**3 /3 * r**2 + u**5/5)) + 1
     print(f"nr: {nr}")
-    # Indice de refração do ar para temp=0ºC
-    n2 = 1.00029115
-    T2 = 273.15 # temp em k
+    def temp(nr):
+        # Indice de refração do ar para temp=0ºC
+        n2 = 1.00029115
+        T2 = 273.15
+        T1 = (n2 - 1) * T2 / (nr - 1)
+        return T1 - 273.15
 
-    T1 = (n2 - 1) * T2 / (nr - 1)
-    print(f"Temp: {T1 - 273.15}")
+    print(f"temp: {nr}")
+    print(f"temp gauss: {nr_gaussian}")
+    print(f"temp exp: {nr_expontential}")
 
 
 
 
 
 if __name__ == '__main__':
+    plt.figure(figsize=(8, 6))
+    plt.plot([1.57644, 2.338745, 3.095798][0], [1.0001879419177597, 1.0001387553389165, 1.0001181424979573][0], 'o', label='Gaussian (150ºC)', c='red')
+    plt.plot([1.6935631504223372, 2.5596870399554446, 3.2385507585841267][0], [1.0001879419177597, 1.0001387553389165, 1.0001181424979573][0], 'o', label='Exponential (150ºC)', c='green')
+    plt.plot([1.57644, 2.338745, 3.095798][1], [1.0001879419177597, 1.0001387553389165, 1.0001181424979573][1], 'o', label='Gaussian (300ºC)', c='blue')
+    plt.plot([1.6935631504223372, 2.5596870399554446, 3.2385507585841267][1], [1.0001879419177597, 1.0001387553389165, 1.0001181424979573][1], 'o', label='Exponential (300ºC)', c='orange')
+    plt.plot([1.57644, 2.338745, 3.095798][2], [1.0001879419177597, 1.0001387553389165, 1.0001181424979573][2], 'o', label='Gaussian (450ºC)', c='purple')
+    plt.plot([1.6935631504223372, 2.5596870399554446, 3.2385507585841267][2], [1.0001879419177597, 1.0001387553389165, 1.0001181424979573][2], 'o-', label='Exponential (450ºC)', c='black')
+    # Linear Fit for Gaussian
+    a, b = np.polyfit([1.57644, 2.338745, 3.095798], [1.0001879419177597, 1.0001387553389165, 1.0001181424979573], 1)
+    plt.plot([1.57644, 2.338745, 3.095798], a*np.array([1.57644, 2.338745, 3.095798]) + b, label='Linear Fit Gaussian')
+    # Linear Fit for Exponential
+    a, b = np.polyfit([1.6935631504223372, 2.5596870399554446, 3.2385507585841267], [1.0001879419177597, 1.0001387553389165, 1.0001181424979573], 1)
+    plt.plot([1.6935631504223372, 2.5596870399554446, 3.2385507585841267], a*np.array([1.6935631504223372, 2.5596870399554446, 3.2385507585841267]) + b, label='Linear Fit Exponential')
+    plt.xlabel(r'Displacement ($mm$)')
+    plt.ylabel(r'Index of Refraction')
+    plt.title('Index of Refraction vs Displacement')
+    plt.legend()
+    plt.grid()
+    plt.savefig(GRAPH_TEMPERATURE_PATH/f"index_of_refraction_vs_displacement.png", dpi=400)
+    plt.show()
     temperature_plot(TEMPERATURE_1, line, adjusted_x=-10, box_y=(-75, 46), box_x=(2754, 3750), Rad=150, title='ferro150')
     temperature_plot(TEMPERATURE_2, line_2, adjusted_x=47, box_y=(-45, 65), box_x=(2900, 3506), Rad=248, title='ferro300')
     temperature_plot(TEMPERATURE_3, line_3, adjusted_x=-80, box_y=(-52, 67), box_x=(2800, 3289), Rad=350, title='ferro450')
