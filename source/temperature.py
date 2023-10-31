@@ -322,10 +322,24 @@ if __name__ == '__main__':
     plt.plot([1.6935631504223372, 2.5596870399554446, 3.2385507585841267][2], [1.0001879419177597, 1.0001387553389165, 1.0001181424979573][2], 'o-', label='Exponential (450ºC)', c='black')
     # Linear Fit for Gaussian
     a, b = np.polyfit([1.57644, 2.338745, 3.095798], [1.0001879419177597, 1.0001387553389165, 1.0001181424979573], 1)
-    plt.plot([1.57644, 2.338745, 3.095798], a*np.array([1.57644, 2.338745, 3.095798]) + b, label='Linear Fit Gaussian')
+    #plt.plot([1.57644, 2.338745, 3.095798], a*np.array([1.57644, 2.338745, 3.095798]) + b, label='Linear Fit Gaussian')
     # Linear Fit for Exponential
     a, b = np.polyfit([1.6935631504223372, 2.5596870399554446, 3.2385507585841267], [1.0001879419177597, 1.0001387553389165, 1.0001181424979573], 1)
-    plt.plot([1.6935631504223372, 2.5596870399554446, 3.2385507585841267], a*np.array([1.6935631504223372, 2.5596870399554446, 3.2385507585841267]) + b, label='Linear Fit Exponential')
+    #plt.plot([1.6935631504223372, 2.5596870399554446, 3.2385507585841267], a*np.array([1.6935631504223372, 2.5596870399554446, 3.2385507585841267]) + b, label='Linear Fit Exponential')
+    # Fit 1 + A / x
+    def func(x, a, b):
+        return a + b / x
+    popt, pcov = curve_fit(func, [1.57644, 2.338745, 3.095798], [1.0001879419177597, 1.0001387553389165, 1.0001181424979573])
+    print(popt)
+    x_line = np.linspace(1.5, 3.2, 100)
+    plt.plot(x_line, func(x_line, *popt), label='Fit A + B / x for Gaussian')
+    # Fit 1 + A / x**2
+    def func(x, a, b):
+        return a + b / x
+    popt, pcov = curve_fit(func, [1.6935631504223372, 2.5596870399554446, 3.2385507585841267], [1.0001879419177597, 1.0001387553389165, 1.0001181424979573])
+    print(popt)
+    plt.plot(x_line, func(np.array(x_line), *popt), label='Fit A + B / x for Exponential')
+
     plt.xlabel(r'Displacement ($mm$)')
     plt.ylabel(r'Index of Refraction')
     plt.title('Index of Refraction vs Displacement')
