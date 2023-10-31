@@ -3,15 +3,15 @@ import pandas as pd
 import matplotlib.pyplot as plt
 
 points = []
-for i in (150, 300, 400):
-    # Indice de refração do ar para temp=0ºC
-    n2 = 1.00029115
-    T2 = 273.15 # temp em k
+# Indice de refração do ar para temp=0ºC
+n2 = 1.00029115
+T2 = 273.15 # temp em k
 
+for i in (150, 300, 400):
     T1 = i + 273.15 # temp em k
 
     # Formula para obter o n do ar para uma dada temp
-    n1 = ((n2 - 1) * T2 + T1) / T1 
+    n1 = ((n2 - 1) * T2 + T1) / T1
     points.append(n1)
 
 print('n1 = ', n1)
