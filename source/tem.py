@@ -221,6 +221,7 @@ def tem_plot(image, k, points, center_dot=True, title=None):
 
     # Fit Linear Regression
     m_fit_x, b_fit_x = np.polyfit(x, y, 1)
+    print(f"m_fit_x: {m_fit_x:.5f}, b_fit_x: {b_fit_x:.5f}")
     plt.plot(x, m_fit_x*x + b_fit_x, label='Linear Regression')
     plt.legend()
     plt.savefig(GRAPH_TEM_PATH/f'{title}_distance_x.png', dpi=400)
@@ -231,6 +232,7 @@ def tem_plot(image, k, points, center_dot=True, title=None):
     y = distance_matrix_y[ceil(len(distance_matrix_y)/2) - 1,:]
     y = y * m + b
     m_fit_y, b_fit_y = np.polyfit(x, y, 1)
+    print(f"m_fit_y: {m_fit_y:.5f}, b_fit_y: {b_fit_y:.5f}")
     plt.figure(figsize=(8,6))
     plt.grid()
     plt.plot(maximums, y, 'o', label='Experimental Points')
@@ -294,6 +296,15 @@ def tem_plot(image, k, points, center_dot=True, title=None):
     # Perform the curve fitting
     initial_guess = (0.3, 1e-3, 1e3-2, 0)  # Initial parameter guess
     params, params_covariance = curve_fit(model, (x, y), intensity, p0=initial_guess)
+
+    # Extract parameter errors from the covariance matrix
+    param_errors = np.sqrt(np.diag(params_covariance))
+
+    print(f'A: {params[0]} +- {param_errors[0]}')
+    print(f'B: {params[1]} +- {param_errors[1]}')
+    print(f'C: {params[2]} +- {param_errors[2]}')
+    print(f'D: {params[3]} +- {param_errors[3]}')
+
 
     # Extract the fitted parameters
     A_fit, B_fit, C_fit, D_fit = params
