@@ -108,6 +108,8 @@ def airy_plot(image, k, points, title=None):
 
     estimated_mean = np.mean(coordinates, axis=0)
     estimated_cov = np.cov(coordinates, rowvar=False)
+    print(f'Estimated Mean: {estimated_mean}')
+    print(f'Estimated Covariance: {estimated_cov}')
 
     mvn = multivariate_normal(mean=estimated_mean, cov=estimated_cov, allow_singular=True)
 
@@ -140,6 +142,9 @@ def resolution_plot(points, title=None):
 
     # Fit the model
     popt, pcov = curve_fit(resolution, x_res, y_res, p0=[1, 0.09])
+
+    print(f'popt: {popt}')
+    print(f'pcov: {pcov}')
 
     # X grid
     x_grid = np.linspace(min(x_res), max(x_res) + 1, 100)

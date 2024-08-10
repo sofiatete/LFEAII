@@ -9,6 +9,7 @@ from sklearn.cluster import KMeans
 from numpy import sinc
 from scipy.optimize import curve_fit
 from math import ceil, sin
+import matplotlib.patches as patches
 
 
 # Set up paths
@@ -131,6 +132,7 @@ def ronchi_plot(image, k, points, center_dot=True, title=None):
     distance_center_point = distance_center_point * m + b
     # Fit a linear model
     model = np.polyfit(x, distance_center_point, 1)
+    print(f'model: {model}')
     # Plot linear model
     plt.figure(figsize=(8,6))
     plt.grid()
@@ -181,6 +183,14 @@ def ronchi_plot(image, k, points, center_dot=True, title=None):
     print(x)
     # Fit the model
     popt, pcov = curve_fit(sinc_function, x, cluster_mean, p0=[max(cluster_mean), 1, 0])
+
+    # Extract parameter errors from the covariance matrix
+    param_errors = np.sqrt(np.diag(pcov))
+
+
+    print(f'A: {popt[0]} +- {param_errors[0]}')
+    print(f'B: {popt[1]} +- {param_errors[1]}')
+    print(f'C: {popt[2]} +- {param_errors[2]}')
 
     # Plot Chi Squared into legend
     chi_squared = np.sum((cluster_mean - sinc_function(x, *popt))**2 / sinc_function(x, *popt))
